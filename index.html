@@ -3,201 +3,358 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>pix3l_p33p3r</title>
+  <meta name="description" content="pix3l_p33p3r's tech portfolio - Cyberpunk-themed showcase of projects, skills, and experience">
+  <title>pix3l_p33p3r | Tech Portfolio</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
 </head>
 <body>
   <div id="app">
     <header>
-      <div class="logo">pix3l_p33p3r</div>
-      <div class="status">SYSTEM STATUS: NORMAL</div>
-      <div class="time">T-MINUS 13:37:43
-	  </div>
-      <nav>
+      <div class="logo" role="banner">pix3l_p33p3r</div>
+      <div class="status" aria-live="polite">SYSTEM STATUS: NORMAL</div>
+      <!--<div class="time" aria-label="Time display">T-MINUS 13:37:42</div>-->
+      <nav aria-label="Main navigation">
         <a href="#about">About</a>
         <a href="#projects">Projects</a>
         <a href="#skills">Skills</a>
         <a href="#contact">Contact</a>
-        <span class="cmd-link">CMD</span>
+        <span class="cmd-link" aria-label="Open command interface">CMD</span>
       </nav>
     </header>
 
     <main>
-		<div id="sphere-container"></div>
-		<div class="target-cross">
-		  <div>
-			<div class="cross-h"></div>
-			<div class="cross-v"></div>
-			<div class="circle-1"></div>
-			<div class="circle-2"></div>
-			<div class="circle-3"></div>
-		  </div>
-		</div>
-		<div class="grid-lines"></div>
-	  </main>
-
+      <!-- 3D Visualization Container -->
+      <div id="sphere-container" aria-hidden="true"></div>
+      
+      <!-- UI Overlay Elements -->
+      <div class="target-cross" aria-hidden="true">
+        <div>
+          <div class="cross-h"></div>
+          <div class="cross-v"></div>
+          <div class="circle-1"></div>
+          <div class="circle-2"></div>
+          <div class="circle-3"></div>
+        </div>
+      </div>
+      
+      <div class="grid-lines" aria-hidden="true"></div>
+      
+      <!-- Status Panels -->
+      <!--<div class="holo-panel" id="system-status">
+        <h4>System Status</h4>
+        <p>Normal</p>
+      </div>-->
+      
+      <div class="holo-panel" id="user-controls">
+        <h4>User Controls</h4>
+        <div class="control-buttons">
+          <button onclick="handleCommand('EVA LAUNCH')" aria-label="Launch EVA">Launch EVA</button>
+          <button onclick="handleCommand('ANGEL ALERT')" aria-label="Trigger alert">Alert</button>
+          <button onclick="handleCommand('TOGGLE PARTICLES')" aria-label="Toggle particles">Toggle Particles</button>
+        </div>
+      </div>
+      
+      <!-- Floating Elements -->
+      <div class="floating-element" id="float-1" aria-hidden="true"></div>
+      <div class="floating-element" id="float-2" aria-hidden="true"></div>
+      
+      <!-- Data Overlay -->
+      <div class="data-overlay" id="current-time" aria-live="polite"></div>
+    </main>
 
     <aside>
       <div class="data-panel">
-        <!-- Content remains the same -->
-        <div id="about" class="data-section">
-          <h3>ABOUT ME</h3>
-          <div class="about-terminal">
+        <!-- About Section -->
+        <section id="about" class="data-section">
+          <h2>ABOUT ME</h2>
+          <div class="about-terminal" aria-label="About me terminal display">
+			<span class="command-prompt">></span>
             <div class="about-content">
-              <p>I'm pix3l_p33p3r, a student at UM6P/1337, passionate about tech, coding, and building things. My journey includes exploring various programming languages, tools, and technologies, from low-level assembly to high-level scripting. I enjoy tinkering with hardware and software alike, always looking for new challenges to solve.</p>
-              <div class="warning">WARNING: OPEN FOR HIRING</div>
+              <p id="ghost-text"></p>
+              <div id="warning-text" class="warning"></div>
             </div>
           </div>
-        </div>
-        <div id="projects" class="data-section">
-          <h3>Projects</h3>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="data-section">
+          <h2>PROJECTS</h2>
           <div class="project-grid">
-            <div class="project-card">
-              <h4>virtua/lization</h4>
-              <a href="https://github.com/pix3l-p33p3r?tab=repositories">View Project</a>
+            <article class="project-card">
+              <h3>virtualization</h3>
+              <p class="project-desc">Containerization and VM management tools</p>
+              <div class="project-tech">
+                <span class="tech-badge">Docker</span>
+                <span class="tech-badge">KVM</span>
+              </div>
+              <a href="https://github.com/pix3l-p33p3r?tab=repositories" class="project-link">View Project</a>
+            </article>
+
+			<article class="project-card">
+				<h3>Hardware</h3>
+				<p class="project-desc">Custom hardware projects and firmware</p>
+				<div class="project-tech">
+				  <span class="tech-badge">Arduino</span>
+				  <span class="tech-badge">ESP32</span>
+				</div>
+				<a href="https://github.com/pix3l-p33p3r?tab=repositories" class="project-link">View Project</a>
+			</article>
+
+			<article class="project-card">
+			  <h3>Low-Level/OOP</h3>
+			  <p class="project-desc">Systems programming and object-oriented design</p>
+			  <div class="project-tech">
+				<span class="tech-badge">C/C++</span>
+				<span class="tech-badge">Assembly</span>
+			  </div>
+			  <a href="https://github.com/pix3l-p33p3r?tab=repositories" class="project-link">View Project</a>
+			</article>
+
+            <article class="project-card">
+				<h3>Graphics in C</h3>
+				<p class="project-desc">Low-level graphics programming</p>
+				<div class="project-tech">
+					<span class="tech-badge">C</span>
+					<span class="tech-badge">RayTracing</span>
+				</div>
+				<a href="https://github.com/pix3l-p33p3r?tab=repositories" class="project-link">View Project</a>
+            </article>
+
+			<article class="project-card">
+				<h3>DevSecOps Pipeline</h3>
+				<p class="project-desc">Secure CI/CD implementation</p>
+				<div class="project-tech">
+				  <span class="tech-badge">Jenkins</span>
+				  <span class="tech-badge">GitLab CI</span>
+				</div>
+				<a href="https://github.com/pix3l-p33p3r?tab=repositories" class="project-link">View Project</a>
+			</article>
+
+            <article class="project-card infosec-card">
+              <h3>InfoSec</h3>
+              <p class="project-desc">Security research and tools</p>
+              <div class="infosec-grid">
+                <div class="infosec-item">
+                  <div class="infosec-icon op-com-sec"></div>
+                  <span>OP-COM/SEC</span>
+                </div>
+                <div class="infosec-item">
+                  <div class="infosec-icon osint"></div>
+                  <span>OSINT</span>
+                </div>
+                <div class="infosec-item">
+                  <div class="infosec-icon crypto"></div>
+                  <span>Cryptography</span>
+                </div>
+                <div class="infosec-item">
+                  <div class="infosec-icon stego"></div>
+                  <span>Steganography</span>
+                </div>
+                <div class="infosec-item">
+                  <div class="infosec-icon ctf"></div>
+                  <span>CTF</span>
+                </div>
+                <div class="infosec-item">
+                  <div class="infosec-icon blockchain"></div>
+                  <span>Blockchain</span>
+                </div>
+              </div>
+              <a href="https://github.com/pix3l-p33p3r?tab=repositories" class="project-link">View Project</a>
+            </article>
+          </div>
+        </section>
+        
+        <!-- Skills Section -->
+        <section id="skills" class="data-section">
+          <h2>SKILLS</h2>
+          <div class="skills-container">
+            <!-- 1337 Curriculum -->
+            <div class="skill-category">
+              <h3>1337 Curriculum</h3>
+              <div class="skill-hexagons">
+                <div class="skill-hex" style="--skill-level: 80%;">
+                  <div class="hex-content">
+                    <span class="hex-label">Bash</span>
+                    <!--<span class="hex-value">80%</span>-->
+                  </div>
+                </div>
+                <div class="skill-hex" style="--skill-level: 80%;">
+                  <div class="hex-content">
+                    <span class="hex-label">C/C++</span>
+                    <!--<span class="hex-value">80%</span>-->
+                  </div>
+                </div>
+                <div class="skill-hex" style="--skill-level: 77%;">
+                  <div class="hex-content">
+                    <span class="hex-label">Networking</span>
+                    <!--<span class="hex-value">77%</span>-->
+                  </div>
+                </div>
+                <div class="skill-hex" style="--skill-level: 80%;">
+                  <div class="hex-content">
+                    <span class="hex-label">Unix/BSD</span>
+                    <!--<span class="hex-value">80%</span>-->
+                  </div>
+                </div>
+                <div class="skill-hex" style="--skill-level: 70%;">
+                  <div class="hex-content">
+                    <span class="hex-label">Virtualization</span>
+                    <!--<span class="hex-value">70%</span>-->
+                  </div>
+                </div>
+                <div class="skill-hex" style="--skill-level: 90%;">
+                  <div class="hex-content">
+                    <span class="hex-label">CI/CD</span>
+                    <!--<span class="hex-value">90%</span>-->
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="project-card">
-              <h4>Low-Level/OOP</h4>
-              <a href="https://github.com/pix3l-p33p3r?tab=repositories">View Project</a>
+            <h2>TOOLS</h2>
+			<div class="skills-container">
+            <!-- Languages -->
+            <div class="skill-category">
+              <h3>Languages</h3>
+              <div class="skill-hexagons">
+                <div class="skill-hex" style="--skill-level: 65%;">
+                  <div class="hex-content">
+                    <span class="hex-label">Python</span>
+                    <!--<span class="hex-value">65%</span>-->
+                  </div>
+                </div>
+                <div class="skill-hex" style="--skill-level: 50%;">
+                  <div class="hex-content">
+                    <span class="hex-label">Lua</span>
+                    <!--<span class="hex-value">50%</span>-->
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="project-card">
-              <h4>Graphic's in C</h4>
-              <a href="https://github.com/pix3l-p33p3r?tab=repositories">View Project</a>
+            
+            <!-- IDE/Notes -->
+            <div class="skill-category">
+              <h3>IDE/Notes</h3>
+              <div class="skill-hexagons">
+                <div class="skill-hex" style="--skill-level: 90%;">
+                  <div class="hex-content">
+                    <span class="hex-label">Neovim/Obsidian</span>
+                    <!--<span class="hex-value">90%</span>-->
+                  </div>
+                </div>
+                <div class="skill-hex" style="--skill-level: 70%;">
+                  <div class="hex-content">
+                    <span class="hex-label">Markdown/LaTeX</span>
+                    <!--<span class="hex-value">70%</span>-->
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="project-card">
-              <h4>DevSecOps Pipeline</h4>
-              <a href="https://github.com/pix3l-p33p3r?tab=repositories">View Project</a>
+              
+            <!-- AI Stack -->
+            <div class="skill-category">
+              <h3>AI Stack</h3>
+              <div class="skill-hexagons">
+                <div class="skill-hex" style="--skill-level: 100%;">
+                  <div class="hex-content">
+                    <span class="hex-label">Claude</span>
+                    <!--<span class="hex-value">100%</span>-->
+                  </div>
+                </div>
+                <div class="skill-hex" style="--skill-level: 60%;">
+                  <div class="hex-content">
+                    <span class="hex-label">Grok</span>
+                    <!--<span class="hex-value">60%</span>-->
+                  </div>
+                </div>
+                <div class="skill-hex" style="--skill-level: 65%;">
+                  <div class="hex-content">
+                    <span class="hex-label">Ollama</span>
+                    <!--<span class="hex-value">65%</span>-->
+                  </div>
+                </div>
+                <div class="skill-hex" style="--skill-level: 35%;">
+                  <div class="hex-content">
+                    <span class="hex-label">Gemini</span>
+                    <!--<span class="hex-value">35%</span>-->
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="project-card">
-              <h4>Hardware</h4>
-              <a href="https://github.com/pix3l-p33p3r?tab=repositories">View Project</a>
-            </div>
-            <div class="project-card">
-              <h4>InfoSec</h4>
-              <a href="https://github.com/pix3l-p33p3r?tab=repositories">View Project</a>
+			<!-- Hobbies -->
+            <div class="skill-category">
+              <h2>Hobbies</h2>
+              <div class="skill-hexagons">
+                <div class="skill-hex" style="--skill-level: 100%;">
+                  <div class="hex-content">
+                    <span class="hex-label">Microcontrollers</span>
+                    <!--<span class="hex-value">100%</span>-->
+                  </div>
+                </div>
+                <div class="skill-hex" style="--skill-level: 90%;">
+                  <div class="hex-content">
+                    <span class="hex-label">SBC</span>
+                    <!--<span class="hex-value">90%</span>-->
+                  </div>
+                </div>
+                <div class="skill-hex" style="--skill-level: 60%;">
+                  <div class="hex-content">
+                    <span class="hex-label">Electronics</span>
+                    <!--<span class="hex-value">60%</span>-->
+                  </div>
+                </div>
+                <div class="skill-hex" style="--skill-level: 20%;">
+                  <div class="hex-content">
+                    <span class="hex-label">PCB/kiCAD</span>
+                    <!--<span class="hex-value">20%</span>-->
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-        <div id="skills" class="data-section">
-          <h3>Skills</h3>
-			<div class="skills-categories">
-			  <div class="skills-category">
-				<h4>1337 Curriculum</h4>
-				<div class="skills-list">
-				  <div class="skill">
-					<span class="skill-name">Bash</span>
-					<div class="status-bar"><div class="status-fill" style="width: 80%;"></div></div>
-				  </div>
-				  <div class="skill">
-					<span class="skill-name">C/C++</span>
-					<div class="status-bar"><div class="status-fill" style="width: 80%;"></div></div>
-				  </div>
-				  <div class="skill">
-					<span class="skill-name">Networking</span>
-					<div class="status-bar"><div class="status-fill" style="width: 77%;"></div></div>
-				  </div>
-				  <div class="skill">
-					<span class="skill-name">Unix/BSD</span>
-					<div class="status-bar"><div class="status-fill" style="width: 80%;"></div></div>
-				  </div>
-				  <div class="skill">
-					<span class="skill-name">Virtualization</span>
-					<div class="status-bar"><div class="status-fill" style="width: 70%;"></div></div>
-				  </div>
-				  <div class="skill">
-					<span class="skill-name">CI/CD</span>
-					<div class="status-bar"><div class="status-fill" style="width: 90%;"></div></div>
-				  </div>
-				</div>
-			  </div>
-			  <div class="skills-category">
-				<h4>Languages</h4>
-				<div class="skills-list">
-				  <div class="skill">
-					<span class="skill-name">Python</span>
-					<div class="status-bar"><div class="status-fill" style="width: 65%;"></div></div>
-				  </div>
-				  <div class="skill">
-					<span class="skill-name">Lua</span>
-					<div class="status-bar"><div class="status-fill" style="width: 50%;"></div></div>
-				  </div>
-				</div>
-			  </div>
-			  <div class="skills-category">
-				<h4>Hobbies</h4>
-				<div class="skills-list">
-				  <div class="skill">
-					<span class="skill-name">Microcontrollers</span>
-					<div class="status-bar"><div class="status-fill" style="width: 100%;"></div></div>
-				  </div>
-				  <div class="skill">
-					<span class="skill-name">SBC</span>
-					<div class="status-bar"><div class="status-fill" style="width: 90%;"></div></div>
-				  </div>
-				  <div class="skill">
-					<span class="skill-name">Electronics</span>
-					<div class="status-bar"><div class="status-fill" style="width: 60%;"></div></div>
-				  </div>
-				  <div class="skill">
-					<span class="skill-name">PCB/kiCAD</span>
-					<div class="status-bar"><div class="status-fill" style="width: 20%;"></div></div>
-				  </div>
-				</div>
-			  </div>
-			  <div class="skills-category">
-				<h4>IDE/Notes</h4>
-				<div class="skills-list">
-				  <div class="skill">
-					<span class="skill-name">Neovim/Obsidian</span>
-					<div class="status-bar"><div class="status-fill" style="width: 90%;"></div></div>
-				  </div>
-				  <div class="skill">
-					<span class="skill-name">Markdown/LaTeX</span>
-					<div class="status-bar"><div class="status-fill" style="width: 70%;"></div></div>
-				  </div>
-				  <h4>AI Stack</h4>
-				  <div class="skills-list">
-					<div class="skill">
-					  <span class="skill-name">Claude</span>
-					  <div class="status-bar"><div class="status-fill" style="width: 100%;"></div></div>
-					</div>
-					<div class="skill">
-					  <span class="skill-name">OpenAI</span>
-					  <div class="status-bar"><div class="status-fill" style="width: 60%;"></div></div>
-					</div>
-					<div class="skill">
-					  <span class="skill-name">Ollama</span>
-					  <div class="status-bar"><div class="status-fill" style="width: 65%;"></div></div>
-					</div>
-					<div class="skill">
-					  <span class="skill-name">Gemini</span>
-					  <div class="status-bar"><div class="status-fill" style="width: 35%;"></div></div>
-					</div>
-				</div>
+        </section>
+        
+        <!-- Contact Section -->
+        <section id="contact" class="data-section">
+          <h2>CONTACT</h2>
+          <div class="contact-badges">
+            <a href="mailto:contact@example.com" class="contact-badge">
+              <img src="https://img.shields.io/badge/Email-D14836?style=flat&logo=gmail&logoColor=white" alt="Email">
+            </a>
+            <a href="https://github.com/pix3l-p33p3r" target="_blank" rel="noopener" class="contact-badge">
+              <img src="https://img.shields.io/badge/GitHub-%23181717.svg?style=flat&logo=github&logoColor=white" alt="GitHub">
+            </a>
+            <a href="https://x.com/PiX3L_P33P3R" target="_blank" rel="noopener" class="contact-badge">
+              <img src="https://img.shields.io/badge/X-%23000000.svg?style=flat&logo=X&logoColor=white" alt="X.com">
+            </a>
           </div>
-        </div>
-		<section id="contact" class="data-section">
-			<h3>Contact</h3>
-			<div class="contact-badges">
-			  <a href="mailto:pix3l-p33p3r@proton.me">
-				<img src="https://img.shields.io/badge/Email-D14836?style=flat&logo=gmail&logoColor=white" alt="Email">
-			  </a>
-			  <a href="https://github.com/pix3l-p33p3r" target="_blank" rel="noopener">
-				<img src="https://img.shields.io/badge/GitHub-%23181717.svg?style=flat&logo=github&logoColor=white" alt="GitHub">
-			  </a>
-			  <a href="https://x.com/PiX3L_P33P3R" target="_blank" rel="noopener">
-				<img src="https://img.shields.io/badge/X-%23000000.svg?style=flat&logo=X&logoColor=white" alt="X.com">
-			  </a>
-			</div>
-		  </section>
+          
+          <div class="contact-form">
+            <h3>Send Message</h3>
+            <form id="contact-form">
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required>
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+              </div>
+              <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="4" required></textarea>
+              </div>
+              <button type="submit" class="submit-btn">TRANSMIT</button>
+            </form>
+          </div>
+        </section>
       </div>
     </aside>
 
-    <!-- New CMD Footer -->
     <div class="cmd-footer">
       <div class="command-line">
         <span class="command-prompt">></span>
-        <input type="text" class="command-input" placeholder="Enter command...">
+        <input type="text" class="command-input" placeholder="Enter command... (try MAN)" aria-label="Command input">
       </div>
     </div>
 
@@ -206,18 +363,20 @@
       <div class="contact-links">
         <a href="https://github.com/pix3l-p33p3r">GitHub</a>
         <a href="https://x.com/PiX3L_P33P3R">X</a>
-        <a href="mailto:pix3l-p33p3r@proton.me">Email</a>
+        <a href="mailto:contact@example.com">Email</a>
       </div>
     </footer>
   </div>
 
   <!-- Audio Elements -->
-  <audio id="background-audio" src="https://www.myinstants.com/media/sounds/evangelion.mp3"></audio>
+  <audio id="background-audio" src="https://www.myinstants.com/media/sounds/evangelion.mp3" loop></audio>
   <audio id="cmd-eva" src="https://www.myinstants.com/media/sounds/evangelion.mp3"></audio>
   <audio id="cmd-angel" src="https://www.myinstants.com/media/sounds/evangelion.mp3"></audio>
   <audio id="cmd-toggle" src="https://www.myinstants.com/media/sounds/evangelion.mp3"></audio>
 
+  <!-- Scripts -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
+

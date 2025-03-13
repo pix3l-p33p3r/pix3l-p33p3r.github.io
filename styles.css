@@ -1,20 +1,80 @@
-* {
+/**
+ * Cyberpunk Portfolio - Main Stylesheet
+ * Author: pix3l_p33p3r
+ *
+ * Table of Contents:
+ * 1. Base Styles & Reset
+ * 2. CRT & Visual Effects
+ * 3. Layout & Grid
+ * 4. Header Styles
+ * 5. Main Content Area
+ * 6. 3D Visualization Elements
+ * 7. Data Panel & Sections
+ * 8. Project Cards
+ * 9. Skills Display
+ * 10. Terminal & Text Effects
+ * 11. Command Interface
+ * 12. Holographic Panels
+ * 13. Notifications & Tooltips
+ * 14. Contact Section
+ * 15. Footer Styles
+ * 16. Animations
+ * 17. Media Queries
+ */
+
+/* ==========================================
+   1. Base Styles & Reset
+   ========================================== */
+   * {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
-	font-family: 'Courier New', monospace;
+	font-family: "Courier New", monospace;
+  }
+  
+  :root {
+	--primary: #00ffff;
+	--primary-dark: #00cccc;
+	--secondary: #ff4800;
+	--secondary-dark: #cc3700;
+	--bg-dark: #000000;
+	--bg-panel: rgba(20, 20, 20, 0.7);
+	--text: #ffffff;
+	--text-muted: #aaaaaa;
+	--border: #333333;
+	--glow-primary: rgba(0, 255, 255, 0.2);
+	--glow-secondary: rgba(255, 72, 0, 0.2);
   }
   
   body {
-	background-color: #000000;
-	color: #FFFFFF;
+	background-color: var(--bg-dark);
+	color: var(--text);
 	overflow: hidden;
 	position: relative;
+	line-height: 1.6;
   }
   
+  button {
+	cursor: pointer;
+  }
+  
+  a {
+	color: var(--primary);
+	text-decoration: none;
+	transition: color 0.2s ease, text-shadow 0.2s ease;
+  }
+  
+  a:hover {
+	color: var(--primary-dark);
+	text-shadow: 0 0 5px var(--glow-primary);
+  }
+  
+  /* ==========================================
+	 2. CRT & Visual Effects
+	 ========================================== */
   /* CRT Scanline Effect */
   body::before {
-	content: '';
+	content: "";
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -27,37 +87,23 @@
 	animation: scanline 10s linear infinite;
   }
   
-  @keyframes scanline {
-	0% { transform: translateY(0); }
-	100% { transform: translateY(4px); }
-  }
-  
   /* CRT Flicker Effect */
   body::after {
-	content: '';
+	content: "";
 	position: fixed;
 	top: 0;
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background-color: rgba(0,0,0,0);
+	background-color: rgba(0, 0, 0, 0);
 	z-index: 110;
 	pointer-events: none;
 	animation: flicker 5s infinite;
   }
   
-  @keyframes flicker {
-	0% { background-color: rgba(0,0,0,0); }
-	5% { background-color: rgba(0,0,0,0.02); }
-	10% { background-color: rgba(0,0,0,0); }
-	15% { background-color: rgba(0,0,0,0.04); }
-	30% { background-color: rgba(0,0,0,0); }
-	50% { background-color: rgba(0,0,0,0.03); }
-	80% { background-color: rgba(0,0,0,0); }
-	95% { background-color: rgba(0,0,0,0.05); }
-	100% { background-color: rgba(0,0,0,0); }
-  }
-  
+  /* ==========================================
+	 3. Layout & Grid
+	 ========================================== */
   #app {
 	display: grid;
 	grid-template-columns: 1fr 440px;
@@ -67,51 +113,984 @@
 	grid-gap: 10px;
   }
   
+  /* ==========================================
+	 4. Header Styles
+	 ========================================== */
   header {
 	grid-column: 1 / -1;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	border: 1px solid #333;
-	padding: 10px;
-	background-color: rgba(0, 0, 0, 0.5);
+	border: 1px solid var(--border);
+	padding: 10px 20px;
+	background-color: var(--bg-panel);
+	box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
   }
   
   .logo {
-	color: #FF4800;
+	color: var(--secondary);
 	font-weight: bold;
 	font-size: 1.5rem;
 	display: flex;
 	align-items: center;
+	text-shadow: 0 0 5px var(--glow-secondary);
   }
   
   .logo::before {
-	content: '';
+	content: "";
 	display: inline-block;
 	width: 0;
 	height: 0;
 	border-left: 10px solid transparent;
 	border-right: 10px solid transparent;
-	border-bottom: 20px solid #FF4800;
+	border-bottom: 20px solid var(--secondary);
 	margin-right: 10px;
   }
   
   .status {
-	color: #00FFFF;
-	font-size: 0.9rem;
+	color: var(--primary);
+	font-size: 1.5rem;
 	animation: blink 2s infinite;
-  }
-  
-  @keyframes blink {
-	0%, 100% { opacity: 1; }
-	50% { opacity: 0.5; }
+	padding: 5px 10px;
+	border: 1px solid var(--primary);
+	border-radius: 4px;
+	background-color: rgba(0, 255, 255, 0.05);
   }
   
   .time {
-	color: #FFFFFF;
-	font-size: 1.2rem;
+	color: var(--text);
+	font-size: 1.5rem;
 	position: relative;
 	animation: glitch 1s linear infinite;
+	font-family: "Courier New", monospace;
+	letter-spacing: 1px;
+	padding: 5px 10px;
+	border: 1px solid var(--primary);
+	border-radius: 4px;
+	background-color: rgba(0, 255, 255, 0.05);
+	white-space: pre-line; /* Allow line breaks for date display */
+	text-align: center;
+	min-width: 150px;
+  }
+  
+  .time-transition {
+	animation: time-glitch 0.5s linear;
+  }
+  
+  nav {
+	display: flex;
+	align-items: center;
+  }
+  
+  nav a,
+  .cmd-link {
+	color: var(--primary);
+	text-decoration: none;
+	margin-left: 20px;
+	font-size: 1.5rem;
+	position: relative;
+	padding: 5px 0;
+	cursor: pointer;
+  }
+  
+  nav a::after,
+  .cmd-link::after {
+	content: "";
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 0;
+	height: 2px;
+	background-color: var(--primary);
+	transition: width 0.3s ease;
+  }
+  
+  nav a:hover::after,
+  .cmd-link:hover::after {
+	width: 100%;
+  }
+  
+  /* ==========================================
+	 5. Main Content Area
+	 ========================================== */
+  main {
+	grid-column: 1;
+	grid-row: 2;
+	position: relative;
+	border: 1px solid var(--border);
+	background-color: var(--bg-panel);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+	box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5);
+  }
+  
+  #sphere-container {
+	width: 100%;
+	height: 100%;
+  }
+  
+  /* ==========================================
+	 6. 3D Visualization Elements
+	 ========================================== */
+  .grid-lines {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	pointer-events: none;
+	z-index: 1;
+  }
+  
+  .h-line {
+	position: absolute;
+	height: 1px;
+	width: 100%;
+	background-color: rgba(50, 50, 50, 0.5);
+  }
+  
+  .v-line {
+	position: absolute;
+	width: 1px;
+	height: 100%;
+	background-color: rgba(50, 50, 50, 0.5);
+  }
+  
+  .target-cross {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+	z-index: 5;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+  }
+  
+  .target-cross > div {
+	position: relative;
+	width: 300px;
+	height: 300px;
+  }
+  
+  .target-cross .cross-h {
+	position: absolute;
+	top: 50%;
+	left: 0;
+	width: 100%;
+	height: 2px;
+	background-color: rgba(255, 72, 0, 0.7);
+	transform: translateY(-50%);
+  }
+  
+  .target-cross .cross-v {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	width: 2px;
+	height: 100%;
+	background-color: rgba(255, 72, 0, 0.7);
+	transform: translateX(-50%);
+  }
+  
+  .target-cross .circle-1,
+  .target-cross .circle-2,
+  .target-cross .circle-3 {
+	position: absolute;
+	border-radius: 50%;
+	transition: all 0.5s ease;
+  }
+  
+  .target-cross .circle-1 {
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	border: 3px solid rgba(255, 72, 0, 0.4);
+  }
+  
+  .target-cross .circle-2 {
+	top: 10%;
+	left: 10%;
+	width: 80%;
+	height: 80%;
+	border: 2px solid rgba(255, 72, 0, 0.3);
+  }
+  
+  .target-cross .circle-3 {
+	top: 20%;
+	left: 20%;
+	width: 60%;
+	height: 60%;
+	border: 1px solid rgba(255, 72, 0, 0.2);
+  }
+  
+  /* Floating Elements */
+  .floating-element {
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	background: var(--secondary);
+	border-radius: 50%;
+	box-shadow: 0 0 5px var(--secondary);
+	z-index: 5;
+	animation: float 5s infinite ease-in-out;
+  }
+  
+  #float-1 {
+	top: 100px;
+	left: 100px;
+	animation-delay: 0s;
+  }
+  
+  #float-2 {
+	top: 200px;
+	left: 200px;
+	animation-delay: 2s;
+  }
+  
+  /* Dynamic Data Overlay */
+  .data-overlay {
+	position: absolute;
+	bottom: 10px;
+	left: 10px;
+	color: var(--primary);
+	font-size: 1.3rem;
+	z-index: 10;
+	animation: glitch-text 2s infinite;
+	background-color: rgba(0, 0, 0, 0.5);
+	padding: 5px 10px;
+	border-radius: 4px;
+	border-left: 2px solid var(--primary);
+  }
+  
+  /* ==========================================
+	 7. Data Panel & Sections
+	 ========================================== */
+  aside {
+	grid-column: 2;
+	grid-row: 2;
+	border: 1px solid var(--border);
+	background-color: var(--bg-panel);
+	padding: 15px;
+	overflow: hidden;
+	position: relative;
+	box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5);
+  }
+  
+  .data-panel {
+	height: 100%;
+	overflow-y: auto;
+	scrollbar-width: thin;
+	scrollbar-color: var(--secondary) #111;
+	padding-right: 5px;
+  }
+  
+  /* Scrollbar Styling */
+  ::-webkit-scrollbar {
+	width: 5px;
+  }
+  
+  ::-webkit-scrollbar-track {
+	background: #111;
+	border-radius: 4px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+	background: var(--secondary);
+	border-radius: 4px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+	background: var(--secondary-dark);
+  }
+  
+  .data-section {
+	margin-bottom: 30px;
+	padding-bottom: 20px;
+	border-bottom: 1px dashed var(--border);
+  }
+  
+  .data-section:last-child {
+	border-bottom: none;
+  }
+  
+  .data-section h2 {
+	color: var(--secondary);
+	margin-bottom: 15px;
+	border-bottom: 1px solid var(--secondary);
+	padding-bottom: 5px;
+	font-size: 1.5rem;
+	letter-spacing: 2px;
+	text-shadow: 0 0 5px var(--glow-secondary);
+  }
+  
+  .data-section h3 {
+	color: var(--primary);
+	margin: 15px 0 10px;
+	font-size: 1.3rem;
+	letter-spacing: 1px;
+  }
+  
+  /* ==========================================
+	 8. Project Cards
+	 ========================================== */
+  .project-grid {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 15px;
+	margin-top: 20px;
+  }
+  
+  .project-card {
+	background: rgba(0, 0, 0, 0.5);
+	padding: 15px;
+	border: 1px solid var(--border);
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+  }
+  
+  .project-card:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 5px 15px rgba(0, 255, 255, 0.1);
+	border-color: var(--primary);
+  }
+  
+  .project-card h3 {
+	color: var(--secondary);
+	font-size: 1.5rem;
+	margin-bottom: 10px;
+  }
+  
+  .project-desc {
+	color: var(--text);
+	font-size: 1.4rem;
+	margin-bottom: 10px;
+	flex-grow: 1;
+  }
+  
+  .project-tech {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 5px;
+	margin-bottom: 10px;
+  }
+  
+  .tech-badge {
+	background-color: rgba(0, 255, 255, 0.1);
+	color: var(--primary);
+	font-size: 1.15rem;
+	padding: 2px 6px;
+	border-radius: 3px;
+	border: 1px solid var(--primary-dark);
+  }
+  
+  .project-link {
+	color: var(--primary);
+	font-size: 1.15rem;
+	text-decoration: none;
+	display: inline-block;
+	margin-top: auto;
+	padding: 5px 0;
+	border-top: 1px dashed var(--border);
+	width: 100%;
+	text-align: center;
+	transition: background-color 0.2s ease;
+  }
+  
+  .project-link:hover {
+	background-color: rgba(0, 255, 255, 0.1);
+  }
+  
+  /* InfoSec Card Specific Styles */
+  .infosec-card {
+	grid-column: span 2;
+  }
+  
+  .infosec-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 10px;
+	margin: 10px 0;
+  }
+  
+  .infosec-item {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	background-color: rgba(0, 0, 0, 0.3);
+	padding: 10px;
+	border-radius: 4px;
+	transition: transform 0.2s ease, background-color 0.2s ease;
+  }
+  
+  .infosec-item:hover {
+	transform: translateY(-3px);
+	background-color: rgba(0, 255, 255, 0.05);
+  }
+  
+  .infosec-icon {
+	width: 40px;
+	height: 40px;
+	margin-bottom: 5px;
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+	filter: drop-shadow(0 0 2px var(--primary));
+  }
+  
+  .infosec-item span {
+	font-size: 1.15rem;
+	color: var(--primary);
+  }
+  
+  /* InfoSec Icons */
+  .op-com-sec {
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300FFFF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='11' width='18' height='11' rx='2' ry='2'%3E%3C/rect%3E%3Cpath d='M7 11V7a5 5 0 0 1 10 0v4'%3E%3C/path%3E%3C/svg%3E");
+  }
+  
+  .osint {
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300FFFF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'%3E%3C/line%3E%3C/svg%3E");
+  }
+  
+  .crypto {
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300FFFF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'%3E%3C/rect%3E%3Cline x1='8' y1='10' x2='16' y2='10'%3E%3C/line%3E%3Cline x1='8' y1='14' x2='16' y2='14'%3E%3C/line%3E%3Cline x1='12' y1='6' x2='12' y2='18'%3E%3C/line%3E%3C/svg%3E");
+  }
+  
+  .stego {
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300FFFF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 8h.01'%3E%3C/path%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'%3E%3C/rect%3E%3Cpath d='M21 15l-5-5L5 21'%3E%3C/path%3E%3C/svg%3E");
+  }
+  
+  .ctf {
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300FFFF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 22h14a2 2 0 0 0 2-2V7.5L14.5 2H6a2 2 0 0 0-2 2v4'%3E%3C/path%3E%3Cpolyline points='14 2 14 8 20 8'%3E%3C/polyline%3E%3Cpath d='M2 15h10'%3E%3C/path%3E%3Cpath d='m9 18 3-3-3-3'%3E%3C/path%3E%3C/svg%3E");
+  }
+  
+  .blockchain {
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300FFFF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z'%3E%3C/path%3E%3Cline x1='16' y1='8' x2='2' y2='22'%3E%3C/line%3E%3Cline x1='17.5' y1='15' x2='9' y2='15'%3E%3C/line%3E%3C/svg%3E");
+  }
+  
+  /* ==========================================
+	 9. Skills Display - Hexagon Style
+	 ========================================== */
+  .skills-container {
+	display: flex;
+	flex-direction: column;
+	gap: 30px;
+  }
+  
+  .skill-category {
+	background-color: rgba(0, 0, 0, 0.3);
+	padding: 15px;
+	border-radius: 4px;
+	border-left: 2px solid var(--secondary);
+  }
+  
+  .skill-hexagons {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 15px;
+	margin-top: 10px;
+	justify-content: center;
+  }
+  
+  .skill-hex {
+	position: relative;
+	width: 140px;
+	height: 140px;
+	background-color: rgba(0, 0, 0, 0.5);
+	clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .skill-hex::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: var(--primary);
+	clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+	opacity: 0.1;
+	z-index: 0;
+  }
+  
+  .skill-hex::after {
+	content: "";
+	position: absolute;
+	top: 3px;
+	left: 3px;
+	right: 3px;
+	bottom: 3px;
+	background-color: var(--bg-dark);
+	clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+	z-index: 1;
+  }
+  
+  .skill-hex .hex-content {
+	position: relative;
+	z-index: 2;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	padding: 10px;
+  }
+  
+  .skill-hex .hex-label {
+	font-size: 1.15rem;
+	color: var(--text);
+	margin-bottom: 5px;
+  }
+  
+  .skill-hex .hex-value {
+	font-size: 1.15rem;
+	color: var(--primary);
+	font-weight: bold;
+  }
+  
+  /* Skill level indicator */
+  .skill-hex::before {
+	clip-path: polygon(
+	  50% 0%,
+	  100% 25%,
+	  100% calc(25% + (50% * var(--skill-level))),
+	  50% calc(0% + (100% * var(--skill-level))),
+	  0% calc(25% + (50% * var(--skill-level))),
+	  0% 25%
+	);
+  }
+  
+  .skill-hex:hover {
+	transform: scale(1.05);
+	filter: drop-shadow(0 0 5px var(--glow-primary));
+  }
+  
+  /* ==========================================
+	 10. Terminal & Text Effects
+	 ========================================== */
+  /* Movie-style hacker terminal */
+  .about-terminal {
+	font-family: "Courier New", monospace;
+	color: var(--primary);
+	font-size: 1.5rem;
+	line-height: 1.5;
+	margin-top: 15px;
+	height: 480px;
+	overflow: hidden;
+	position: relative;
+	padding: 1.7rem;
+	background-color: rgba(0, 0, 0, 0.5);
+	border: 1px solid var(--border);
+	box-shadow: inset 0 0 20px var(--glow-primary);
+	border-radius: 4px;
+  }
+  
+  /* Terminal prompt/header */
+  .about-terminal::before {
+	content: attr(data-time);
+	color: var(--primary);
+	font-size: 1.1rem;
+	display: block;
+	padding-bottom: 10px;
+	border-bottom: 1px dashed var(--border);
+	margin-bottom: 10px;
+  }
+  
+  /* Ghost typing paragraph */
+  .about-content p {
+	margin: 0;
+	white-space: pre-wrap;
+	position: relative;
+  }
+  
+  /* Cursor for main text */
+  .about-content p::after {
+	content: "|";
+	color: var(--primary);
+	animation: blink-cursor 0.5s step-end infinite;
+  }
+  
+  /* Warning message */
+  .warning {
+	color: var(--secondary);
+	margin-top: 20px;
+	font-size: 1.58rem;
+	text-transform: uppercase;
+	position: relative;
+	display: inline-block;
+	opacity: 0;
+	font-weight: bold;
+	letter-spacing: 2px;
+  }
+  
+  /* Cursor for warning text */
+  .warning::after {
+	content: "|";
+	color: var(--secondary);
+	animation: blink-cursor 0.5s step-end infinite;
+  }
+  
+  /* ==========================================
+	 11. Command Interface
+	 ========================================== */
+  /* CMD Footer Styles */
+  .cmd-footer {
+	grid-column: 1 / -1;
+	grid-row: 3;
+	background: rgba(20, 20, 20, 0.9);
+	border: 1px solid var(--border);
+	padding: 10px 15px;
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+	height: 60px;
+  }
+  
+  .command-line {
+	display: flex;
+	align-items: center;
+	width: 100%;
+  }
+  
+  .command-prompt {
+	color: var(--secondary);
+	margin-right: 10px;
+	font-size: 2rem;
+	animation: blink-cursor 1s step-end infinite;
+  }
+  
+  .command-input {
+	background-color: transparent;
+	border: none;
+	color: var(--primary);
+	font-family: "Courier New", monospace;
+	font-size: 2rem;
+	width: 100%;
+	outline: none;
+	padding: 5px 0;
+  }
+  
+  /* ==========================================
+	 12. Holographic Panels
+	 ========================================== */
+  .holo-panel {
+	position: absolute;
+	background: rgba(0, 255, 255, 0.05);
+	border: 1px solid var(--primary);
+	padding: 15px;
+	box-shadow: 0 0 10px var(--glow-primary);
+	color: var(--primary);
+	font-size: 1.15rem;
+	z-index: 10;
+	border-radius: 4px;
+	backdrop-filter: blur(2px);
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .holo-panel:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 0 15px var(--glow-primary);
+  }
+  
+  #system-status {
+	top: 20px;
+	left: 20px;
+  }
+  
+  #user-controls {
+	bottom: 20px;
+	right: 20px;
+  }
+  
+  .holo-panel h4 {
+	margin: 0 0 10px 0;
+	color: var(--secondary);
+	font-size: 1.15rem;
+	border-bottom: 1px solid var(--primary);
+	padding-bottom: 5px;
+  }
+  
+  .control-buttons {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+  }
+  
+  .holo-panel button {
+	background: transparent;
+	border: 1px solid var(--primary);
+	color: var(--primary);
+	padding: 5px 10px;
+	cursor: pointer;
+	transition: background-color 0.2s ease;
+	border-radius: 3px;
+	font-size: 1.15rem;
+  }
+  
+  .holo-panel button:hover {
+	background: rgba(0, 255, 255, 0.2);
+  }
+  
+  /* Map Panel */
+  /*#map-panel {
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	min-width: 300px;
+  }
+  
+  .map-content {
+	margin-top: 10px;
+  }
+  
+  .map-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 10px;
+	margin-top: 10px;
+  }
+  
+  .map-point {
+	width: 20px;
+	height: 20px;
+	background-color: rgba(0, 255, 255, 0.2);
+	border: 1px solid var(--primary);
+	border-radius: 50%;
+	position: relative;
+	cursor: pointer;
+  }
+  
+  .map-point.active {
+	background-color: var(--primary);
+	box-shadow: 0 0 10px var(--glow-primary);
+  }
+  
+  .map-tooltip {
+	position: absolute;
+	top: -30px;
+	left: 50%;
+	transform: translateX(-50%);
+	background-color: rgba(0, 0, 0, 0.8);
+	color: var(--primary);
+	padding: 3px 8px;
+	border-radius: 3px;
+	font-size: 1.15rem;
+	white-space: nowrap;
+	pointer-events: none;
+  }*/
+  
+  .close-btn {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	background: none;
+	border: none;
+	color: var(--secondary);
+	cursor: pointer;
+	font-size: 1.15rem;
+	padding: 0;
+	width: 20px;
+	height: 20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+	transition: background-color 0.2s ease;
+  }
+  
+  .close-btn:hover {
+	background-color: rgba(255, 72, 0, 0.2);
+  }
+  
+  /* ==========================================
+	 13. Contact Section
+	 ========================================== */
+  .contact-badges {
+	display: flex;
+	gap: 10px;
+	margin: 15px 0;
+	flex-wrap: wrap;
+  }
+  
+  .contact-badge {
+	transition: transform 0.2s ease;
+  }
+  
+  .contact-badge:hover {
+	transform: translateY(-3px);
+  }
+  
+  .contact-form {
+	margin-top: 20px;
+	background-color: rgba(0, 0, 0, 0.3);
+	padding: 15px;
+	border-radius: 4px;
+	border-left: 2px solid var(--primary);
+  }
+  
+  .form-group {
+	margin-bottom: 15px;
+  }
+  
+  .form-group label {
+	display: block;
+	margin-bottom: 5px;
+	color: var(--primary);
+	font-size: 1.15rem;
+  }
+  
+  .form-group input,
+  .form-group textarea {
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	border: 1px solid var(--border);
+	color: var(--text);
+	padding: 8px 10px;
+	font-family: "Courier New", monospace;
+	font-size: 1.15rem;
+	border-radius: 3px;
+	transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .form-group input:focus,
+  .form-group textarea:focus {
+	outline: none;
+	border-color: var(--primary);
+	box-shadow: 0 0 5px var(--glow-primary);
+  }
+  
+  .submit-btn {
+	background-color: transparent;
+	color: var(--primary);
+	border: 1px solid var(--primary);
+	padding: 8px 15px;
+	font-size: 1.15rem;
+	cursor: pointer;
+	transition: background-color 0.2s ease;
+	border-radius: 3px;
+	letter-spacing: 1px;
+  }
+  
+  .submit-btn:hover {
+	background-color: rgba(0, 255, 255, 0.1);
+  }
+  
+  /* ==========================================
+	 14. Footer Styles
+	 ========================================== */
+  footer {
+	grid-column: 1 / -1;
+	grid-row: 4;
+	border: 1px solid var(--border);
+	background-color: var(--bg-panel);
+	padding: 10px 20px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-size: 1.3rem;
+  }
+  
+  footer a {
+	color: var(--primary);
+	text-decoration: none;
+	margin-left: 15px;
+	transition: color 0.2s ease;
+  }
+  
+  footer a:hover {
+	color: var(--primary-dark);
+	text-decoration: underline;
+  }
+  
+  /* Audio Control */
+  .audio-control {
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	z-index: 1000;
+  }
+  
+  .audio-control button {
+	background-color: rgba(0, 0, 0, 0.7);
+	border: 1px solid var(--primary);
+	color: var(--primary);
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	transition: background-color 0.2s ease;
+	box-shadow: 0 0 10px var(--glow-primary);
+  }
+  
+  .audio-control button:hover {
+	background-color: rgba(0, 255, 255, 0.1);
+  }
+  
+  /* ==========================================
+	 15. Animations
+	 ========================================== */
+  @keyframes scanline {
+	0% {
+	  transform: translateY(0);
+	}
+	100% {
+	  transform: translateY(4px);
+	}
+  }
+  
+  @keyframes flicker {
+	0% {
+	  background-color: rgba(0, 0, 0, 0);
+	}
+	5% {
+	  background-color: rgba(0, 0, 0, 0.02);
+	}
+	10% {
+	  background-color: rgba(0, 0, 0, 0);
+	}
+	15% {
+	  background-color: rgba(0, 0, 0, 0.04);
+	}
+	30% {
+	  background-color: rgba(0, 0, 0, 0);
+	}
+	50% {
+	  background-color: rgba(0, 0, 0, 0.03);
+	}
+	80% {
+	  background-color: rgba(0, 0, 0, 0);
+	}
+	95% {
+	  background-color: rgba(0, 0, 0, 0.05);
+	}
+	100% {
+	  background-color: rgba(0, 0, 0, 0);
+	}
+  }
+  
+  @keyframes blink {
+	0%,
+	100% {
+	  opacity: 1;
+	}
+	50% {
+	  opacity: 0.5;
+	}
   }
   
   @keyframes glitch {
@@ -141,424 +1120,241 @@
 	}
   }
   
-  .time::before {
-	content: attr(data-time);
-	position: absolute;
-	left: -2px;
-	text-shadow: 2px 0 #ff0000;
-	animation: glitch-2 3s infinite linear;
-	opacity: 0.8;
-  }
-  
-  @keyframes glitch-2 {
-	0% { clip-path: inset(20% 0 30% 0); }
-	100% { clip-path: inset(10% 0 40% 0); }
-  }
-  
-  nav a {
-	color: #00FFFF;
-	text-decoration: none;
-	margin-left: 20px;
-	font-size: 1rem;
-  }
-  
-  nav a:hover {
-	text-decoration: underline;
-  }
-  
-  .cmd-link {
-	color: #00FFFF;
-	cursor: pointer;
-	margin-left: 20px;
-	font-size: 1rem;
-  }
-  
-  main {
-	grid-column: 1;
-	grid-row: 2;
-	position: relative;
-	border: 1px solid #333;
-	background-color: rgba(20, 20, 20, 0.7);
-	display: flex;
-	justify-content: center;
-	align-items: center;
-  }
-  
-  #sphere-container {
-	width: 100%;
-	height: 100%;
-  }
-
-  .grid-lines {
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	top: 0;
-	left: 0;
-	pointer-events: none;
-	z-index: 1;
-  }
-
-  .h-line {
-	position: absolute;
-	height: 1px;
-	width: 100%;
-	background-color: rgba(50, 50, 50, 0.5);
-  }
-
-  .v-line {
-	position: absolute;
-	width: 1px;
-	height: 100%;
-	background-color: rgba(50, 50, 50, 0.5);
-  }
-
-  .target-cross {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	pointer-events: none;
-	z-index: 5;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-  }
-
-  .target-cross > div {
-	position: relative;
-	width: 300px;
-	height: 300px;
-  }
-
-  .target-cross .cross-h {
-	position: absolute;
-	top: 50%;
-	left: 0;
-	width: 100%;
-	height: 2px;
-	background-color: rgba(255, 72, 0, 0.7);
-	transform: translateY(-50%);
-  }
-
-  .target-cross .cross-v {
-	position: absolute;
-	top: 0;
-	left: 50%;
-	width: 2px;
-	height: 100%;
-	background-color: rgba(255, 72, 0, 0.7);
-	transform: translateX(-50%);
-  }
-
-  .target-cross .circle-1 {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	border: 2px solid rgba(255, 72, 0, 0.4);
-	border-radius: 50%;
-  }
-
-  .target-cross .circle-2 {
-	position: absolute;
-	top: 10%;
-	left: 10%;
-	width: 80%;
-	height: 80%;
-	border: 1px solid rgba(255, 72, 0, 0.3);
-	border-radius: 50%;
-  }
-
-  .target-cross .circle-3 {
-	position: absolute;
-	top: 20%;
-	left: 20%;
-	width: 60%;
-	height: 60%;
-	border: 1px solid rgba(255, 72, 0, 0.2);
-	border-radius: 50%;
-  }
-  
-  aside {
-	grid-column: 2;
-	grid-row: 2;
-	border: 1px solid #333;
-	background-color: rgba(20, 20, 20, 0.7);
-	padding: 15px;
-	overflow: hidden;
-	position: relative;
-  }
-  
-  .data-panel {
-	height: 100%;
-	overflow-y: auto;
-	scrollbar-width: thin;
-	scrollbar-color: #FF4800 #111;
-	padding-right: 5px;
-  }
-
-  /*Scrollbar Styling*/
-  ::-webkit-scrollbar {
-	width: 3px;
-  }
-  
-  ::-webkit-scrollbar-track {
-	background: #111;
-  }
-  
-  ::-webkit-scrollbar-thumb {
-	background: #FF4800;
-	border-radius: 4px;
-  }
-  
-  ::-webkit-scrollbar-thumb:hover {
-	background: #FF6600;
-  }
-  
-  .data-section {
-	margin-bottom: 20px;
-  }
-  
-  .data-section h3 {
-	color: #FF4800;
-	margin-bottom: 10px;
-	border-bottom: 1px solid #FF4800;
-	padding-bottom: 3px;
-	font-size: 1.7rem;
-  }
-  
-  .about-terminal {
-	font-family: 'Courier New', monospace;
-	color: #00FFFF;
-	font-size: 1.3rem;
-	line-height: 1.2;
-	margin-top: 15px;
-	height: 150px;
-	overflow: hidden;
-	position: relative;
-  }
-  
-  .about-content {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	animation: scroll 35s linear infinite;
-  }
-  
-  @keyframes scroll {
+  @keyframes time-glitch {
 	0% {
-	  transform: translateY(0);
+	  transform: translate(0);
+	  opacity: 1;
 	}
-	8.57% { /* 3s delay (3/35*100) */
-	  transform: translateY(0);
+	20% {
+	  transform: translate(-3px, 3px);
+	  opacity: 0.8;
 	}
-	91.43% { /* 30s scroll + 3s delay (33/35*100) */
-	  transform: translateY(-300px);
+	40% {
+	  transform: translate(3px, -3px);
+	  opacity: 0.6;
+	}
+	60% {
+	  transform: translate(-3px, 3px);
+	  opacity: 0.4;
+	}
+	80% {
+	  transform: translate(3px, -3px);
+	  opacity: 0.2;
 	}
 	100% {
-	  transform: translateY(-300px); /* 2s pause at bottom */
+	  transform: translate(0);
+	  opacity: 1;
 	}
   }
   
-  .warning {
-	color: #FF4800;
-	margin-top: 20px;
-	font-size: 1.3rem;
-	animation: warning-blink 1s infinite;
+  @keyframes blink-cursor {
+	0%,
+	100% {
+	  opacity: 1;
+	}
+	50% {
+	  opacity: 0;
+	}
   }
   
-  @keyframes warning-blink {
-	0%, 100% { opacity: 1; }
-	50% { opacity: 0.7; }
+  @keyframes glitch-text {
+	0% {
+	  transform: translate(0);
+	}
+	20% {
+	  transform: translate(-2px, 2px);
+	}
+	40% {
+	  transform: translate(2px, -2px);
+	}
+	60% {
+	  transform: translate(-2px, 2px);
+	}
+	80% {
+	  transform: translate(2px, -2px);
+	}
+	100% {
+	  transform: translate(0);
+	}
   }
   
-  .project-grid {
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	gap: 5px;
+  @keyframes float {
+	0% {
+	  transform: translate(0, 0);
+	}
+	50% {
+	  transform: translate(10px, 10px);
+	}
+	100% {
+	  transform: translate(0, 0);
+	}
   }
   
-  .project-card {
-	background: rgba(0, 0, 0, 0.5);
-	padding: 30px;
-	border: 1px solid #333;
+  @keyframes launch {
+	0% {
+	  transform: scale(1);
+	  opacity: 1;
+	}
+	50% {
+	  transform: scale(1.5);
+	  opacity: 0.7;
+	}
+	100% {
+	  transform: scale(3);
+	  opacity: 0;
+	}
   }
   
-  .project-card h4 {
-	color: #FF4800;
-	font-size: 1.4rem;
+  /* ==========================================
+	 16. Media Queries
+	 ========================================== */
+  @media (max-width: 1100px) {
+	.holo-panel {
+	  font-size: 1.15rem;
+	  padding: 10px;
+	}
+  
+	.floating-element {
+	  width: 15px;
+	  height: 15px;
+	}
+  
+	.data-overlay {
+	  font-size: 1.15rem;
+	}
+  
+	.project-grid {
+	  grid-template-columns: 1fr;
+	}
+  
+	.infosec-grid {
+	  grid-template-columns: repeat(2, 1fr);
+	}
+  
+	.skill-hex {
+	  width: 100px;
+	  height: 100px;
+	}
   }
   
-  .project-card p {
-	color: #FFFFFF;
-	font-size: 0.7rem;
-	margin: 5px 0;
+  @media (max-width: 1092px) {
+	#app {
+	  grid-template-columns: 1fr;
+	  grid-template-rows: 80px 1fr 1fr 60px 80px;
+	}
+  
+	aside {
+	  grid-column: 1;
+	  grid-row: 3;
+	}
+  
+	.cmd-footer {
+	  grid-row: 4;
+	}
+  
+	footer {
+	  grid-row: 5;
+	}
+  
+	.about-terminal {
+	  height: 200px;
+	}
+ 
+	.skill-hexagons {
+	  gap: 10px;
+	}
+  
+	.skill-hex {
+	  width: 90px;
+	  height: 90px;
+	}
+  
+	.skill-hex .hex-label {
+	  font-size: 1.15rem;
+	}
+  
+	.skill-hex .hex-value {
+	  font-size: 1.15rem;
+	}
   }
   
-  .project-card a {
-	color: #00FFFF;
-	font-size: 0.7rem;
-	text-decoration: none;
+  @media (max-width: 768px) {
+	header {
+	  flex-direction: column;
+	  height: auto;
+	  padding: 10px;
+	  gap: 10px;
+	}
+  
+	nav {
+	  width: 100%;
+	  justify-content: space-between;
+	}
+  
+	nav a {
+	  margin: 0;
+	  font-size: 1.15rem;
+	}
+  
+	.time {
+	  font-size: 1.15rem;
+	}
+  
+	.infosec-grid {
+	  grid-template-columns: 1fr;
+	}
+  
+	.skill-category h3 {
+	  font-size: 1.1rem;
+	}
   }
   
-  .skills-categories {
-	display: flex;
-	flex-direction: column;
-	gap: 15px;
+  @media (max-width: 576px) {
+	#app {
+	  padding: 5px;
+	  grid-gap: 5px;
+	}
+  
+	.data-section h2 {
+	  font-size: 1.4rem;
+	}
+  
+	.about-terminal {
+	  font-size: 1.5rem;
+	}
+  
+	.project-card h3 {
+	  font-size: 1.1rem;
+	}
+  
+	.contact-badges {
+	  justify-content: center;
+	}
+  
+	footer {
+	  flex-direction: column;
+	  gap: 10px;
+	  text-align: center;
+	}
+  
+	.contact-links {
+	  display: flex;
+	  justify-content: center;
+	  gap: 15px;
+	}
+  
+	.contact-links a {
+	  margin: 0;
+	}
+  
+	.skill-hexagons {
+	  justify-content: center;
+	}
+  
+	.skill-hex {
+	  width: 80px;
+	  height: 80px;
+	}
   }
   
-  .skills-category h4 {
-	color: #FF4800;
-	font-size: 1.5rem;
-	margin-bottom: 5px;
-  }
   
-  .skills-list {
-	display: flex;
-	flex-direction: column;
-	gap: 8px;
-  }
-  
-  .skill {
-	display: flex;
-	align-items: center;
-	gap: 95px;
-  }
-  
-  .skill-name {
-	color: #FFFFFF;
-	font-size: 1.2rem;
-	width: 100px;
-  }
-  
-  .status-bar {
-	width: 100px;
-	height: 8px;
-	background: #333;
-	position: relative;
-	overflow: hidden;
-  }
-  
-  .status-fill {
-	height: 100%;
-	background: #00FFFF;
-	position: absolute;
-	top: 0;
-	left: 0;
-	transition: width 0.5s ease;
-  }
-  
-  /* CMD Footer Styles */
-  .cmd-footer {
-	grid-column: 1 / -1;
-	grid-row: 3;
-	background: rgba(20, 20, 20, 0.9);
-	border: 1px solid #333;
-	padding: 10px;
-	height: 60px;
-	display: flex;
-	align-items: center;
-  }
-  
-  .command-line {
-	display: flex;
-	align-items: center;
-	width: 100%;
-  }
-  
-  .command-prompt {
-	color: #FF4800;
-	margin-right: 10px;
-	font-size: 1.7rem;
-  }
-  
-  .command-input {
-	background-color: transparent;
-	border: none;
-	color: #00FFFF;
-	font-family: 'Courier New', monospace;
-	font-size: 1rem;
-	width: 100%;
-	outline: none;
-  }
-  
-  /* Main Footer Styles */
-  footer {
-	grid-column: 1 / -1;
-	grid-row: 4;
-	border: 1px solid #333;
-	background-color: rgba(20, 20, 20, 0.7);
-	padding: 10px;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	font-size: 1rem;
-  }
-  
-  footer a {
-	color: #00FFFF;
-	text-decoration: none;
-	margin-left: 15px;
-  }
-  
-  footer a:hover {
-	text-decoration: underline;
-  }
-  
-
-
-  /*test*/
-  .contact-item {
-	display: flex;
-	flex-direction: column; /* Change to column layout */
-	align-items: flex-start; /* Align items to start of column */
-	margin-bottom: 15px;
-  }
-  .contact-icon {
-	font-size: 1.5rem;
-	margin-right: 0; /* Remove horizontal margin */
-	margin-bottom: 10px; /* Add space below icon */
-	color: #FF4800;
-  }
-  .contact-info {
-	display: flex;
-	flex-direction: column; /* Change to column layout */
-	align-items: flex-start; /* Align to start */
-  }
-  .contact-info p {
-	width: 100%; /* Full width in the column */
-	margin: 0 0 5px 0; /* Add some bottom margin between elements */
-	color: #FFFFFF;
-  }
-  .contact-link {
-	color: #00FFFF;
-	text-decoration: none;
-	transition: all 0.3s ease;
-	display: block; /* Make links block elements */
-	margin-bottom: 5px; /* Space between links */
-  }
-  .contact-link:hover {
-	color: #FF4800;
-	text-shadow: 0 0 5px #FF4800;
-  }
-  .contact-badges {
-	display: flex;
-	flex-direction: column; /* Stack badges vertically */
-	gap: 10px;
-	margin-top: 15px;
-  }
-  .contact-badges a {
-	transition: transform 0.3s ease, filter 0.3s ease;
-	display: block;
-  }
-  .contact-badges a:hover {
-	transform: translateX(2px); /* Move right instead of up */
-	filter: brightness(1.2) drop-shadow(0 0 5px rgba(0, 255, 255, 0.5));
-  }
-  .contact-badges img {
-	height: 28px;
-  }
