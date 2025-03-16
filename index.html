@@ -19,7 +19,6 @@
         <a href="#projects">Projects</a>
         <a href="#skills">Skills</a>
         <a href="#contact">Contact</a>
-        <span class="cmd-link" aria-label="Open command interface">CMD</span>
       </nav>
     </header>
 
@@ -66,29 +65,49 @@
     <aside>
       <div class="data-panel">
         <!-- About Section -->
-        <section id="about" class="data-section">
-          <h2>ABOUT ME</h2>
-          <div class="about-terminal" aria-label="About me terminal display">
-			<span class="command-prompt">></span>
-            <div class="about-content">
-              <p id="ghost-text"></p>
-              <div id="warning-text" class="warning"></div>
-            </div>
-          </div>
-        </section>
+		<section id="about" class="data-section">
+			<h2>ABOUT ME</h2>
+			<div class="about-terminal" aria-label="About me terminal display">
+			  <div class="terminal-line">
+				<div class="text-container">
+				  <span class="terminal-cursor">&gt;</span>
+				  <p id="ghost-text"></p>
+				</div>
+			  </div>
+			  <div id="warning-text" class="warning"></div>
+			</div>
+		  </section>
 
         <!-- Projects Section -->
         <section id="projects" class="data-section">
           <h2>PROJECTS</h2>
           <div class="project-grid">
             <article class="project-card">
+              <div class="project-status"></div>
               <h3>virtualization</h3>
-              <p class="project-desc">Containerization and VM management tools</p>
+              
+              <!-- Add project thumbnail/icon -->
+              <div class="project-icon">
+                <i class="fas fa-cube"></i>
+              </div>
+              
+              <p class="project-desc">
+                Containerization and VM management tools with focus on performance optimization
+                and security hardening.
+              </p>
+              
+              <!-- Add more detailed tech stack -->
               <div class="project-tech">
                 <span class="tech-badge">Docker</span>
                 <span class="tech-badge">KVM</span>
+                <span class="tech-badge">Linux</span>
+                <span class="tech-badge">Shell</span>
               </div>
-              <a href="https://github.com/pix3l-p33p3r?tab=repositories" class="project-link">View Project</a>
+              
+              <div class="project-links">
+                <a href="#" class="project-link primary">View Project</a>
+                <a href="#" class="project-link secondary">Documentation</a>
+              </div>
             </article>
 
 			<article class="project-card">
@@ -131,40 +150,132 @@
 				<a href="https://github.com/pix3l-p33p3r?tab=repositories" class="project-link">View Project</a>
 			</article>
 
-            <article class="project-card infosec-card">
-              <h3>InfoSec</h3>
-              <p class="project-desc">Security research and tools</p>
-              <div class="infosec-grid">
-                <div class="infosec-item">
-                  <div class="infosec-icon op-com-sec"></div>
-                  <span>OP-COM/SEC</span>
+            <!--<article class="project-card infosec-card">
+              <h3>InfoSec_Operations</h3>
+              <div class="infosec-header">
+                <div class="security-status">
+                  <span class="status-indicator"></span>
+                  SECURITY_LEVEL: MAXIMUM
                 </div>
-                <div class="infosec-item">
-                  <div class="infosec-icon osint"></div>
-                  <span>OSINT</span>
+                <div class="access-level">
+                  <span class="access-indicator"></span>
+                  ACCESS: GRANTED
                 </div>
-                <div class="infosec-item">
-                  <div class="infosec-icon crypto"></div>
-                  <span>Cryptography</span>
-                </div>
-                <div class="infosec-item">
-                  <div class="infosec-icon stego"></div>
-                  <span>Steganography</span>
-                </div>
-                <div class="infosec-item">
-                  <div class="infosec-icon ctf"></div>
-                  <span>CTF</span>
-                </div>
-                <div class="infosec-item">
-                  <div class="infosec-icon blockchain"></div>
-                  <span>Blockchain</span>
-                </div>
-              </div>
-              <a href="https://github.com/pix3l-p33p3r?tab=repositories" class="project-link">View Project</a>
-            </article>
+              </div>-->
+
+              <!--<div class="infosec-grid">-->
+                <!-- OP-COM/SEC Module -->
+                <!--<div class="infosec-module">
+                  <div class="module-header">
+                    <span class="module-id">[01]</span>
+                    <h4>OP-COM/SEC</h4>
+                  </div>
+                  <div class="module-content">
+                    <div class="skill-meter">
+                      <div class="meter-fill" style="--fill-level: 85%"></div>
+                    </div>
+                    <ul class="module-features">
+                      <li>Network Security</li>
+                      <li>Penetration Testing</li>
+                      <li>Security Auditing</li>
+                    </ul>
+                  </div>
+                </div>-->
+
+                <!-- OSINT Module -->
+                <!--<div class="infosec-module">
+                  <div class="module-header">
+                    <span class="module-id">[02]</span>
+                    <h4>OSINT</h4>
+                  </div>
+                  <div class="module-content">
+                    <div class="skill-meter">
+                      <div class="meter-fill" style="--fill-level: 75%"></div>
+                    </div>
+                    <ul class="module-features">
+                      <li>Data Collection</li>
+                      <li>Threat Intelligence</li>
+                      <li>Digital Footprinting</li>
+                    </ul>
+                  </div>
+                </div>-->
+
+                <!-- Cryptography Module -->
+                <!--<div class="infosec-module">
+                  <div class="module-header">
+                    <span class="module-id">[03]</span>
+                    <h4>CRYPTOGRAPHY</h4>
+                  </div>
+                  <div class="module-content">
+                    <div class="skill-meter">
+                      <div class="meter-fill" style="--fill-level: 80%"></div>
+                    </div>
+                    <ul class="module-features">
+                      <li>Encryption Protocols</li>
+                      <li>Key Management</li>
+                      <li>Secure Communications</li>
+                    </ul>
+                  </div>
+                </div>-->
+
+                <!-- Added back Steganography -->
+                <!--<div class="infosec-module">
+                  <div class="module-header">
+                    <span class="module-id">[04]</span>
+                    <h4>STEGANOGRAPHY</h4>
+                  </div>
+                  <div class="module-content">
+                    <div class="skill-meter">
+                      <div class="meter-fill" style="--fill-level: 70%"></div>
+                    </div>
+                    <ul class="module-features">
+                      <li>Data Hiding</li>
+                      <li>Image Analysis</li>
+                      <li>Covert Channels</li>
+                    </ul>
+                  </div>
+                </div>-->
+
+                <!-- Added back CTF -->
+                <!--<div class="infosec-module">
+                  <div class="module-header">
+                    <span class="module-id">[05]</span>
+                    <h4>CTF</h4>
+                  </div>
+                  <div class="module-content">
+                    <div class="skill-meter">
+                      <div class="meter-fill" style="--fill-level: 75%"></div>
+                    </div>
+                    <ul class="module-features">
+                      <li>Challenge Design</li>
+                      <li>Exploit Development</li>
+                      <li>Reverse Engineering</li>
+                    </ul>
+                  </div>
+                </div>-->
+
+                <!-- Added back Blockchain -->
+                <!--<div class="infosec-module">
+                  <div class="module-header">
+                    <span class="module-id">[06]</span>
+                    <h4>BLOCKCHAIN</h4>
+                  </div>
+                  <div class="module-content">
+                    <div class="skill-meter">
+                      <div class="meter-fill" style="--fill-level: 65%"></div>
+                    </div>
+                    <ul class="module-features">
+                      <li>Smart Contracts</li>
+                      <li>DeFi Security</li>
+                      <li>Chain Analysis</li>
+                    </ul>
+                  </div>
+                </div>-->
+              <!--</div>
+            </article>-->
           </div>
         </section>
-        
+      
         <!-- Skills Section -->
         <section id="skills" class="data-section">
           <h2>SKILLS</h2>
@@ -279,6 +390,12 @@
                     <!--<span class="hex-value">35%</span>-->
                   </div>
                 </div>
+                <div class="skill-hex" style="--skill-level: 60%;">
+					<div class="hex-content">
+					  <span class="hex-label">Cursor</span>
+					  <!--<span class="hex-value">60%</span>-->
+					</div>
+				  </div>
               </div>
             </div>
 			<!-- Hobbies -->
@@ -316,54 +433,79 @@
         
         <!-- Contact Section -->
         <section id="contact" class="data-section">
-          <h2>CONTACT</h2>
-          <div class="contact-badges">
-            <a href="mailto:contact@example.com" class="contact-badge">
-              <img src="https://img.shields.io/badge/Email-D14836?style=flat&logo=gmail&logoColor=white" alt="Email">
+          <h2>CONTACT_INTERFACE</h2>
+          
+          <!-- Updated contact methods without icons -->
+          <div class="contact-methods">
+            <a href="mailto:pix3l-p33p3r@proton.me" class="contact-method">
+              <div class="method-info">
+                <h3>Email</h3>
+                <div class="status-indicator">
+                  <span class="status-dot secure"></span>
+                  SECURE
+                </div>
+              </div>
             </a>
-            <a href="https://github.com/pix3l-p33p3r" target="_blank" rel="noopener" class="contact-badge">
-              <img src="https://img.shields.io/badge/GitHub-%23181717.svg?style=flat&logo=github&logoColor=white" alt="GitHub">
+
+            <a href="https://github.com/pix3l-p33p3r" class="contact-method">
+              <div class="method-info">
+                <h3>GitHub</h3>
+                <div class="status-indicator">
+                  <span class="status-dot online"></span>
+                  ACTIVE
+                </div>
+              </div>
             </a>
-            <a href="https://x.com/PiX3L_P33P3R" target="_blank" rel="noopener" class="contact-badge">
-              <img src="https://img.shields.io/badge/X-%23000000.svg?style=flat&logo=X&logoColor=white" alt="X.com">
+
+            <a href="https://x.com/PiX3L_P33P3R" class="contact-method">
+              <div class="method-info">
+                <h3>X</h3>
+                <div class="status-indicator">
+                  <span class="status-dot active"></span>
+                  ONLINE
+                </div>
+              </div>
             </a>
           </div>
-          
-          <div class="contact-form">
-            <h3>Send Message</h3>
-            <form id="contact-form">
-              <div class="form-group">
-                <label for="name">Name</label>
+
+          <!-- Form fields with enhanced animations -->
+          <form id="contact-form" class="enhanced-form">
+            <div class="form-group">
+              <label for="name">IDENTIFIER</label>
+              <div class="input-wrapper">
                 <input type="text" id="name" name="name" required>
               </div>
-              <div class="form-group">
-                <label for="email">Email</label>
+            </div>
+
+            <div class="form-group">
+              <label for="email">COMM_CHANNEL</label>
+              <div class="input-wrapper">
                 <input type="email" id="email" name="email" required>
               </div>
-              <div class="form-group">
-                <label for="message">Message</label>
+            </div>
+
+            <div class="form-group">
+              <label for="message">DATA_PACKET</label>
+              <div class="input-wrapper">
                 <textarea id="message" name="message" rows="4" required></textarea>
               </div>
-              <button type="submit" class="submit-btn">TRANSMIT</button>
-            </form>
-          </div>
+            </div>
+
+            <button type="submit" class="submit-btn">
+              <span class="btn-text">INITIALIZE_TRANSMISSION</span>
+              <span class="btn-icon">→</span>
+            </button>
+          </form>
         </section>
       </div>
     </aside>
-
-    <div class="cmd-footer">
-      <div class="command-line">
-        <span class="command-prompt">></span>
-        <input type="text" class="command-input" placeholder="Enter command... (try MAN)" aria-label="Command input">
-      </div>
-    </div>
 
     <footer>
       <p>© 2025 pix3l_p33p3r. All rights pixelated no cap.</p>
       <div class="contact-links">
         <a href="https://github.com/pix3l-p33p3r">GitHub</a>
         <a href="https://x.com/PiX3L_P33P3R">X</a>
-        <a href="mailto:contact@example.com">Email</a>
+        <a href="mailto:pix3l-p33p3r@proton.me">Email</a>
       </div>
     </footer>
   </div>

@@ -40,6 +40,9 @@ const sphereGroup = new THREE.Group();
 sphereGroup.add(wireframeMesh);
 sphereGroup.add(sphere);
 
+// First, make sure we can access the particles variable globally
+let particles; // Declare at the top with other Three.js variables
+
 // Add particles
 const particleGeometry = new THREE.BufferGeometry();
 const particleCount = 100;
@@ -51,7 +54,7 @@ for (let i = 0; i < particleCount * 3; i += 3) {
 }
 particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 const particleMaterial = new THREE.PointsMaterial({ color: 0x00FFFF, size: 0.05, transparent: true });
-const particles = new THREE.Points(particleGeometry, particleMaterial);
+particles = new THREE.Points(particleGeometry, particleMaterial); // Assign to our global variable
 sphereGroup.add(particles);
 
 scene.add(sphereGroup);
@@ -96,16 +99,6 @@ window.addEventListener('resize', () => {
 const backgroundAudio = document.getElementById('background-audio');
 backgroundAudio.play();
 
-// Command Handling
-const commandInput = document.querySelector('.command-input');
-commandInput.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') {
-    const command = commandInput.value.trim().toUpperCase();
-    handleCommand(command);
-    commandInput.value = '';
-  }
-});
-
 // Timer Functionality
 setInterval(() => {
   const timeDisplay = document.querySelector('.time');
@@ -145,54 +138,56 @@ updateTime(); // Initial call
 
 function handleCommand(command) {
   switch (command) {
-    case 'STATUS':
-      updateStatus('SYSTEM STATUS: OPERATIONAL');
-      document.getElementById('system-status').querySelector('p').textContent = 'Operational';
-      break;
-    case 'CHANGE COLOR':
-      changeSphereColor(0xFF0000);
-      break;
-    case 'RESET':
-      updateStatus('SYSTEM STATUS: NORMAL');
-      changeSphereColor(0x0077FF);
-      document.getElementById('system-status').querySelector('p').textContent = 'Normal';
-      break;
     case 'EVA LAUNCH':
-      backgroundAudio.pause();
-      const evaAudio = document.getElementById('cmd-eva');
-      evaAudio.play();
-      evaAudio.onended = () => backgroundAudio.play();
+      createCommandEffect('EVA_LAUNCH');
+      AudioManager.play('eva');
       updateStatus('EVA UNIT-01 LAUNCHED');
       changeSphereColor(0x800080);
       document.getElementById('float-1').style.animation = 'launch 2s';
       break;
     case 'ANGEL ALERT':
-      backgroundAudio.pause();
-      const angelAudio = document.getElementById('cmd-angel');
-      angelAudio.play();
-      angelAudio.onended = () => backgroundAudio.play();
+      createCommandEffect('ANGEL_ALERT');
+      AudioManager.play('angel');
       updateStatus('ALERT: ANGEL DETECTED');
       changeSphereColor(0xFF0000);
       break;
     case 'TOGGLE PARTICLES':
-      backgroundAudio.pause();
-      const toggleAudio = document.getElementById('cmd-toggle');
-      toggleAudio.play();
-      toggleAudio.onended = () => backgroundAudio.play();
-      particles.visible = !particles.visible;
+      if (particles) {
+        // Toggle particles
+        particles.visible = !particles.visible;
+        
+        // Toggle floating elements
+        const floatingElements = document.querySelectorAll('.floating-element');
+        floatingElements.forEach(element => {
+          element.style.display = particles.visible ? 'block' : 'none';
+        });
+
+        // Play sound and update status
+        AudioManager.play('toggle');
+        updateStatus(`PARTICLES ${particles.visible ? 'ENABLED' : 'DISABLED'}`);
+        
+        // Update button visual feedback
+        const button = document.querySelector('button[aria-label="Toggle particles"]');
+        button.style.backgroundColor = particles.visible ? 'rgba(0, 255, 255, 0.2)' : 'transparent';
+      }
       break;
-    //case 'MAP':
-    //  const mapPanel = document.createElement('div');
-    //  mapPanel.classList.add('holo-panel');
-    //  mapPanel.id = 'map-panel';
-    //  mapPanel.innerHTML = '<h4>Mini Map</h4><p>Map data here</p><button class="close-btn">X</button>';
-    //  document.querySelector('main').appendChild(mapPanel);
-    //  mapPanel.querySelector('.close-btn').addEventListener('click', () => mapPanel.remove());
-    //  break;
-    default:
-      alert('Command not recognized. Type MAN for available commands.');
   }
 }
+
+// Keep keyboard shortcuts
+const SHORTCUTS = {
+  'Alt+E': 'EVA LAUNCH',
+  'Alt+A': 'ANGEL ALERT',
+  'Alt+P': 'TOGGLE PARTICLES'
+};
+
+document.addEventListener('keydown', (e) => {
+  const shortcut = `${e.altKey ? 'Alt+' : ''}${e.key.toUpperCase()}`;
+  if (SHORTCUTS[shortcut]) {
+    e.preventDefault();
+    handleCommand(SHORTCUTS[shortcut]);
+  }
+});
 
 function updateStatus(newStatus) {
   document.querySelector('.status').textContent = newStatus;
@@ -215,12 +210,6 @@ document.querySelectorAll('nav a').forEach(link => {
     const sectionId = link.getAttribute('href').substring(1);
     scrollToSection(sectionId);
   });
-});
-
-document.querySelector('.cmd-link').addEventListener('click', () => {
-  const cmdFooter = document.querySelector('.cmd-footer');
-  cmdFooter.scrollIntoView({ behavior: 'smooth' });
-  commandInput.focus();
 });
 
 // Dynamic Date for About Terminal
@@ -282,3 +271,88 @@ function typeWarningText() {
 
 // Start typing the main text
 typeMainText();
+typeMainText();
+
+// Add card interaction effects
+document.querySelectorAll('.project-card').forEach(card => {
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    // Calculate rotation based on mouse position
+    const rotateX = (y - rect.height / 2) / 20;
+    const rotateY = (x - rect.width / 2) / 20;
+    
+    card.style.transform = `
+      perspective(1000px)
+      rotateX(${-rotateX}deg)
+      rotateY(${rotateY}deg)
+      scale(1.02)
+    `;
+  });
+  
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = 'none';
+  });
+});
+
+// Contact form handling
+document.addEventListener('DOMContentLoaded', () => {
+  // Form handling with visual feedback
+  const form = document.getElementById('contact-form');
+  
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const submitBtn = form.querySelector('.submit-btn');
+    const originalText = submitBtn.innerHTML;
+    
+    try {
+      submitBtn.innerHTML = `
+        <span class="btn-text">TRANSMITTING...</span>
+        <div class="transmission-animation"></div>
+      `;
+      submitBtn.disabled = true;
+      
+      // Simulate transmission delay
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Add your actual form submission logic here
+      
+      // Show success feedback
+      showNotification('TRANSMISSION_SUCCESSFUL', 'success');
+      form.reset();
+    } catch (error) {
+      showNotification('TRANSMISSION_FAILED', 'error');
+    } finally {
+      submitBtn.innerHTML = originalText;
+      submitBtn.disabled = false;
+    }
+  });
+});
+
+function showNotification(message, type) {
+  const notification = document.createElement('div');
+  notification.className = `cyber-notification ${type}`;
+  notification.innerHTML = `
+    <div class="notification-content">
+      <span class="notification-icon">!</span>
+      <span class="notification-text">${message}</span>
+    </div>
+  `;
+  
+  document.body.appendChild(notification);
+  
+  setTimeout(() => {
+    notification.classList.add('fade-out');
+    setTimeout(() => notification.remove(), 300);
+  }, 3000);
+}
+
+// Optional: Add function to check visibility state
+function getVisualsState() {
+  return {
+    particles: particles ? particles.visible : false,
+    floatingElements: document.querySelector('.floating-element').style.display !== 'none'
+  };
+}
