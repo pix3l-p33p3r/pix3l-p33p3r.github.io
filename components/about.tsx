@@ -14,30 +14,10 @@ export default function About() {
   const warningTextContent = "WARNING: OPEN FOR HIRING!"
 
   useEffect(() => {
-    // Update terminal date
-    const updateTerminalDate = () => {
-      if (!terminalRef.current) return
-
-      const now = new Date()
-      const dateString = now
-        .toLocaleString("en-US", {
-          month: "2-digit",
-          day: "2-digit",
-          year: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit",
-          hour12: false,
-        })
-        .replace(/,/, "")
-
-      terminalRef.current.setAttribute("data-time", `[${dateString}] pix3l_p33p3r@UM6P-1337`)
+    // Set terminal header with just username
+    if (terminalRef.current) {
+      terminalRef.current.setAttribute("data-time", "pix3l_p33p3r@UM6P-1337")
     }
-
-    updateTerminalDate()
-    const interval = setInterval(updateTerminalDate, 1000)
-
-    return () => clearInterval(interval)
   }, [])
 
   // Type main text
