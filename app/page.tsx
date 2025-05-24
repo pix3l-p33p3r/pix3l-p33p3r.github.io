@@ -24,7 +24,10 @@ export default function Home() {
       </main>
 
       <aside className="col-span-1 row-span-1 border border-[#333] bg-[rgba(20,20,20,0.7)] p-4 overflow-hidden relative shadow-inner shadow-black/50">
-        <div className="h-full overflow-y-auto pr-1.5">
+        <div
+          className="h-full overflow-y-auto pr-1.5 [&::-webkit-scrollbar]:hidden"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        >
           <About />
           <Projects />
           <Skills />
