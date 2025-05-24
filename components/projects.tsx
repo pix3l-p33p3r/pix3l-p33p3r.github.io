@@ -79,12 +79,6 @@ export default function Projects() {
 
         <article className="project-card bg-gradient-to-br from-black/60 to-black/80 border border-[#333] p-5 relative overflow-hidden before:content-[''] before:absolute before:top-0 before:left-0 before:w-1 before:h-full before:bg-[#00ffff] before:opacity-70 hover:translate-y-[-5px] hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(0,255,255,0.2),0_0_40px_rgba(0,255,255,0.1)] hover:border-[#00ffff] transition-all duration-300">
           <div className="absolute top-4 right-4 w-2.5 h-2.5 rounded-full bg-[#00ffff] animate-pulse"></div>
-          <a
-            href="https://github.com/pix3l-p33p3r?tab=repositories"
-            className="text-[#00ffff] text-lg no-underline inline-block mb-2.5 py-1.5 border-b border-dashed border-[#333] w-full text-center transition-colors duration-200 hover:bg-[rgba(0,255,255,0.1)]"
-          >
-            View Project
-          </a>
           <h3 className="text-[#ff4800] text-2xl mb-2.5">Hardware</h3>
           <p className="text-white text-xl mb-2.5">Custom hardware projects and firmware</p>
           <div className="flex flex-wrap gap-1.5 mb-2.5">
@@ -95,6 +89,12 @@ export default function Projects() {
               ESP32
             </span>
           </div>
+          <a
+            href="https://github.com/pix3l-p33p3r?tab=repositories"
+            className="text-[#00ffff] text-lg no-underline inline-block mt-auto py-1.5 border-t border-dashed border-[#333] w-full text-center transition-colors duration-200 hover:bg-[rgba(0,255,255,0.1)]"
+          >
+            View Project
+          </a>
         </article>
 
         <article className="project-card bg-gradient-to-br from-black/60 to-black/80 border border-[#333] p-5 relative overflow-hidden before:content-[''] before:absolute before:top-0 before:left-0 before:w-1 before:h-full before:bg-[#00ffff] before:opacity-70 hover:translate-y-[-5px] hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(0,255,255,0.2),0_0_40px_rgba(0,255,255,0.1)] hover:border-[#00ffff] transition-all duration-300">
