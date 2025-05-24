@@ -31,7 +31,7 @@ export default function About() {
         })
         .replace(/,/, "")
 
-      terminalRef.current.setAttribute("data-time", `[${dateString}] pix3l_p33p3r@UM6P-1337`)
+      terminalRef.current.setAttribute('pix3l_p33p3r@UM6P-1337`)
     }
 
     updateTerminalDate()
