@@ -13,13 +13,6 @@ export default function About() {
     "I'm pix3l_p33p3r, a student at UM6P/1337, passionate about tech, coding, and building things. My journey includes exploring various programming languages, tools, and technologies, from low-level assembly to high-level scripting. I enjoy tinkering with hardware and software alike, always looking for new challenges to solve."
   const warningTextContent = "WARNING: OPEN FOR HIRING!"
 
-  useEffect(() => {
-    // Set terminal header with just username
-    if (terminalRef.current) {
-      terminalRef.current.setAttribute("data-time", "pix3l_p33p3r@UM6P-1337")
-    }
-  }, [])
-
   // Type main text
   useEffect(() => {
     if (mainIndex < mainText.length) {
@@ -86,7 +79,7 @@ export default function About() {
       </h2>
       <div
         ref={terminalRef}
-        className="font-mono text-[#00ffff] text-base md:text-2xl leading-relaxed mt-4 min-h-[450px] md:min-h-[700px] overflow-hidden relative p-4 md:p-7 bg-black/50 border border-[#333] shadow-[inset_0_0_20px_rgba(0,255,255,0.2)] rounded before:content-[attr(data-time)] before:text-[#00ffff] before:text-sm md:before:text-lg before:block before:pb-2.5 before:border-b before:border-dashed before:border-[#333] before:mb-2.5"
+        className="font-mono text-[#00ffff] text-base md:text-2xl leading-relaxed mt-4 min-h-[450px] md:min-h-[700px] overflow-hidden relative p-4 md:p-7 bg-black/50 border border-[#333] shadow-[inset_0_0_20px_rgba(0,255,255,0.2)] rounded"
         aria-label="About me terminal display"
       >
         <div className="flex items-start">
