@@ -36,13 +36,6 @@ export default function Header() {
         aria-label="Main navigation"
       >
         <Link
-          href="#about"
-          className="text-[#00ffff] md:ml-5 text-lg md:text-2xl relative py-1.5 hover:text-[#00cccc] hover:text-shadow-[0_0_5px_rgba(0,255,255,0.2)] after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#00ffff] after:transition-[width] after:duration-300 after:ease-in-out hover:after:w-full w-full md:w-auto text-center my-1 md:my-0"
-          onClick={() => setMobileMenuOpen(false)}
-        >
-          About
-        </Link>
-        <Link
           href="#projects"
           className="text-[#00ffff] md:ml-5 text-lg md:text-2xl relative py-1.5 hover:text-[#00cccc] hover:text-shadow-[0_0_5px_rgba(0,255,255,0.2)] after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#00ffff] after:transition-[width] after:duration-300 after:ease-in-out hover:after:w-full w-full md:w-auto text-center my-1 md:my-0"
           onClick={() => setMobileMenuOpen(false)}
