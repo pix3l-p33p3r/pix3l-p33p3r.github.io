@@ -22,6 +22,10 @@ export default function About() {
         "A hardcore passion for tech, coding, and building dope stuff! A general jack of all trades (master of some, more to come), diving into everything from gritty assembly to slick scripting. I live for tinkering with hardware and software, always chasing the next big challenge to create something epic.",
     },
     {
+      prompt: "> skills",
+      output: "Assembly, Python, JavaScript, C, and more in the works!",
+    },
+    {
       prompt: "> echo $STATUS",
       output: "WARNING: OPEN FOR HIRING!",
     },
@@ -30,10 +34,12 @@ export default function About() {
   // Combine all text for accessibility
   const fullText = commands.map((cmd) => `${cmd.prompt} ${cmd.output}`).join(" ")
 
-  // Initialize typing sound (base64-encoded WAV for simplicity)
+  // Initialize typing sound (working base64-encoded WAV click sound)
   useEffect(() => {
-    audioRef.current = new Audio("data:audio/wav;base64,UklGRiYAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=")
-    audioRef.current.volume = 0.2 // Lower volume to avoid being jarring
+    audioRef.current = new Audio(
+      "data:audio/wav;base64,UklGRl9vAABXQVZF Zm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YV9vAABzdHlyAQAAAAAAAAAAAAAAAAAA"
+    )
+    audioRef.current.volume = 0.42 // Subtle volume
     return () => {
       audioRef.current?.pause()
     }
@@ -51,7 +57,7 @@ export default function About() {
           }
           setCurrentCommandIndex(0)
           setCharIndex(0)
-        }, 5000) // Tweak this delay (ms) for reset timing
+        }, 5000) // Reset delay
 
         return () => clearTimeout(resetTimer)
       }
@@ -66,14 +72,14 @@ export default function About() {
       outputRef.current.classList.add("glitch")
       setTimeout(() => {
         if (outputRef.current) outputRef.current.classList.remove("glitch")
-      }, 300) // Glitch lasts 300ms
+      }, 1337) // Glitch lasts 1337ms
     }
 
     if (charIndex < fullCommandText.length) {
       const timer = setTimeout(() => {
         if (outputRef.current) {
-          // Play typing sound
-          if (audioRef.current) {
+          // Play typing sound for non-newline characters
+          if (audioRef.current && fullCommandText[charIndex] !== "\n") {
             audioRef.current.currentTime = 0
             audioRef.current.play().catch(() => {}) // Handle autoplay restrictions
           }
@@ -91,7 +97,7 @@ export default function About() {
           outputRef.current.innerHTML = html
         }
         setCharIndex(charIndex + 1)
-      }, 30) // Tweak this delay (ms) for typing speed
+      }, 42) // Typing speed
 
       return () => clearTimeout(timer)
     } else {
@@ -99,11 +105,27 @@ export default function About() {
       const nextCommandTimer = setTimeout(() => {
         setCurrentCommandIndex(currentCommandIndex + 1)
         setCharIndex(0)
-      }, 500) // Tweak this delay (ms) for pause between commands
+      }, 500) // Pause between commands
 
       return () => clearTimeout(nextCommandTimer)
     }
   }, [charIndex, currentCommandIndex, isHovering])
+
+  // Ensure reset timer resumes after hover ends
+  useEffect(() => {
+    if (currentCommandIndex >= commands.length && !isHovering) {
+      const resetTimer = setTimeout(() => {
+        if (outputRef.current) {
+          outputRef.current.innerHTML = ""
+          outputRef.current.classList.remove("glitch")
+        }
+        setCurrentCommandIndex(0)
+        setCharIndex(0)
+      }, 5000)
+
+      return () => clearTimeout(resetTimer)
+    }
+  }, [isHovering, currentCommandIndex])
 
   return (
     <section
@@ -120,7 +142,10 @@ export default function About() {
         aria-label="About me terminal display"
         style={{ height: "96%" }}
       >
-        <div ref={outputRef} className="relative after:content-['|'] after:text-[#ff4800] after:animate-blink"></div>
+        <div
+          ref={outputRef}
+          className="relative after:content-['|'] after:text-[#ff4800] after:animate-blink"
+        ></div>
       </div>
     </section>
   )
