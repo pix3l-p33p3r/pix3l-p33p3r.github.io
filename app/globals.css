@@ -63,17 +63,28 @@
 
 @keyframes glitch {
   0% {
-    text-shadow: 2px 2px #ff00ff, -2px -2px #00ffff;
     transform: translate(0);
+    opacity: 1;
   }
-}
-\
+  20% {
+    transform: translate(2px, -2px);
+    opacity: 0.8;
+  }
+  40% {
+    transform: translate(-2px, 2px);
+    opacity: 0.9;
+  }
+  60% {
+    transform: translate(1px, -1px);
+    opacity: 0.7;
+  }
+  80% {
+    transform: translate(-1px, 1px);
+    opacity: 0.9;
+  }
   100% {
-text-shadow: -2px 2px #ff00ff, 2px -2px #00ffff
-;
-transform: translate(-1px
-)
-;
+    transform: translate(0);
+    opacity: 1;
   }
 }
 
@@ -142,33 +153,6 @@ transform: translate(-1px
   }
   to {
     transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes glitch {
-  0% {
-    transform: translate(0);
-    opacity: 1;
-  }
-  20% {
-    transform: translate(2px, -2px);
-    opacity: 0.8;
-  }
-  40% {
-    transform: translate(-2px, 2px);
-    opacity: 0.9;
-  }
-  60% {
-    transform: translate(1px, -1px);
-    opacity: 0.7;
-  }
-  80% {
-    transform: translate(-1px, 1px);
-    opacity: 0.9;
-  }
-  100% {
-    transform: translate(0);
     opacity: 1;
   }
 }
