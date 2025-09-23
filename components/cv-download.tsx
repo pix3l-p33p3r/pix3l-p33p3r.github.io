@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { Download, FileText, Check } from "lucide-react"
+import { trackResumeDownload } from "@/lib/analytics"
 
 export default function CVDownload() {
   const [isDownloading, setIsDownloading] = useState(false)
@@ -16,23 +17,20 @@ export default function CVDownload() {
 
       // Create a link element and trigger download
       const link = document.createElement("a")
-      link.href = "/public/cv/pix3l_p33p3r_resume.pdf"
-      link.download = "PIXEL-PEEPER_RESUMER.pdf"
+      // Correct path: public/cv/pix3l_p33p3r_resume.pdf -> /cv/pix3l_p33p3r_resume.pdf
+      link.href = "/cv/pix3l_p33p3r_resume.pdf"
+      link.download = "Pixel_Peeper_Resume.pdf"
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
 
+      // Track the download event
+      trackResumeDownload()
+
       setIsDownloaded(true)
       setTimeout(() => setIsDownloaded(false), 3000)
 
-      // Optional: Track download analytics
-      if (typeof window !== "undefined" && window.gtag) {
-        window.gtag("event", "download", {
-          event_category: "Resume",
-          event_label: "PDF Download",
-          value: 1,
-        })
-      }
+      console.log("📊 Analytics: Resume download tracked")
     } catch (error) {
       console.error("Download failed:", error)
     } finally {

@@ -1,47 +1,14 @@
 "use client"
-
-import type React from "react"
-
-import { useState } from "react"
+import { trackContactClick } from "@/lib/analytics"
 
 export default function Contact() {
-  const [formStatus, setFormStatus] = useState<{ message: string; type: "success" | "error" } | null>(null)
+  const handleContactClick = (platform: string, url: string) => {
+    // Track the click
+    trackContactClick(platform)
+    console.log(`📊 Analytics: ${platform} contact click tracked`)
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const form = e.currentTarget
-    const submitBtn = form.querySelector(".submit-btn") as HTMLButtonElement
-    const originalText = submitBtn.innerHTML
-
-    try {
-      submitBtn.innerHTML = `
-        <span class="btn-text">TRANSMITTING...</span>
-        <div class="transmission-animation"></div>
-      `
-      submitBtn.disabled = true
-
-      // Simulate transmission delay
-      await new Promise((resolve) => setTimeout(resolve, 2000))
-
-      // Add your actual form submission logic here
-
-      // Show success feedback
-      showNotification("TRANSMISSION_SUCCESSFUL", "success")
-      form.reset()
-    } catch (error) {
-      showNotification("TRANSMISSION_FAILED", "error")
-    } finally {
-      submitBtn.innerHTML = originalText
-      submitBtn.disabled = false
-    }
-  }
-
-  const showNotification = (message: string, type: "success" | "error") => {
-    setFormStatus({ message, type })
-
-    setTimeout(() => {
-      setFormStatus(null)
-    }, 3000)
+    // Open the link
+    window.open(url, "_blank", "noopener,noreferrer")
   }
 
   return (
@@ -51,8 +18,8 @@ export default function Contact() {
       </h2>
 
       <div className="flex flex-col gap-4 w-full mb-10">
-        <a
-          href="mailto:pix3l-p33p3r@proton.me"
+        <button
+          onClick={() => handleContactClick("Email", "mailto:pix3l-p33p3r@proton.me")}
           className="bg-black/30 border border-[#333] p-4 px-5 rounded-lg flex items-center transition-all duration-300 relative overflow-hidden w-full cursor-pointer before:content-[''] before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:bg-[#00ffff] before:opacity-0 before:transition-opacity before:duration-300 hover:border-[#00ffff] hover:bg-[rgba(0,255,255,0.08)] hover:translate-x-[3px] hover:shadow-md hover:before:opacity-100"
         >
           <div className="flex items-center justify-between w-full gap-4">
@@ -64,10 +31,10 @@ export default function Contact() {
               SECURE
             </div>
           </div>
-        </a>
+        </button>
 
-        <a
-          href="https://github.com/pix3l-p33p3r"
+        <button
+          onClick={() => handleContactClick("GitHub", "https://github.com/pix3l-p33p3r")}
           className="bg-black/30 border border-[#333] p-4 px-5 rounded-lg flex items-center transition-all duration-300 relative overflow-hidden w-full cursor-pointer before:content-[''] before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:bg-[#00ffff] before:opacity-0 before:transition-opacity before:duration-300 hover:border-[#00ffff] hover:bg-[rgba(0,255,255,0.08)] hover:translate-x-[3px] hover:shadow-md hover:before:opacity-100"
         >
           <div className="flex items-center justify-between w-full gap-4">
@@ -79,10 +46,10 @@ export default function Contact() {
               ACTIVE
             </div>
           </div>
-        </a>
+        </button>
 
-        <a
-          href="https://x.com/PiX3L_P33P3R"
+        <button
+          onClick={() => handleContactClick("Twitter/X", "https://x.com/PiX3L_P33P3R")}
           className="bg-black/30 border border-[#333] p-4 px-5 rounded-lg flex items-center transition-all duration-300 relative overflow-hidden w-full cursor-pointer before:content-[''] before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:bg-[#00ffff] before:opacity-0 before:transition-opacity before:duration-300 hover:border-[#00ffff] hover:bg-[rgba(0,255,255,0.08)] hover:translate-x-[3px] hover:shadow-md hover:before:opacity-100"
         >
           <div className="flex items-center justify-between w-full gap-4">
@@ -94,7 +61,7 @@ export default function Contact() {
               ONLINE
             </div>
           </div>
-        </a>
+        </button>
       </div>
     </section>
   )

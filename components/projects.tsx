@@ -1,12 +1,12 @@
 "use client"
-
-import { useEffect } from "react"
+import { trackProjectView } from "@/lib/analytics"
 
 export default function Projects() {
-  // Add card interaction effects
-  useEffect(() => {
-    // Removing mouse interaction effects
-  }, [])
+  const handleProjectClick = (projectName: string, url: string) => {
+    trackProjectView(projectName)
+    console.log(`📊 Analytics: ${projectName} project view tracked`)
+    window.open(url, "_blank", "noopener,noreferrer")
+  }
 
   return (
     <section id="projects" className="mb-8 pb-5 border-b border-dashed border-[#333] last:border-b-0">
@@ -42,12 +42,12 @@ export default function Projects() {
           </div>
 
           <div className="flex gap-2.5">
-            <a
-              href="#"
+            <button
+              onClick={() => handleProjectClick("Virtualization", "https://github.com/pix3l-p33p3r?tab=repositories")}
               className="text-[#00ffff] text-lg no-underline inline-block mt-auto py-1.5 border-t border-dashed border-[#333] w-full text-center transition-colors duration-200 hover:bg-[rgba(0,255,255,0.1)]"
             >
               View Project
-            </a>
+            </button>
           </div>
         </article>
 
@@ -63,12 +63,12 @@ export default function Projects() {
               ESP32
             </span>
           </div>
-          <a
-            href="https://github.com/pix3l-p33p3r?tab=repositories"
+          <button
+            onClick={() => handleProjectClick("Hardware", "https://github.com/pix3l-p33p3r?tab=repositories")}
             className="text-[#00ffff] text-lg no-underline inline-block mt-auto py-1.5 border-t border-dashed border-[#333] w-full text-center transition-colors duration-200 hover:bg-[rgba(0,255,255,0.1)]"
           >
             View Project
-          </a>
+          </button>
         </article>
 
         <article className="project-card bg-gradient-to-br from-black/60 to-black/80 border border-[#333] p-5 relative overflow-hidden before:content-[''] before:absolute before:top-0 before:left-0 before:w-1 before:h-full before:bg-[#00ffff] before:opacity-70 transition-all duration-300">
@@ -83,12 +83,12 @@ export default function Projects() {
               Assembly
             </span>
           </div>
-          <a
-            href="https://github.com/pix3l-p33p3r?tab=repositories"
+          <button
+            onClick={() => handleProjectClick("Low-Level/OOP", "https://github.com/pix3l-p33p3r?tab=repositories")}
             className="text-[#00ffff] text-lg no-underline inline-block mt-auto py-1.5 border-t border-dashed border-[#333] w-full text-center transition-colors duration-200 hover:bg-[rgba(0,255,255,0.1)]"
           >
             View Project
-          </a>
+          </button>
         </article>
 
         <article className="project-card bg-gradient-to-br from-black/60 to-black/80 border border-[#333] p-5 relative overflow-hidden before:content-[''] before:absolute before:top-0 before:left-0 before:w-1 before:h-full before:bg-[#00ffff] before:opacity-70 transition-all duration-300">
@@ -103,12 +103,12 @@ export default function Projects() {
               RayTracing
             </span>
           </div>
-          <a
-            href="https://github.com/pix3l-p33p3r?tab=repositories"
+          <button
+            onClick={() => handleProjectClick("Graphics in C", "https://github.com/pix3l-p33p3r?tab=repositories")}
             className="text-[#00ffff] text-lg no-underline inline-block mt-auto py-1.5 border-t border-dashed border-[#333] w-full text-center transition-colors duration-200 hover:bg-[rgba(0,255,255,0.1)]"
           >
             View Project
-          </a>
+          </button>
         </article>
 
         <article className="project-card bg-gradient-to-br from-black/60 to-black/80 border border-[#333] p-5 relative overflow-hidden before:content-[''] before:absolute before:top-0 before:left-0 before:w-1 before:h-full before:bg-[#00ffff] before:opacity-70 transition-all duration-300">
@@ -123,12 +123,12 @@ export default function Projects() {
               GitLab CI
             </span>
           </div>
-          <a
-            href="https://github.com/pix3l-p33p3r?tab=repositories"
+          <button
+            onClick={() => handleProjectClick("DevSecOps Pipeline", "https://github.com/pix3l-p33p3r?tab=repositories")}
             className="text-[#00ffff] text-lg no-underline inline-block mt-auto py-1.5 border-t border-dashed border-[#333] w-full text-center transition-colors duration-200 hover:bg-[rgba(0,255,255,0.1)]"
           >
             View Project
-          </a>
+          </button>
         </article>
       </div>
     </section>

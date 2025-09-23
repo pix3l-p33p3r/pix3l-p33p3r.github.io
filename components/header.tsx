@@ -3,10 +3,17 @@
 import { useState } from "react"
 import Link from "next/link"
 import { Menu } from "lucide-react"
+import { trackNavigation } from "@/lib/analytics"
 
 export default function Header() {
   const [status, setStatus] = useState("SYSTEM STATUS: NORMAL")
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
+  const handleNavClick = (section: string) => {
+    trackNavigation(section)
+    setMobileMenuOpen(false)
+    console.log(`📊 Analytics: Navigation to ${section} tracked`)
+  }
 
   return (
     <header className="col-span-full flex flex-col lg:flex-row justify-between items-center border border-[#333] p-2.5 px-5 bg-[rgba(20,20,20,0.7)] shadow-md shadow-black/50 relative z-20 gap-4">
@@ -31,28 +38,28 @@ export default function Header() {
         <Link
           href="#projects"
           className="text-[#00ffff] lg:ml-5 text-lg md:text-xl relative py-1.5 hover:text-[#00cccc] hover:text-shadow-[0_0_5px_rgba(0,255,255,0.2)] after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#00ffff] after:transition-[width] after:duration-300 after:ease-in-out hover:after:w-full w-full lg:w-auto text-center"
-          onClick={() => setMobileMenuOpen(false)}
+          onClick={() => handleNavClick("Projects")}
         >
           Projects
         </Link>
         <Link
           href="#skills"
           className="text-[#00ffff] lg:ml-5 text-lg md:text-xl relative py-1.5 hover:text-[#00cccc] hover:text-shadow-[0_0_5px_rgba(0,255,255,0.2)] after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#00ffff] after:transition-[width] after:duration-300 after:ease-in-out hover:after:w-full w-full lg:w-auto text-center"
-          onClick={() => setMobileMenuOpen(false)}
+          onClick={() => handleNavClick("Skills")}
         >
           Skills
         </Link>
         <Link
           href="#resume"
           className="text-[#00ffff] lg:ml-5 text-lg md:text-xl relative py-1.5 hover:text-[#00cccc] hover:text-shadow-[0_0_5px_rgba(0,255,255,0.2)] after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#00ffff] after:transition-[width] after:duration-300 after:ease-in-out hover:after:w-full w-full lg:w-auto text-center"
-          onClick={() => setMobileMenuOpen(false)}
+          onClick={() => handleNavClick("Resume")}
         >
           Resume
         </Link>
         <Link
           href="#contact"
           className="text-[#00ffff] lg:ml-5 text-lg md:text-xl relative py-1.5 hover:text-[#00cccc] hover:text-shadow-[0_0_5px_rgba(0,255,255,0.2)] after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#00ffff] after:transition-[width] after:duration-300 after:ease-in-out hover:after:w-full w-full lg:w-auto text-center"
-          onClick={() => setMobileMenuOpen(false)}
+          onClick={() => handleNavClick("Contact")}
         >
           Contact
         </Link>
