@@ -3,14 +3,14 @@
 import { useState, useEffect, useRef } from "react"
 
 export default function About() {
-  const [currentCommandIndex, setCurrentCommandIndex] = useState(0) // Tracks which command is being executed
-  const [charIndex, setCharIndex] = useState(0) // Tracks character index for typing
-  const [isHovering, setIsHovering] = useState(false) // Tracks hover state for pause
+  const [currentCommandIndex, setCurrentCommandIndex] = useState(0)
+  const [charIndex, setCharIndex] = useState(0)
+  const [isHovering, setIsHovering] = useState(false)
   const terminalRef = useRef<HTMLDivElement>(null)
   const outputRef = useRef<HTMLDivElement>(null)
   const audioRef = useRef<HTMLAudioElement | null>(null)
 
-  // Define commands and their outputs
+  // Original commands array
   const commands = [
     {
       prompt: "> whoami:",
@@ -27,19 +27,19 @@ export default function About() {
     },
     {
       prompt: "> echo $STATUS",
-      output: "WARNING: OPEN FOR HIRING!",
+      output: "WARNING: OPEN TO WORK!",
     },
   ]
 
   // Combine all text for accessibility
   const fullText = commands.map((cmd) => `${cmd.prompt} ${cmd.output}`).join(" ")
 
-  // Initialize typing sound (working base64-encoded WAV click sound)
+  // Initialize typing sound
   useEffect(() => {
     audioRef.current = new Audio(
-      "data:audio/wav;base64,UklGRl9vAABXQVZF Zm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YV9vAABzdHlyAQAAAAAAAAAAAAAAAAAA"
+      "data:audio/wav;base64,UklGRl9vAABXQVZF Zm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YV9vAABzdHlyAQAAAAAAAAAAAAAAAAAA",
     )
-    audioRef.current.volume = 0.42 // Subtle volume
+    audioRef.current.volume = 0.42
     return () => {
       audioRef.current?.pause()
     }
@@ -48,7 +48,6 @@ export default function About() {
   // Typing effect
   useEffect(() => {
     if (currentCommandIndex >= commands.length) {
-      // All commands done, reset after 5 seconds unless hovering
       if (!isHovering) {
         const resetTimer = setTimeout(() => {
           if (outputRef.current) {
@@ -57,7 +56,7 @@ export default function About() {
           }
           setCurrentCommandIndex(0)
           setCharIndex(0)
-        }, 5000) // Reset delay
+        }, 5000)
 
         return () => clearTimeout(resetTimer)
       }
@@ -68,22 +67,19 @@ export default function About() {
     const fullCommandText = `${currentCommand.prompt}\n${currentCommand.output}\n`
 
     if (charIndex === 0 && outputRef.current) {
-      // Add glitch effect at start of each command
       outputRef.current.classList.add("glitch")
       setTimeout(() => {
         if (outputRef.current) outputRef.current.classList.remove("glitch")
-      }, 1337) // Glitch lasts 1337ms
+      }, 1337)
     }
 
     if (charIndex < fullCommandText.length) {
       const timer = setTimeout(() => {
         if (outputRef.current) {
-          // Play typing sound for non-newline characters
           if (audioRef.current && fullCommandText[charIndex] !== "\n") {
             audioRef.current.currentTime = 0
-            audioRef.current.play().catch(() => {}) // Handle autoplay restrictions
+            audioRef.current.play().catch(() => {})
           }
-          // Render text
           const currentText = fullCommandText.substring(0, charIndex + 1)
           const lines = currentText.split("\n")
           const html = lines
@@ -97,21 +93,19 @@ export default function About() {
           outputRef.current.innerHTML = html
         }
         setCharIndex(charIndex + 1)
-      }, 42) // Typing speed
+      }, 42)
 
       return () => clearTimeout(timer)
     } else {
-      // Move to next command after 500ms pause
       const nextCommandTimer = setTimeout(() => {
         setCurrentCommandIndex(currentCommandIndex + 1)
         setCharIndex(0)
-      }, 500) // Pause between commands
+      }, 500)
 
       return () => clearTimeout(nextCommandTimer)
     }
   }, [charIndex, currentCommandIndex, isHovering])
 
-  // Ensure reset timer resumes after hover ends
   useEffect(() => {
     if (currentCommandIndex >= commands.length && !isHovering) {
       const resetTimer = setTimeout(() => {
@@ -142,10 +136,7 @@ export default function About() {
         aria-label="About me terminal display"
         style={{ height: "96%" }}
       >
-        <div
-          ref={outputRef}
-          className="relative after:content-['|'] after:text-[#ff4800] after:animate-blink"
-        ></div>
+        <div ref={outputRef} className="relative after:content-['|'] after:text-[#ff4800] after:animate-blink"></div>
       </div>
     </section>
   )

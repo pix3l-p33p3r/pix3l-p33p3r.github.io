@@ -5,6 +5,7 @@ import About from "@/components/about"
 import Projects from "@/components/projects"
 import Skills from "@/components/skills"
 import Contact from "@/components/contact"
+import CVSection from "@/components/cv-section"
 import TargetCross from "@/components/ui/target-cross"
 import GridLines from "@/components/ui/grid-lines"
 import FloatingElements from "@/components/ui/floating-elements"
@@ -37,6 +38,7 @@ export default function Home() {
         >
           <Projects />
           <Skills />
+          <CVSection />
           <Contact />
         </div>
       </aside>

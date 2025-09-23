@@ -1,211 +1,153 @@
 export default function Skills() {
   return (
     <section id="skills" className="mb-8 pb-5 border-b border-dashed border-[#333] last:border-b-0">
-      <h2 className="text-[#ff4800] mb-4 border-b border-[#ff4800] pb-1.5 text-2xl tracking-wider text-shadow-[0_0_5px_rgba(255,72,0,0.2)]">
+      <h2 className="text-[#ff4800] mb-8 border-b border-[#ff4800] pb-2 text-2xl tracking-wider text-shadow-[0_0_5px_rgba(255,72,0,0.2)]">
         SKILLS
       </h2>
-      <div className="flex flex-col gap-8">
+
+      <div className="space-y-12">
         {/* 1337 Curriculum */}
-        <div className="bg-black/30 p-4 rounded border-l-2 border-[#ff4800]">
-          <h3 className="text-[#00ffff] my-4 text-xl tracking-wider">1337 Curriculum</h3>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <div className="relative w-[200px] h-[200px] md:w-[175px] md:h-[175px] bg-black/50 [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] flex justify-center items-center transition-all duration-300 hover:scale-105 hover:drop-shadow-[0_0_5px_rgba(0,255,255,0.2)]">
-              <div className="absolute inset-0 bg-[#00ffff] [clip-path:polygon(50%_0%,100%_25%,100%_calc(25%+50%*0.8),50%_calc(0%+100%*0.8),0%_calc(25%+50%*0.8),0%_25%)] opacity-10 z-0"></div>
-              <div className="absolute top-[3px] left-[3px] right-[3px] bottom-[3px] bg-black [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] z-[1]"></div>
-              <div className="relative z-[2] flex flex-col items-center justify-center text-center p-2.5">
-                <span className="text-sm md:text-lg text-white mb-1.5">Bash</span>
-              </div>
-            </div>
+        <div className="space-y-5">
+          <div className="flex items-center gap-3">
+            <h3 className="text-[#00ffff] text-lg tracking-[0.2em] font-mono uppercase">1337_CURRICULUM</h3>
+            <div className="flex-1 h-px bg-gradient-to-r from-[#00ffff]/30 to-transparent"></div>
+            <div className="w-2 h-2 bg-[#00ffff] rounded-full animate-pulse"></div>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {[
+              { name: "Bash", status: "active" },
+              { name: "C/C++", status: "expert" },
+              { name: "Networking", status: "active" },
+              { name: "Unix/BSD", status: "active" },
+              { name: "Virtualization", status: "learning" },
+              { name: "CI/CD", status: "expert" },
+            ].map((skill, index) => (
+              <div
+                key={skill.name}
+                className="group relative bg-black/30 border border-[#333] p-5 transition-all duration-300 hover:border-[#00ffff]/50 hover:bg-black/50 hover:shadow-[0_0_15px_rgba(0,255,255,0.1)]"
+              >
+                <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-[#00ffff]/0 via-[#00ffff]/50 to-[#00ffff]/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
-            <div className="relative w-[200px] h-[200px] md:w-[175px] md:h-[175px] bg-black/50 [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] flex justify-center items-center transition-all duration-300 hover:scale-105 hover:drop-shadow-[0_0_5px_rgba(0,255,255,0.2)]">
-              <div className="absolute inset-0 bg-[#00ffff] [clip-path:polygon(50%_0%,100%_25%,100%_calc(25%+50%*0.8),50%_calc(0%+100%*0.8),0%_calc(25%+50%*0.8),0%_25%)] opacity-10 z-0"></div>
-              <div className="absolute top-[3px] left-[3px] right-[3px] bottom-[3px] bg-black [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] z-[1]"></div>
-              <div className="relative z-[2] flex flex-col items-center justify-center text-center p-2.5">
-                <span className="text-sm md:text-lg text-white mb-1.5">C/C++</span>
-              </div>
-            </div>
+                <div className="flex items-center justify-between mb-2">
+                  <div className="font-mono text-sm text-white tracking-wide">{skill.name}</div>
+                  <div
+                    className={`w-1.5 h-1.5 rounded-full ${
+                      skill.status === "expert"
+                        ? "bg-[#ff4800] shadow-[0_0_4px_#ff4800]"
+                        : skill.status === "active"
+                          ? "bg-[#00ffff] shadow-[0_0_4px_#00ffff]"
+                          : "bg-[#ffff00] shadow-[0_0_4px_#ffff00]"
+                    }`}
+                  ></div>
+                </div>
 
-            <div className="relative w-[200px] h-[200px] md:w-[175px] md:h-[175px] bg-black/50 [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] flex justify-center items-center transition-all duration-300 hover:scale-105 hover:drop-shadow-[0_0_5px_rgba(0,255,255,0.2)]">
-              <div className="absolute inset-0 bg-[#00ffff] [clip-path:polygon(50%_0%,100%_25%,100%_calc(25%+50%*0.77),50%_calc(0%+100%*0.77),0%_calc(25%+50%*0.77),0%_25%)] opacity-10 z-0"></div>
-              <div className="absolute top-[3px] left-[3px] right-[3px] bottom-[3px] bg-black [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] z-[1]"></div>
-              <div className="relative z-[2] flex flex-col items-center justify-center text-center p-2.5">
-                <span className="text-sm md:text-lg text-white mb-1.5">Networking</span>
-              </div>
-            </div>
+                
 
-            <div className="relative w-[200px] h-[200px] md:w-[175px] md:h-[175px] bg-black/50 [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] flex justify-center items-center transition-all duration-300 hover:scale-105 hover:drop-shadow-[0_0_5px_rgba(0,255,255,0.2)]">
-              <div className="absolute inset-0 bg-[#00ffff] [clip-path:polygon(50%_0%,100%_25%,100%_calc(25%+50%*0.8),50%_calc(0%+100%*0.8),0%_calc(25%+50%*0.8),0%_25%)] opacity-10 z-0"></div>
-              <div className="absolute top-[3px] left-[3px] right-[3px] bottom-[3px] bg-black [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] z-[1]"></div>
-              <div className="relative z-[2] flex flex-col items-center justify-center text-center p-2.5">
-                <span className="text-sm md:text-lg text-white mb-1.5">Unix/BSD</span>
+                <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#00ffff] group-hover:w-full transition-all duration-500"></div>
               </div>
-            </div>
-
-            <div className="relative w-[200px] h-[200px] md:w-[175px] md:h-[175px] bg-black/50 [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] flex justify-center items-center transition-all duration-300 hover:scale-105 hover:drop-shadow-[0_0_5px_rgba(0,255,255,0.2)]">
-              <div className="absolute inset-0 bg-[#00ffff] [clip-path:polygon(50%_0%,100%_25%,100%_calc(25%+50%*0.7),50%_calc(0%+100%*0.7),0%_calc(25%+50%*0.7),0%_25%)] opacity-10 z-0"></div>
-              <div className="absolute top-[3px] left-[3px] right-[3px] bottom-[3px] bg-black [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] z-[1]"></div>
-              <div className="relative z-[2] flex flex-col items-center justify-center text-center p-2.5">
-                <span className="text-sm md:text-lg text-white mb-1.5">Virtualization</span>
-              </div>
-            </div>
-
-            <div className="relative w-[200px] h-[200px] md:w-[175px] md:h-[175px] bg-black/50 [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] flex justify-center items-center transition-all duration-300 hover:scale-105 hover:drop-shadow-[0_0_5px_rgba(0,255,255,0.2)]">
-              <div className="absolute inset-0 bg-[#00ffff] [clip-path:polygon(50%_0%,100%_25%,100%_calc(25%+50%*0.9),50%_calc(0%+100%*0.9),0%_calc(25%+50%*0.9),0%_25%)] opacity-10 z-0"></div>
-              <div className="absolute top-[3px] left-[3px] right-[3px] bottom-[3px] bg-black [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] z-[1]"></div>
-              <div className="relative z-[2] flex flex-col items-center justify-center text-center p-2.5">
-                <span className="text-sm md:text-lg text-white mb-1.5">CI/CD</span>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
-      </div>
 
-      <h2 className="text-[#ff4800] my-4 border-b border-[#ff4800] pb-1.5 text-2xl tracking-wider text-shadow-[0_0_5px_rgba(255,72,0,0.2)]">
-        TOOLS
-      </h2>
-      <div className="flex flex-col gap-8">
         {/* Languages */}
-        <div className="bg-black/30 p-4 rounded border-l-2 border-[#ff4800]">
-          <h3 className="text-[#00ffff] my-4 text-xl tracking-wider">Languages</h3>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <div className="relative w-[200px] h-[200px] md:w-[175px] md:h-[175px] bg-black/50 [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] flex justify-center items-center transition-all duration-300 hover:scale-105 hover:drop-shadow-[0_0_5px_rgba(0,255,255,0.2)]">
-              <div className="absolute inset-0 bg-[#00ffff] [clip-path:polygon(50%_0%,100%_25%,100%_calc(25%+50%*0.65),50%_calc(0%+100%*0.65),0%_calc(25%+50%*0.65),0%_25%)] opacity-10 z-0"></div>
-              <div className="absolute top-[3px] left-[3px] right-[3px] bottom-[3px] bg-black [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] z-[1]"></div>
-              <div className="relative z-[2] flex flex-col items-center justify-center text-center p-2.5">
-                <span className="text-sm md:text-lg text-white mb-1.5">Python</span>
-              </div>
-            </div>
+        <div className="space-y-5">
+          <div className="flex items-center gap-3">
+            <h3 className="text-[#00ffff] text-lg tracking-[0.2em] font-mono uppercase">LANGUAGES</h3>
+            <div className="flex-1 h-px bg-gradient-to-r from-[#00ffff]/30 to-transparent"></div>
+            <div className="w-2 h-2 bg-[#00ffff] rounded-full animate-pulse"></div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {[
+              { name: "Python", status: "active", proficiency: "Intermediate" },
+              { name: "Lua", status: "learning", proficiency: "Beginner" },
+            ].map((skill, index) => (
+              <div
+                key={skill.name}
+                className="group relative bg-black/30 border border-[#333] p-5 transition-all duration-300 hover:border-[#00ffff]/50 hover:bg-black/50 hover:shadow-[0_0_15px_rgba(0,255,255,0.1)]"
+              >
+                <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-[#00ffff]/0 via-[#00ffff]/50 to-[#00ffff]/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
-            <div className="relative w-[200px] h-[200px] md:w-[175px] md:h-[175px] bg-black/50 [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] flex justify-center items-center transition-all duration-300 hover:scale-105 hover:drop-shadow-[0_0_5px_rgba(0,255,255,0.2)]">
-              <div className="absolute inset-0 bg-[#00ffff] [clip-path:polygon(50%_0%,100%_25%,100%_calc(25%+50%*0.5),50%_calc(0%+100%*0.5),0%_calc(25%+50%*0.5),0%_25%)] opacity-10 z-0"></div>
-              <div className="absolute top-[3px] left-[3px] right-[3px] bottom-[3px] bg-black [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] z-[1]"></div>
-              <div className="relative z-[2] flex flex-col items-center justify-center text-center p-2.5">
-                <span className="text-sm md:text-lg text-white mb-1.5">Lua</span>
+                <div className="flex items-center justify-between mb-2">
+                  <div className="font-mono text-sm text-white tracking-wide">{skill.name}</div>
+                  <div
+                    className={`w-1.5 h-1.5 rounded-full ${
+                      skill.status === "active"
+                        ? "bg-[#00ffff] shadow-[0_0_4px_#00ffff]"
+                        : "bg-[#ffff00] shadow-[0_0_4px_#ffff00]"
+                    }`}
+                  ></div>
+                </div>
+
+                
+
+                <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#00ffff] group-hover:w-full transition-all duration-500"></div>
               </div>
-            </div>
+            ))}
           </div>
         </div>
 
-        {/* IDE/Notes */}
-        <div className="bg-black/30 p-4 rounded border-l-2 border-[#ff4800]">
-          <h3 className="text-[#00ffff] my-4 text-xl tracking-wider">IDE/Notes</h3>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <div className="relative w-[200px] h-[200px] md:w-[175px] md:h-[175px] bg-black/50 [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] flex justify-center items-center transition-all duration-300 hover:scale-105 hover:drop-shadow-[0_0_5px_rgba(0,255,255,0.2)]">
-              <div className="absolute inset-0 bg-[#00ffff] [clip-path:polygon(50%_0%,100%_25%,100%_calc(25%+50%*0.9),50%_calc(0%+100%*0.9),0%_calc(25%+50%*0.9),0%_25%)] opacity-10 z-0"></div>
-              <div className="absolute top-[3px] left-[3px] right-[3px] bottom-[3px] bg-black [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] z-[1]"></div>
-              <div className="relative z-[2] flex flex-col items-center justify-center text-center p-2.5">
-                <span className="text-sm md:text-lg text-white mb-1.5">Neovim</span>
-              </div>
-            </div>
+        {/* Development Tools */}
+        <div className="space-y-5">
+          <div className="flex items-center gap-3">
+            <h3 className="text-[#00ffff] text-lg tracking-[0.2em] font-mono uppercase">DEVELOPMENT_TOOLS</h3>
+            <div className="flex-1 h-px bg-gradient-to-r from-[#00ffff]/30 to-transparent"></div>
+            <div className="w-2 h-2 bg-[#00ffff] rounded-full animate-pulse"></div>
+          </div>
+          <div className="grid grid-cols-3 md:grid-cols-5 gap-3">
+            {[
+              { name: "Neovim", daily: true },
+              { name: "Cursor", daily: false },
+              { name: "Obsidian", daily: false },
+              { name: "Markdown", daily: true },
+              { name: "LaTeX", daily: false },
+            ].map((tool, index) => (
+              <div
+                key={tool.name}
+                className="group relative bg-black/30 border border-[#333] p-4 transition-all duration-300 hover:border-[#00ffff]/50 hover:bg-black/50 hover:scale-105"
+              >
+                <div className="absolute top-1 right-1">
+                  <div
+                    className={`w-1 h-1 rounded-full ${tool.daily ? "bg-[#00ff00] animate-pulse" : "bg-[#666]"}`}
+                  ></div>
+                </div>
 
-            <div className="relative w-[200px] h-[200px] md:w-[175px] md:h-[175px] bg-black/50 [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] flex justify-center items-center transition-all duration-300 hover:scale-105 hover:drop-shadow-[0_0_5px_rgba(0,255,255,0.2)]">
-              <div className="absolute inset-0 bg-[#00ffff] [clip-path:polygon(50%_0%,100%_25%,100%_calc(25%+50%*0.6),50%_calc(0%+100%*0.6),0%_calc(25%+50%*0.6),0%_25%)] opacity-10 z-0"></div>
-              <div className="absolute top-[3px] left-[3px] right-[3px] bottom-[3px] bg-black [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] z-[1]"></div>
-              <div className="relative z-[2] flex flex-col items-center justify-center text-center p-2.5">
-                <span className="text-sm md:text-lg text-white mb-1.5">Cursor</span>
-              </div>
-            </div>
+                <div className="text-center">
+                  <div className="font-mono text-xs text-white tracking-wide mb-1">{tool.name}</div>
+                  
+                </div>
 
-
-            <div className="relative w-[200px] h-[200px] md:w-[175px] md:h-[175px] bg-black/50 [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] flex justify-center items-center transition-all duration-300 hover:scale-105 hover:drop-shadow-[0_0_5px_rgba(0,255,255,0.2)]">
-              <div className="absolute inset-0 bg-[#00ffff] [clip-path:polygon(50%_0%,100%_25%,100%_calc(25%+50%*0.6),50%_calc(0%+100%*0.6),0%_calc(25%+50%*0.6),0%_25%)] opacity-10 z-0"></div>
-              <div className="absolute top-[3px] left-[3px] right-[3px] bottom-[3px] bg-black [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] z-[1]"></div>
-              <div className="relative z-[2] flex flex-col items-center justify-center text-center p-2.5">
-                <span className="text-sm md:text-lg text-white mb-1.5">Obsidian</span>
+                <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-transparent via-[#00ffff]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </div>
-            </div>
-
-            <div className="relative w-[200px] h-[200px] md:w-[175px] md:h-[175px] bg-black/50 [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] flex justify-center items-center transition-all duration-300 hover:scale-105 hover:drop-shadow-[0_0_5px_rgba(0,255,255,0.2)]">
-              <div className="absolute inset-0 bg-[#00ffff] [clip-path:polygon(50%_0%,100%_25%,100%_calc(25%+50%*0.6),50%_calc(0%+100%*0.6),0%_calc(25%+50%*0.6),0%_25%)] opacity-10 z-0"></div>
-              <div className="absolute top-[3px] left-[3px] right-[3px] bottom-[3px] bg-black [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] z-[1]"></div>
-              <div className="relative z-[2] flex flex-col items-center justify-center text-center p-2.5">
-                <span className="text-sm md:text-lg text-white mb-1.5">Markdown</span>
-              </div>
-            </div>
-
-            <div className="relative w-[200px] h-[200px] md:w-[175px] md:h-[175px] bg-black/50 [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] flex justify-center items-center transition-all duration-300 hover:scale-105 hover:drop-shadow-[0_0_5px_rgba(0,255,255,0.2)]">
-              <div className="absolute inset-0 bg-[#00ffff] [clip-path:polygon(50%_0%,100%_25%,100%_calc(25%+50%*0.7),50%_calc(0%+100%*0.7),0%_calc(25%+50%*0.7),0%_25%)] opacity-10 z-0"></div>
-              <div className="absolute top-[3px] left-[3px] right-[3px] bottom-[3px] bg-black [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] z-[1]"></div>
-              <div className="relative z-[2] flex flex-col items-center justify-center text-center p-2.5">
-                <span className="text-sm md:text-lg text-white mb-1.5">LaTeX</span>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
 
-        {/* AI Stack */}
-        <div className="bg-black/30 p-4 rounded border-l-2 border-[#ff4800]">
-          <h3 className="text-[#00ffff] my-4 text-xl tracking-wider">AI Stack</h3>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <div className="relative w-[200px] h-[200px] md:w-[175px] md:h-[175px] bg-black/50 [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] flex justify-center items-center transition-all duration-300 hover:scale-105 hover:drop-shadow-[0_0_5px_rgba(0,255,255,0.2)]">
-              <div className="absolute inset-0 bg-[#00ffff] [clip-path:polygon(50%_0%,100%_25%,100%_calc(25%+50%*1),50%_calc(0%+100%*1),0%_calc(25%+50%*1),0%_25%)] opacity-10 z-0"></div>
-              <div className="absolute top-[3px] left-[3px] right-[3px] bottom-[3px] bg-black [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] z-[1]"></div>
-              <div className="relative z-[2] flex flex-col items-center justify-center text-center p-2.5">
-                <span className="text-sm md:text-lg text-white mb-1.5">Gemini</span>
-              </div>
-            </div>
-
-            <div className="relative w-[200px] h-[200px] md:w-[175px] md:h-[175px] bg-black/50 [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] flex justify-center items-center transition-all duration-300 hover:scale-105 hover:drop-shadow-[0_0_5px_rgba(0,255,255,0.2)]">
-              <div className="absolute inset-0 bg-[#00ffff] [clip-path:polygon(50%_0%,100%_25%,100%_calc(25%+50%*0.6),50%_calc(0%+100%*0.6),0%_calc(25%+50%*0.6),0%_25%)] opacity-10 z-0"></div>
-              <div className="absolute top-[3px] left-[3px] right-[3px] bottom-[3px] bg-black [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] z-[1]"></div>
-              <div className="relative z-[2] flex flex-col items-center justify-center text-center p-2.5">
-                <span className="text-sm md:text-lg text-white mb-1.5">Claude</span>
-              </div>
-            </div>
-
-            <div className="relative w-[200px] h-[200px] md:w-[175px] md:h-[175px] bg-black/50 [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] flex justify-center items-center transition-all duration-300 hover:scale-105 hover:drop-shadow-[0_0_5px_rgba(0,255,255,0.2)]">
-              <div className="absolute inset-0 bg-[#00ffff] [clip-path:polygon(50%_0%,100%_25%,100%_calc(25%+50%*0.65),50%_calc(0%+100%*0.65),0%_calc(25%+50%*0.65),0%_25%)] opacity-10 z-0"></div>
-              <div className="absolute top-[3px] left-[3px] right-[3px] bottom-[3px] bg-black [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] z-[1]"></div>
-              <div className="relative z-[2] flex flex-col items-center justify-center text-center p-2.5">
-                <span className="text-sm md:text-lg text-white mb-1.5">Grok</span>
-              </div>
-            </div>
-
-            <div className="relative w-[200px] h-[200px] md:w-[175px] md:h-[175px] bg-black/50 [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] flex justify-center items-center transition-all duration-300 hover:scale-105 hover:drop-shadow-[0_0_5px_rgba(0,255,255,0.2)]">
-              <div className="absolute inset-0 bg-[#00ffff] [clip-path:polygon(50%_0%,100%_25%,100%_calc(25%+50%*0.35),50%_calc(0%+100%*0.35),0%_calc(25%+50%*0.35),0%_25%)] opacity-10 z-0"></div>
-              <div className="absolute top-[3px] left-[3px] right-[3px] bottom-[3px] bg-black [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] z-[1]"></div>
-              <div className="relative z-[2] flex flex-col items-center justify-center text-center p-2.5">
-                <span className="text-sm md:text-lg text-white mb-1.5">llama</span>
-              </div>
-            </div>
+        {/* Interests */}
+        <div className="space-y-5">
+          <div className="flex items-center gap-3">
+            <h3 className="text-[#00ffff] text-lg tracking-[0.2em] font-mono uppercase">INTERESTS</h3>
+            <div className="flex-1 h-px bg-gradient-to-r from-[#00ffff]/30 to-transparent"></div>
+            <div className="w-2 h-2 bg-[#00ffff] rounded-full animate-pulse"></div>
           </div>
-        </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              { name: "Robotics", field: "Hardware" },
+              { name: "Philosophy", field: "Theory" },
+              { name: "Literature", field: "Arts" },
+              { name: "MMA", field: "Sports" },
+            ].map((interest, index) => (
+              <div
+                key={interest.name}
+                className="group relative bg-black/30 border border-[#333] p-5 transition-all duration-300 hover:border-[#00ffff]/50 hover:bg-black/50 hover:shadow-[0_0_15px_rgba(0,255,255,0.1)]"
+              >
+                <div className="absolute top-0 right-0 w-3 h-3 border-t border-r border-[#00ffff]/30 group-hover:border-[#00ffff]/70 transition-colors duration-300"></div>
 
-        {/* Hobbies */}
-        <div className="bg-black/30 p-4 rounded border-l-2 border-[#ff4800]">
-          <h3 className="text-[#00ffff] my-4 text-xl tracking-wider">Hobbies</h3>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <div className="relative w-[200px] h-[200px] md:w-[175px] md:h-[175px] bg-black/50 [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] flex justify-center items-center transition-all duration-300 hover:scale-105 hover:drop-shadow-[0_0_5px_rgba(0,255,255,0.2)]">
-              <div className="absolute inset-0 bg-[#00ffff] [clip-path:polygon(50%_0%,100%_25%,100%_calc(25%+50%*1),50%_calc(0%+100%*1),0%_calc(25%+50%*1),0%_25%)] opacity-10 z-0"></div>
-              <div className="absolute top-[3px] left-[3px] right-[3px] bottom-[3px] bg-black [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] z-[1]"></div>
-              <div className="relative z-[2] flex flex-col items-center justify-center text-center p-2.5">
-                <span className="text-sm md:text-lg text-white mb-1.5">Robotics</span>
-              </div>
-            </div>
+                <div className="font-mono text-sm text-white tracking-wide mb-1">{interest.name}</div>
+                
 
-            <div className="relative w-[200px] h-[200px] md:w-[175px] md:h-[175px] bg-black/50 [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] flex justify-center items-center transition-all duration-300 hover:scale-105 hover:drop-shadow-[0_0_5px_rgba(0,255,255,0.2)]">
-              <div className="absolute inset-0 bg-[#00ffff] [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] opacity-10 z-0"></div>
-              <div className="absolute top-[3px] left-[3px] right-[3px] bottom-[3px] bg-black [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] z-[1]"></div>
-              <div className="relative z-[2] flex flex-col items-center justify-center text-center p-2.5">
-                <span className="text-sm md:text-lg text-white mb-1.5">Philosophy</span>
+                <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#ff4800] to-[#00ffff] group-hover:w-full transition-all duration-700"></div>
               </div>
-            </div>
-
-            <div className="relative w-[200px] h-[200px] md:w-[175px] md:h-[175px] bg-black/50 [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] flex justify-center items-center transition-all duration-300 hover:scale-105 hover:drop-shadow-[0_0_5px_rgba(0,255,255,0.2)]">
-              <div className="absolute inset-0 bg-[#00ffff] [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] opacity-10 z-0"></div>
-              <div className="absolute top-[3px] left-[3px] right-[3px] bottom-[3px] bg-black [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] z-[1]"></div>
-              <div className="relative z-[2] flex flex-col items-center justify-center text-center p-2.5">
-                <span className="text-sm md:text-lg text-white mb-1.5">Literature</span>
-              </div>
-            </div>
-
-            <div className="relative w-[200px] h-[200px] md:w-[175px] md:h-[175px] bg-black/50 [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] flex justify-center items-center transition-all duration-300 hover:scale-105 hover:drop-shadow-[0_0_5px_rgba(0,255,255,0.2)]">
-              <div className="absolute inset-0 bg-[#00ffff] [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] opacity-10 z-0"></div>
-              <div className="absolute top-[3px] left-[3px] right-[3px] bottom-[3px] bg-black [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)] z-[1]"></div>
-              <div className="relative z-[2] flex flex-col items-center justify-center text-center p-2.5">
-                <span className="text-sm md:text-lg text-white mb-1.5">MMA</span>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>

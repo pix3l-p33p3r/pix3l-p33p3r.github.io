@@ -11,8 +11,8 @@ const shareTechMono = Share_Tech_Mono({
 
 export const metadata: Metadata = {
   title: "pix3l_p33p3r Portfolio",
-  description: "pix3l_p33p3r Portfolio - showcase of projects, skills, and experience",
-  generator: "v0.dev",
+  description: "pix3l_p33p3r Portfolio ",
+  generator: ".",
 }
 
 export default function RootLayout({
