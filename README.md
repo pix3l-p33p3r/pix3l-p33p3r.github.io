@@ -15,13 +15,13 @@
 </a>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/git%20-%23F05033.svg?&style=for-the-badge&logo=git&logoColor=white" alt="Git">
-  <img src="https://img.shields.io/badge/c%20-%2300599C.svg?&style=for-the-badge&logo=c&logoColor=white" alt="C">
-  <img src="https://img.shields.io/badge/c++%20-%2300599C.svg?&style=for-the-badge&logo=c%2B%2B&logoColor=white" alt="C++">
-  <img src="https://img.shields.io/badge/linux-%23000000.svg?style=for-the-badge&logo=linux&logoColor=white" alt="Linux">
-  <img src="https://img.shields.io/badge/virtualization-%235D4F85.svg?style=for-the-badge&logo=virtualbox&logoColor=white" alt="Virtualization">
-  <img src="https://img.shields.io/badge/networking-%231F7B8D.svg?style=for-the-badge&logo=cisco&logoColor=white" alt="Networking">
-  <img src="https://img.shields.io/badge/docker%20-%230db7ed.svg?&style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
+  <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/design-mode-images/git%20-%2523F05033-o3neb4HXXE7BeYjMsJjehiRjARI9gK.svg" alt="Git">
+  <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/design-mode-images/c%20-%252300599C-J8UJD2Xs8Lw4Lo1mb9C4PnSDsIf4Fr.svg" alt="C">
+  <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/design-mode-images/c%2B%2B%20-%252300599C-AioV0drNDmHXS3DE2uWVTq5IwECXv9.svg" alt="C++">
+  <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/design-mode-images/linux-%2523000000-ogsUNPUIlkzl39vGjJ3SER6oyJANYj.svg" alt="Linux">
+  <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/design-mode-images/virtualization-%25235D4F85-YlOSP3hfKGb9sEZgiF5sMy32InbexK.svg" alt="Virtualization">
+  <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/design-mode-images/networking-%25231F7B8D-W5DnzpIA1vOMJifP6TdfBBCZo71QmD.svg" alt="Networking">
+  <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/design-mode-images/docker%20-%25230db7ed-YWvGm33NNTw2OxBLa4vEWJEO7u2zQF.svg" alt="Docker">
 </p>
 
 
@@ -33,19 +33,19 @@
   <p>
     <img src="https://img.shields.io/badge/-Python-3776AB?style=for-the-badge&logo=Python&logoColor=white" alt="Python">
     <img src="https://img.shields.io/badge/-lua-2C2D72?style=for-the-badge&logo=lua&logoColor=white" alt="Lua">
-    <img src="https://img.shields.io/badge/risc--v%20asm-%230073C7.svg?&style=for-the-badge&logo=riscv&logoColor=white" alt="RISC-V Assembly">
-    <img src="https://img.shields.io/badge/arm%20asm-%230097A6.svg?&style=for-the-badge&logo=arm&logoColor=white" alt="ARM Assembly">
-    <img src="https://img.shields.io/badge/haskell-%235D4F85.svg?&style=for-the-badge&logo=haskell&logoColor=white" alt="Haskell">
+    <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/design-mode-images/risc--v%20asm-%25230073C7-vskil6PlBj5vKXW17D16ayCUDMEs8C.svg" alt="RISC-V Assembly">
+    <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/design-mode-images/arm%20asm-%25230097A6-W2YNKs4rgHgDONThDTao6iKuPhpJU6.svg" alt="ARM Assembly">
+    <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/design-mode-images/haskell-%25235D4F85-sHtZKROaVpvr9NrXKI6dDAT3PPs1yX.svg" alt="Haskell">
     <img src="https://img.shields.io/badge/-bash-4EAA25?style=for-the-badge&logo=gnu-bash&logoColor=white" alt="Bash">
   </p>
 
   <h2>Hobbies</h2>
 
   <p>
-    <img width="50" height="50" src="https://upload.wikimedia.org/wikipedia/commons/f/fd/Open-source-hardware-logo.svg" alt="Open Source Hardware">
+    <img width="50" height="50" src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/design-mode-images/Open-source-hardware-logo-I5S3ZnIGOAUru5PDFxxdKa24YX7HQt.svg" alt="Open Source Hardware">
     <img src="https://img.shields.io/badge/-Arduino-00979D?style=for-the-badge&logo=Arduino&logoColor=white" alt="Arduino">
     <img src="https://img.shields.io/badge/-Raspberry%20Pi-C51A4A?style=for-the-badge&logo=Raspberry-Pi" alt="Raspberry Pi">
-    <img width="90" src="https://upload.wikimedia.org/wikipedia/commons/5/59/KiCad-Logo.svg" alt="Electronics/KiCad">
+    <img width="90" src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/design-mode-images/KiCad-Logo-WchuFl0H4aqjnBaEELbP37FFbpvA8J.svg" alt="Electronics/KiCad">
   </p>
 
   <h2>IDE/Notes</h2>
@@ -53,8 +53,8 @@
   <p>
     <img alt="Neovim" src="https://img.shields.io/badge/Neovim-57A143?style=for-the-badge&logo=neovim&logoColor=white">
     <img alt="Obsidian" src="https://img.shields.io/badge/Obsidian-000000?style=for-the-badge&logo=obsidian&logoColor=white">
-    <img alt="LaTeX" src="https://img.shields.io/badge/latex-%23008080.svg?&style=for-the-badge&logo=latex&logoColor=white">
-    <img alt="Markdown" src="https://img.shields.io/badge/markdown-%23000000.svg?&style=for-the-badge&logo=markdown&logoColor=white">
+    <img alt="LaTeX" src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/design-mode-images/latex-%2523008080-Zd1ecNToSC4PJABG4nOLrICXbwTCoC.svg">
+    <img alt="Markdown" src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/design-mode-images/markdown-%2523000000-tKkxElrzGGibAWd8JAu8YpR257SD3i.svg">
   </p>
 
 
@@ -62,23 +62,23 @@
   <h2>Currently Experementing with</h2>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/CUDA-%2361B327.svg?style=for-the-badge&logo=nvidia&logoColor=white" alt="CUDA">
+  <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/design-mode-images/CUDA-%252361B327-gQa49mJOk8mmsS4kse2b2GMFOHB7zT.svg" alt="CUDA">
   <a href="https://img.shields.io/badge/Zig-%23F7A41D.svg?style=for-the-badge&logo=zig&logoColor=white">
-    <img src="https://img.shields.io/badge/Zig-%23F7A41D.svg?style=for-the-badge&logo=zig&logoColor=white" alt="Zig">
+    <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/design-mode-images/Zig-%2523F7A41D-klhKSO1zJbG1RvLQ9DWlfK8bAqxaLI.svg" alt="Zig">
   </a>
   <a href="https://img.shields.io/badge/rust-%23000000.svg?style=for-the-badge&logo=rust&logoColor=white">
-    <img src="https://img.shields.io/badge/rust-%23000000.svg?style=for-the-badge&logo=rust&logoColor=white" alt="Rust">
+    <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/design-mode-images/rust-%2523000000-H45HyA2OPRknMWDOfPqhINLU5NbRcb.svg" alt="Rust">
   </a>
-  <img src="https://img.shields.io/badge/Go-%2300ADD8.svg?style=for-the-badge&logo=go&logoColor=white" alt="Go">
+  <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/design-mode-images/Go-%252300ADD8-RAuj9O60UZkcRmiO5nWxx8gePlxDK6.svg" alt="Go">
 </p>
   <h2>Contact Me</h2>
 
   <p>
     <a href="https://x.com/PiX3L_P33P3R">
-      <img src="https://img.shields.io/badge/X-%23000000.svg?style=flat&logo=X&logoColor=white" alt="X.com">
+      <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/design-mode-images/X-%2523000000-xF0H3aFAQPJmHjeqWqgiRkzdmXoA4U.svg" alt="X.com">
     </a>
     <a href="https://discordapp.com/users/YOUR_USER_ID">
-      <img src="https://img.shields.io/badge/Discord-%237289DA.svg?style=flat&logo=discord&logoColor=white" alt="Discord">
+      <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/design-mode-images/Discord-%25237289DA-K7qHl31Uz4kAF7jJMCPJuGf5412Eax.svg" alt="Discord">
     </a>
     <a href="mailto:elel-yak@student.1337.ma">
       <img src="https://img.shields.io/badge/Email-D14836?style=flat&logo=gmail&logoColor=white" alt="Email">

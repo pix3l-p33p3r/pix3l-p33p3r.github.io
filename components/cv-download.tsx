@@ -16,7 +16,7 @@ export default function CVDownload() {
 
       // Create a link element and trigger download
       const link = document.createElement("a")
-      link.href = "/cv/pix3l_p33p3r_resume.pdf"
+      link.href = "/public/cv/pix3l_p33p3r_resume.pdf"
       link.download = "PIXEL-PEEPER_RESUMER.pdf"
       document.body.appendChild(link)
       link.click()
