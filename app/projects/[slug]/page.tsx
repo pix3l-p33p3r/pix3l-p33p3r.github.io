@@ -79,5 +79,3 @@ export default function ProjectPage({ params }: PageProps) {
     </div>
   )
 }
-
-
