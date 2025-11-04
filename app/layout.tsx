@@ -18,6 +18,28 @@ export const metadata: Metadata = {
   keywords: ["developer", "portfolio", "cyberpunk", "hardware", "programming", "1337"],
   authors: [{ name: "pix3l_p33p3r" }],
   creator: "pix3l_p33p3r",
+  openGraph: {
+    title: "pix3l_p33p3r Portfolio",
+    description: "Cyberpunk-themed portfolio showcasing projects in systems, hardware, and DevSecOps.",
+    url: "https://pix3l-p33p3r.github.io/",
+    siteName: "pix3l_p33p3r",
+    images: [
+      {
+        url: "/placeholder-logo.png",
+        width: 1200,
+        height: 630,
+        alt: "pix3l_p33p3r Portfolio",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "pix3l_p33p3r Portfolio",
+    description: "Cyberpunk-themed portfolio showcasing projects in systems, hardware, and DevSecOps.",
+    images: ["/placeholder-logo.png"],
+  },
 }
 
 export default function RootLayout({
@@ -42,6 +64,8 @@ export default function RootLayout({
         </Script>
       </head>
       <body className={`${shareTechMono.className} bg-black text-white overflow-hidden relative leading-relaxed`}>
+        {/* Skip to content for keyboard users */}
+        <a href="#main-content" className="skip-link">Skip to content</a>
         {/* CRT Scanline Effect */}
         <div className="fixed inset-0 bg-scanline pointer-events-none z-50 animate-scanline"></div>
         {/* CRT Flicker Effect */}

@@ -16,7 +16,7 @@ export default function Home() {
     <div className="grid grid-cols-1 md:grid-cols-[1fr_1fr] grid-rows-[80px_auto_auto_md:1fr_80px] md:grid-rows-[80px_1fr_80px] h-screen p-2.5 gap-2.5">
       <Header />
 
-      <main className="col-span-1 row-span-1 relative border border-[#333] bg-[rgba(20,20,20,0.7)] flex justify-center items-center overflow-hidden shadow-inner shadow-black/50 min-h-[300px] md:min-h-0">
+      <main id="main-content" className="col-span-1 row-span-1 relative border border-[#333] bg-[rgba(20,20,20,0.7)] flex justify-center items-center overflow-hidden shadow-inner shadow-black/50 min-h-[300px] md:min-h-0">
         <SphereVisualization />
         <TargetCross />
         <GridLines />
@@ -33,8 +33,7 @@ export default function Home() {
 
       <aside className="col-span-1 row-span-1 border border-[#333] bg-[rgba(20,20,20,0.7)] p-4 overflow-hidden relative shadow-inner shadow-black/50">
         <div
-          className="h-full overflow-y-auto pr-1.5 [&::-webkit-scrollbar]:hidden"
-          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+          className="h-full overflow-y-auto pr-1.5"
         >
           <Projects />
           <Skills />
