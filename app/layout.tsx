@@ -62,8 +62,9 @@ export default function RootLayout({
             });
           `}
         </Script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
       </head>
-      <body className={`${shareTechMono.className} bg-black text-white overflow-hidden relative leading-relaxed`}>
+      <body className={`${shareTechMono.className} bg-black text-white overflow-x-hidden relative leading-relaxed`}>
         {/* Skip to content for keyboard users */}
         <a href="#main-content" className="skip-link">Skip to content</a>
         {/* CRT Scanline Effect */}

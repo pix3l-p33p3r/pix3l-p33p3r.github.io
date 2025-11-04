@@ -1,0 +1,22 @@
+---
+title: Hello World
+date: 2025-11-04
+summary: First post with Mermaid and Graphviz.
+tags: [intro, diagrams]
+ogImage: /placeholder.jpg
+---
+
+import Mermaid from "@/components/mermaid";
+import Graphviz from "@/components/graphviz";
+
+# Hello World
+
+Here’s a Mermaid diagram:
+
+<Mermaid chart={`graph TD; A-->B; B-->C; C-->A;`} />
+
+And a Graphviz DOT diagram:
+
+<Graphviz dot={`digraph G { A -> B; B -> C; C -> A; }`} />
+
+

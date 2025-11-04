@@ -21,6 +21,15 @@
 }
 
 @layer components {
+  /* Blog content helpers for responsive diagrams and code */
+  .blog-content svg {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+  .blog-content pre {
+    overflow-x: auto;
+  }
   /* Skip link - visible on focus */
   .skip-link {
     position: absolute;
