@@ -20,5 +20,3 @@ export default function Graphviz({ dot }: { dot: string }) {
   }, [dot])
   return <div ref={ref} className="overflow-x-auto" />
 }
-
-

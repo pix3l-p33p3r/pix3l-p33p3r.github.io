@@ -5,9 +5,7 @@ import remarkGfm from "remark-gfm"
 import remarkMath from "remark-math"
 import rehypeKatex from "rehype-katex"
 import rehypePrettyCode from "rehype-pretty-code"
-import dynamic from "next/dynamic"
-const Mermaid = dynamic(() => import("@/components/mermaid"), { ssr: false })
-const Graphviz = dynamic(() => import("@/components/graphviz"), { ssr: false })
+import BlogContentClient, { Mermaid, Graphviz } from "./blog-content-client"
 import { getAllPosts, getPostSource } from "@/lib/blog"
 
 type PageProps = { params: { slug: string } }
@@ -27,7 +25,12 @@ export function generateMetadata({ params }: PageProps): Metadata {
     title,
     description: post.summary ?? undefined,
     alternates: { canonical: url },
-    openGraph: { title, description: post.summary ?? undefined, url, images: [{ url: image, width: 1200, height: 630 }] },
+    openGraph: {
+      title,
+      description: post.summary ?? undefined,
+      url,
+      images: [{ url: image, width: 1200, height: 630 }],
+    },
     twitter: { card: "summary_large_image", title, description: post.summary ?? undefined, images: [image] },
   }
 }
@@ -41,10 +44,7 @@ export default async function BlogPost({ params }: PageProps) {
     options: {
       mdxOptions: {
         remarkPlugins: [remarkGfm, remarkMath],
-        rehypePlugins: [
-          rehypeKatex,
-          [rehypePrettyCode, { theme: "one-dark-pro" }],
-        ],
+        rehypePlugins: [rehypeKatex, [rehypePrettyCode, { theme: "one-dark-pro" }]],
       },
     },
   })
@@ -56,12 +56,8 @@ export default async function BlogPost({ params }: PageProps) {
       <article className="w-full max-w-full md:max-w-3xl mx-auto bg-black/60 border border-[#333] p-4 md:p-5 blog-content">
         <h1 className="text-3xl md:text-4xl text-[#ff4800] tracking-wider mb-2">{meta.title}</h1>
         {meta.date ? <p className="text-white/50 text-sm">{new Date(meta.date).toDateString()}</p> : null}
-        <div className="mt-4">
-          {content}
-        </div>
+        <BlogContentClient content={content} />
       </article>
     </main>
   )
 }
-
-

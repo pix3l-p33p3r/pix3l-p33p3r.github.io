@@ -43,5 +43,3 @@ export default function Mermaid({ chart }: { chart: string }) {
 
   return <div ref={containerRef} className="overflow-x-auto" />
 }
-
-
