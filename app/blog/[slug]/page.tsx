@@ -5,8 +5,9 @@ import remarkGfm from "remark-gfm"
 import remarkMath from "remark-math"
 import rehypeKatex from "rehype-katex"
 import rehypePrettyCode from "rehype-pretty-code"
-import Mermaid from "@/components/mermaid"
-import Graphviz from "@/components/graphviz"
+import dynamic from "next/dynamic"
+const Mermaid = dynamic(() => import("@/components/mermaid"), { ssr: false })
+const Graphviz = dynamic(() => import("@/components/graphviz"), { ssr: false })
 import { getAllPosts, getPostSource } from "@/lib/blog"
 
 type PageProps = { params: { slug: string } }
