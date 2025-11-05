@@ -1,13 +1,19 @@
 "use client"
 import { trackContactClick } from "@/lib/analytics"
+import { isValidUrl } from "@/lib/security"
 
 export default function Contact() {
   const handleContactClick = (platform: string, url: string) => {
+    if (!isValidUrl(url)) {
+      console.error("[v0] Invalid URL detected, blocking navigation")
+      return
+    }
+
     // Track the click
     trackContactClick(platform)
-    console.log(`📊 Analytics: ${platform} contact click tracked`)
+    console.log(`Analytics: ${platform} contact click tracked`)
 
-    // Open the link
+    // Open the link with security attributes
     window.open(url, "_blank", "noopener,noreferrer")
   }
 
