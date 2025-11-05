@@ -8,7 +8,6 @@ export default function About() {
   const [isHovering, setIsHovering] = useState(false)
   const terminalRef = useRef<HTMLDivElement>(null)
   const outputRef = useRef<HTMLDivElement>(null)
-  const audioRef = useRef<HTMLAudioElement | null>(null)
 
   // Original commands array
   const commands = [
@@ -33,17 +32,6 @@ export default function About() {
 
   // Combine all text for accessibility
   const fullText = commands.map((cmd) => `${cmd.prompt} ${cmd.output}`).join(" ")
-
-  // Initialize typing sound
-  useEffect(() => {
-    audioRef.current = new Audio(
-      "data:audio/wav;base64,UklGRl9vAABXQVZF Zm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YV9vAABzdHlyAQAAAAAAAAAAAAAAAAAA",
-    )
-    audioRef.current.volume = 0.42
-    return () => {
-      audioRef.current?.pause()
-    }
-  }, [])
 
   // Typing effect
   useEffect(() => {
@@ -76,10 +64,6 @@ export default function About() {
     if (charIndex < fullCommandText.length) {
       const timer = setTimeout(() => {
         if (outputRef.current) {
-          if (audioRef.current && fullCommandText[charIndex] !== "\n") {
-            audioRef.current.currentTime = 0
-            audioRef.current.play().catch(() => {})
-          }
           const currentText = fullCommandText.substring(0, charIndex + 1)
           const lines = currentText.split("\n")
           const html = lines
