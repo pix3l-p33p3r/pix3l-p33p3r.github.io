@@ -38,7 +38,12 @@ export async function getAllPosts(): Promise<PostMeta[]> {
 export async function getPostSource(slug: string): Promise<{ source: string; meta: PostMeta }> {
   const mdFile = path.join(BLOG_DIR, `${slug}.md`)
   const mdxFile = path.join(BLOG_DIR, `${slug}.mdx`)
-  const file = fs.existsSync(mdxFile) ? mdxFile : mdFile
+  const file = fs.existsSync(mdxFile) ? mdxFile : fs.existsSync(mdFile) ? mdFile : null
+
+  if (!file) {
+    throw new Error(`Blog post not found: ${slug}`)
+  }
+
   const raw = fs.readFileSync(file, "utf8")
   const { content, data } = matter(raw)
   return {
