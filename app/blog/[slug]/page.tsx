@@ -11,12 +11,14 @@ import { getAllPosts, getPostSource } from "@/lib/blog"
 
 type PageProps = { params: { slug: string } }
 
-export function generateStaticParams() {
-  return getAllPosts().map((p) => ({ slug: p.slug }))
+export async function generateStaticParams() {
+  const posts = await getAllPosts()
+  return posts.map((p) => ({ slug: p.slug }))
 }
 
-export function generateMetadata({ params }: PageProps): Metadata {
-  const post = getAllPosts().find((p) => p.slug === params.slug)
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const posts = await getAllPosts()
+  const post = posts.find((p) => p.slug === params.slug)
   if (!post) return {}
   const title = `${post.title} — pix3l_p33p3r`
   const base = "https://www.pixel-peeper.me"
