@@ -6,6 +6,7 @@ import remarkMath from "remark-math"
 import rehypeKatex from "rehype-katex"
 import rehypePrettyCode from "rehype-pretty-code"
 import BlogContentClient, { Mermaid, Graphviz } from "./blog-content-client"
+import { BlogPostAnalytics } from "./blog-post-analytics"
 import { getAllPosts, getPostSource } from "@/lib/blog"
 
 type PageProps = { params: { slug: string } }
@@ -53,6 +54,8 @@ export default async function BlogPost({ params }: PageProps) {
 
   return (
     <main className="p-4 md:p-6">
+      <BlogPostAnalytics slug={params.slug} title={meta.title} />
+
       <article className="w-full max-w-full md:max-w-3xl mx-auto bg-black/60 border border-[#333] p-4 md:p-5 blog-content">
         <h1 className="text-3xl md:text-4xl text-[#ff4800] tracking-wider mb-2">{meta.title}</h1>
         {meta.date ? <p className="text-white/50 text-sm">{new Date(meta.date).toDateString()}</p> : null}

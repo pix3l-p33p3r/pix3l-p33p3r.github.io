@@ -1,10 +1,17 @@
+"use client"
+
+import { useEffect } from "react"
 import Link from "next/link"
 import { getAllPosts } from "@/lib/blog"
-
-export const metadata = { title: "Blog — pix3l_p33p3r" }
+import { trackBlogListView } from "@/lib/analytics"
 
 export default function BlogIndex() {
+  useEffect(() => {
+    trackBlogListView()
+  }, [])
+
   const posts = getAllPosts()
+
   return (
     <main className="p-4 md:p-6">
       <h1 className="text-3xl text-[#ff4800] mb-4">Blog</h1>
