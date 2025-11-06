@@ -1,16 +1,13 @@
-"use client"
-
-import { useEffect } from "react"
 import Link from "next/link"
 import { getAllPosts } from "@/lib/blog"
-import { trackBlogListView } from "@/lib/analytics"
 
-export default function BlogIndex() {
-  useEffect(() => {
-    trackBlogListView()
-  }, [])
+export const metadata = {
+  title: "Blog | pix3l_p33p3r",
+  description: "Technical articles and insights",
+}
 
-  const posts = getAllPosts()
+export default async function BlogIndex() {
+  const posts = await getAllPosts()
 
   return (
     <main className="p-4 md:p-6">
