@@ -9,20 +9,18 @@ export default function About() {
   const terminalRef = useRef<HTMLDivElement>(null)
   const outputRef = useRef<HTMLDivElement>(null)
 
-  // Original commands array
   const commands = [
     {
       prompt: "> whoami:",
-      output: "Yo, I'm @PiX3L_P33P3R, a UM6P/1337 student",
+      output: "Pixel Peeper // @PiX3L_P33P3R | DevSecOps | 1337/UM6P",
     },
     {
       prompt: "> cat bio.txt",
-      output:
-        "A hardcore passion for tech, coding, and building dope stuff! A general jack of all trades (master of some, more to come), diving into everything from gritty assembly to slick scripting. I live for tinkering with hardware and software, always chasing the next big challenge to create something epic.",
+      output: "Vault + K3s. Dynamic creds, rotating PKI, GitOps. Hardened clusters, not vibes.",
     },
     {
       prompt: "> skills",
-      output: "Assembly, Python, JavaScript, C, and more in the works!",
+      output: "Vault · K3s · Docker · Python · C/C++ · Zig · SAST/DAST · EN fluent / FR professional / AR native",
     },
     {
       prompt: "> echo $STATUS",
