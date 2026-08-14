@@ -1,11 +1,14 @@
 {
-  "name": "my-v0-project",
+  "name": "pixel-peeper-portfolio",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@10.33.3",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "build": "next build",
     "dev": "next dev",
-    "export": "next build && next export",
     "lint": "next lint",
     "start": "next start"
   },
