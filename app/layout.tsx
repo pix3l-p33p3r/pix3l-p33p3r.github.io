@@ -3,6 +3,7 @@ import "./globals.css"
 import type { Metadata } from "next"
 import { Share_Tech_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/react"
+import { SITE_NAME, SITE_URL } from "@/lib/site"
 
 const shareTechMono = Share_Tech_Mono({
   weight: "400",
@@ -11,24 +12,25 @@ const shareTechMono = Share_Tech_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "pix3l_p33p3r Portfolio",
-  description: "pix3l_p33p3r Portfolio - Cyberpunk Developer & Hardware Enthusiast",
+  metadataBase: new URL(SITE_URL),
+  title: `${SITE_NAME} Portfolio`,
+  description: `${SITE_NAME} Portfolio - Cyberpunk Developer & Hardware Enthusiast`,
   generator: "Next.js",
   keywords: ["developer", "portfolio", "cyberpunk", "hardware", "programming", "1337"],
-  authors: [{ name: "pix3l_p33p3r" }],
-  creator: "pix3l_p33p3r",
+  authors: [{ name: SITE_NAME }],
+  creator: SITE_NAME,
   referrer: "strict-origin-when-cross-origin",
   openGraph: {
-    title: "pix3l_p33p3r Portfolio",
+    title: `${SITE_NAME} Portfolio`,
     description: "Cyberpunk-themed portfolio showcasing projects in systems, hardware, and DevSecOps.",
-    url: "https://pix3l-p33p3r.github.io/",
-    siteName: "pix3l_p33p3r",
+    url: SITE_URL,
+    siteName: SITE_NAME,
     images: [
       {
         url: "/placeholder-logo.png",
         width: 1200,
         height: 630,
-        alt: "pix3l_p33p3r Portfolio",
+        alt: `${SITE_NAME} Portfolio`,
       },
     ],
     locale: "en_US",
@@ -36,7 +38,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "pix3l_p33p3r Portfolio",
+    title: `${SITE_NAME} Portfolio`,
     description: "Cyberpunk-themed portfolio showcasing projects in systems, hardware, and DevSecOps.",
     images: ["/placeholder-logo.png"],
   },
