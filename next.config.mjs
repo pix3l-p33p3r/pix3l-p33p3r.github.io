@@ -1,8 +1,8 @@
 const isGitHubPages = process.env.GITHUB_PAGES === "1"
+const isVercel = process.env.VERCEL === "1"
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  ...(isGitHubPages ? { output: "export", trailingSlash: true } : {}),
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -56,6 +56,13 @@ const nextConfig = {
       },
     ]
   },
+}
+
+// Pages-only static export. Never set this on Vercel (VERCEL=1) or the
+// platform looks for ./out / export-detail.json and the deploy fails.
+if (isGitHubPages && !isVercel) {
+  nextConfig.output = "export"
+  nextConfig.trailingSlash = true
 }
 
 export default nextConfig
