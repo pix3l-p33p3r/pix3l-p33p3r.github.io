@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "pix3l_p33p3r Portfolio",
     description: "Cyberpunk-themed portfolio showcasing projects in systems, hardware, and DevSecOps.",
-    url: "https://pix3l-p33p3r.github.io/",
+    url: "https://pixel-peeper.tech/",
     siteName: "pix3l_p33p3r",
     images: [
       {

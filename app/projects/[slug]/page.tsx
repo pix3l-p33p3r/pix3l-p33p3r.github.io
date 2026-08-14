@@ -13,7 +13,7 @@ export function generateMetadata({ params }: PageProps): Metadata {
   const project = getProjectBySlug(params.slug)
   const title = project ? `${project.title} — pix3l_p33p3r` : "Project — pix3l_p33p3r"
   const description = project?.summary ?? "Project details"
-  const base = "https://www.pixel-peeper.me"
+  const base = "https://pixel-peeper.tech"
   const url = `${base}/projects/${params.slug}`
   const image = project?.ogImage ?? "/placeholder.jpg"
 

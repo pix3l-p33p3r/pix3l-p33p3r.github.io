@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     const { meta } = await getPostSource(params.slug)
     if (!meta) return {}
     const title = `${meta.title} — pix3l_p33p3r`
-    const base = "https://www.pixel-peeper.me"
+    const base = "https://pixel-peeper.tech"
     const url = `${base}/blog/${meta.slug}`
     const image = meta.ogImage ?? "/placeholder.jpg"
     return {
