@@ -3,6 +3,7 @@ import "./globals.css"
 import type { Metadata } from "next"
 import { Share_Tech_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/react"
+import { SITE_URL } from "@/lib/site"
 
 const shareTechMono = Share_Tech_Mono({
   weight: "400",
@@ -11,17 +12,28 @@ const shareTechMono = Share_Tech_Mono({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "pix3l_p33p3r Portfolio",
-  description: "pix3l_p33p3r Portfolio - Cyberpunk Developer & Hardware Enthusiast",
+  description:
+    "El Houcine El Yakoubi (@PiX3L_P33P3R) — DevSecOps & Infrastructure Security Architect. Vault, Kubernetes, AI-driven pentesting. 1337 / UM6P.",
   generator: "Next.js",
-  keywords: ["developer", "portfolio", "cyberpunk", "hardware", "programming", "1337"],
-  authors: [{ name: "pix3l_p33p3r" }],
+  keywords: [
+    "DevSecOps",
+    "infrastructure security",
+    "Vault",
+    "Kubernetes",
+    "portfolio",
+    "cyberpunk",
+    "1337",
+    "pix3l_p33p3r",
+  ],
+  authors: [{ name: "El Houcine El Yakoubi", url: SITE_URL }],
   creator: "pix3l_p33p3r",
   referrer: "strict-origin-when-cross-origin",
   openGraph: {
     title: "pix3l_p33p3r Portfolio",
-    description: "Cyberpunk-themed portfolio showcasing projects in systems, hardware, and DevSecOps.",
-    url: "https://pix3l-p33p3r.github.io/",
+    description: "DevSecOps & Infrastructure Security Architect. Vault on K3s, dynamic creds, PCI-DSS / ISO 27017.",
+    url: SITE_URL,
     siteName: "pix3l_p33p3r",
     images: [
       {
@@ -37,7 +49,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "pix3l_p33p3r Portfolio",
-    description: "Cyberpunk-themed portfolio showcasing projects in systems, hardware, and DevSecOps.",
+    description: "DevSecOps & Infrastructure Security Architect. Vault on K3s, dynamic creds, PCI-DSS / ISO 27017.",
+    creator: "@PiX3L_P33P3R",
     images: ["/placeholder-logo.png"],
   },
 }

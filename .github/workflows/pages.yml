@@ -39,6 +39,8 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build static site
+        env:
+          GITHUB_PAGES: "1"
         run: pnpm build
 
       - name: Upload artifact

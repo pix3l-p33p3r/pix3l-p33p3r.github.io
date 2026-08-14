@@ -8,6 +8,7 @@ import rehypePrettyCode from "rehype-pretty-code"
 import BlogContentClient, { Mermaid, Graphviz } from "./blog-content-client"
 import { BlogPostAnalytics } from "./blog-post-analytics"
 import { getAllPosts, getPostSource } from "@/lib/blog"
+import { SITE_URL } from "@/lib/site"
 
 type PageProps = { params: { slug: string } }
 
@@ -21,8 +22,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     const { meta } = await getPostSource(params.slug)
     if (!meta) return {}
     const title = `${meta.title} — pix3l_p33p3r`
-    const base = "https://www.pixel-peeper.me"
-    const url = `${base}/blog/${meta.slug}`
+    const url = `${SITE_URL}/blog/${meta.slug}`
     const image = meta.ogImage ?? "/placeholder.jpg"
     return {
       title,

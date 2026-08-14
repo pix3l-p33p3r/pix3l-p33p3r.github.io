@@ -1,5 +1,8 @@
+const isGitHubPages = process.env.GITHUB_PAGES === "1"
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  ...(isGitHubPages ? { output: "export", trailingSlash: true } : {}),
   eslint: {
     ignoreDuringBuilds: true,
   },

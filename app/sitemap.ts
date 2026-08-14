@@ -1,8 +1,9 @@
 import type { MetadataRoute } from "next"
 import { projects } from "@/lib/projects"
+import { SITE_URL } from "@/lib/site"
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://pix3l-p33p3r.github.io"
+  const baseUrl = SITE_URL
 
   const entries: MetadataRoute.Sitemap = [
     {

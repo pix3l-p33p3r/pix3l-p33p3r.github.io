@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 import { getProjectBySlug, projects } from "@/lib/projects"
+import { SITE_URL } from "@/lib/site"
 
 type PageProps = { params: { slug: string } }
 
@@ -13,8 +14,7 @@ export function generateMetadata({ params }: PageProps): Metadata {
   const project = getProjectBySlug(params.slug)
   const title = project ? `${project.title} — pix3l_p33p3r` : "Project — pix3l_p33p3r"
   const description = project?.summary ?? "Project details"
-  const base = "https://www.pixel-peeper.me"
-  const url = `${base}/projects/${params.slug}`
+  const url = `${SITE_URL}/projects/${params.slug}`
   const image = project?.ogImage ?? "/placeholder.jpg"
 
   return {

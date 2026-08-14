@@ -25,7 +25,7 @@ export default function Contact() {
 
       <div className="flex flex-col gap-4 w-full mb-10">
         <button
-          onClick={() => handleContactClick("Email", "mailto:pix3l-p33p3r@proton.me")}
+          onClick={() => handleContactClick("Email", "mailto:elyakoubielhoucine07@gmail.com")}
           className="bg-black/30 border border-[#333] p-4 px-5 rounded-lg flex items-center transition-all duration-300 relative overflow-hidden w-full cursor-pointer before:content-[''] before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:bg-[#00ffff] before:opacity-0 before:transition-opacity before:duration-300 hover:border-[#00ffff] hover:bg-[rgba(0,255,255,0.08)] hover:translate-x-[3px] hover:shadow-md hover:before:opacity-100"
         >
           <div className="flex items-center justify-between w-full gap-4">

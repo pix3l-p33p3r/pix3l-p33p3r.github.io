@@ -9,20 +9,20 @@ export default function About() {
   const terminalRef = useRef<HTMLDivElement>(null)
   const outputRef = useRef<HTMLDivElement>(null)
 
-  // Original commands array
   const commands = [
     {
       prompt: "> whoami:",
-      output: "Yo, I'm @PiX3L_P33P3R, a UM6P/1337 student",
+      output:
+        "El Houcine El Yakoubi // @PiX3L_P33P3R | DevSecOps & Infra Security Architect | 1337/UM6P Ben Guerir · RNCP L7 · ETA 2027",
     },
     {
       prompt: "> cat bio.txt",
       output:
-        "A hardcore passion for tech, coding, and building dope stuff! A general jack of all trades (master of some, more to come), diving into everything from gritty assembly to slick scripting. I live for tinkering with hardware and software, always chasing the next big challenge to create something epic.",
+        "DevSecOps with scars from sovereign-cloud K3s: Vault Agent sidecars, dynamic Postgres creds, PKI that actually rotates. LLM-driven pentest pipelines. PCI-DSS / ISO 27017. Not a jack of all trades — just the ones that leak if you get them wrong.",
     },
     {
       prompt: "> skills",
-      output: "Assembly, Python, JavaScript, C, and more in the works!",
+      output: "Vault · K8s/K3s · Docker · Python · C/C++ · Zig · SAST/DAST · OpenSCAP · EN fluent / AR native",
     },
     {
       prompt: "> echo $STATUS",
