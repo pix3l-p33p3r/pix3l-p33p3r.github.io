@@ -49,6 +49,8 @@ export default function SphereVisualization() {
     let frameId = 0
     let renderer: RenderBackend | null = null
     let handleResize: (() => void) | null = null
+    let handleMotion: (() => void) | null = null
+    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
     const disposables: Array<{ dispose: () => void }> = []
 
     const start = async () => {
@@ -108,8 +110,7 @@ export default function SphereVisualization() {
 
       disposables.push(geometry, wireframe, lineMaterial, innerMaterial, particleGeometry, particleMaterial)
 
-      const animate = () => {
-        frameId = requestAnimationFrame(animate)
+      const tick = () => {
         sphereGroup.rotation.x += 0.002
         sphereGroup.rotation.y += 0.004
         const pulseScale = 0.95 + 0.03 * Math.sin(Date.now() * 0.001)
@@ -119,6 +120,25 @@ export default function SphereVisualization() {
         }
         renderer?.render(scene, camera)
       }
+
+      const animate = () => {
+        if (motionQuery.matches) {
+          renderer?.render(scene, camera)
+          return
+        }
+        frameId = requestAnimationFrame(animate)
+        tick()
+      }
+
+      handleMotion = () => {
+        cancelAnimationFrame(frameId)
+        if (motionQuery.matches) {
+          renderer?.render(scene, camera)
+          return
+        }
+        animate()
+      }
+      motionQuery.addEventListener("change", handleMotion)
       animate()
 
       handleResize = () => {
@@ -138,6 +158,7 @@ export default function SphereVisualization() {
       cancelled = true
       cancelAnimationFrame(frameId)
       if (handleResize) window.removeEventListener("resize", handleResize)
+      if (handleMotion) motionQuery.removeEventListener("change", handleMotion)
       if (renderer?.domElement.parentNode === container) {
         container.removeChild(renderer.domElement)
       }
