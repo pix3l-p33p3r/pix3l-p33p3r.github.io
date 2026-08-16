@@ -1,9 +1,9 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import * as THREE from "three"
 import { useMobile } from "@/hooks/use-mobile"
-import { detectGpu } from "@/lib/gpu"
+import { requestWebGpuAdapter, withTimeout } from "@/lib/gpu"
 
 type RenderBackend = {
   setSize: (width: number, height: number) => void
@@ -12,21 +12,9 @@ type RenderBackend = {
   domElement: HTMLCanvasElement
 }
 
-async function createRenderer(): Promise<RenderBackend> {
-  const gpu = detectGpu()
+const WEBGPU_INIT_MS = 2000
 
-  if (gpu.webgpu) {
-    try {
-      const { WebGPURenderer } = await import("three/webgpu")
-      const renderer = new WebGPURenderer({ antialias: true, alpha: true })
-      await renderer.init()
-      renderer.setClearColor(0x000000, 0)
-      return renderer
-    } catch {
-      // Fall through to WebGL — WebGPU adapter can exist and still fail to init.
-    }
-  }
-
+function createWebGLRenderer(): RenderBackend {
   const renderer = new THREE.WebGLRenderer({
     antialias: true,
     alpha: true,
@@ -37,9 +25,30 @@ async function createRenderer(): Promise<RenderBackend> {
   return renderer
 }
 
+async function createWebGPURenderer(): Promise<RenderBackend> {
+  const { WebGPURenderer } = await import("three/webgpu")
+  const renderer = new WebGPURenderer({ antialias: true, alpha: true })
+  await withTimeout(Promise.resolve(renderer.init()), WEBGPU_INIT_MS)
+  renderer.setClearColor(0x000000, 0)
+  return renderer
+}
+
+async function createRenderer(): Promise<RenderBackend> {
+  try {
+    return createWebGLRenderer()
+  } catch {
+    const hasAdapter = await requestWebGpuAdapter()
+    if (!hasAdapter) {
+      throw new Error("WebGL failed and no WebGPU adapter")
+    }
+    return createWebGPURenderer()
+  }
+}
+
 export default function SphereVisualization() {
   const containerRef = useRef<HTMLDivElement>(null)
   const isMobile = useMobile()
+  const [ready, setReady] = useState(false)
 
   useEffect(() => {
     const container = containerRef.current
@@ -54,14 +63,22 @@ export default function SphereVisualization() {
     const disposables: Array<{ dispose: () => void }> = []
 
     const start = async () => {
-      const nextRenderer = await createRenderer()
+      let nextRenderer: RenderBackend
+      try {
+        nextRenderer = await createRenderer()
+      } catch {
+        return
+      }
       if (cancelled) {
         nextRenderer.dispose()
         return
       }
       renderer = nextRenderer
       renderer.setSize(container.clientWidth, container.clientHeight)
+      renderer.domElement.style.position = "absolute"
+      renderer.domElement.style.inset = "0"
       container.appendChild(renderer.domElement)
+      setReady(true)
 
       const scene = new THREE.Scene()
       const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000)
@@ -167,5 +184,17 @@ export default function SphereVisualization() {
     }
   }, [isMobile])
 
-  return <div id="sphere-container" ref={containerRef} className="w-full h-full" aria-hidden="true"></div>
+  return (
+    <div id="sphere-container" ref={containerRef} className="absolute inset-0 w-full h-full" aria-hidden="true">
+      {ready ? null : (
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+          <div className="relative h-[min(58%,20rem)] w-[min(58%,20rem)]">
+            <div className="absolute inset-0 rounded-full border border-[#00ffff]/40" />
+            <div className="absolute inset-[12%] rounded-full border border-[#00ffff]/25" />
+            <div className="absolute inset-[24%] rounded-full border border-[#00ffff]/15" />
+          </div>
+        </div>
+      )}
+    </div>
+  )
 }

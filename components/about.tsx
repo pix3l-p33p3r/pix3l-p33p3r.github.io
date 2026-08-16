@@ -339,7 +339,7 @@ export default function About() {
   const prompt = vim ? ":" : `${root ? "root" : "guest"}@pixel-peeper:${formatHome(cwd, env.HOME || GUEST_HOME)}$`
 
   return (
-    <section id="about" className="mb-0 h-full" style={{ height: "100%" }}>
+    <section id="about" className="mb-0">
       <MatrixRain active={matrix} />
       <SteamLocomotive active={train} onDone={() => setTrain(false)} />
       <div className="sr-only">
@@ -361,14 +361,14 @@ export default function About() {
         onKeyDown={(event) => {
           if (booting && event.key !== "Tab") finishBoot({ focus: true })
         }}
-        className={`font-mono text-sm md:text-base leading-relaxed mt-1 h-[96%] overflow-hidden relative p-3 md:p-5 bg-black/55 border border-[#333] shadow-[inset_0_0_20px_rgba(0,255,255,0.2)] rounded flex flex-col ${booting ? "cursor-pointer" : ""} ${isGlitching ? "glitch" : ""} ${root ? "shadow-[inset_0_0_28px_rgba(255,72,0,0.18)]" : ""}`}
+        className={`font-mono text-sm md:text-base leading-relaxed h-40 md:h-64 overflow-hidden relative p-3 md:p-4 bg-black/55 border border-[#333] shadow-[inset_0_0_20px_rgba(0,255,255,0.2)] rounded flex flex-col ${booting ? "cursor-pointer" : ""} ${isGlitching ? "glitch" : ""} ${root ? "shadow-[inset_0_0_28px_rgba(255,72,0,0.18)]" : ""}`}
       >
         <div className="flex items-center justify-between text-[11px] md:text-xs tracking-wider text-white/70 md:text-white/40 border-b border-[#333] pb-2 mb-2 shrink-0">
           <span className="text-[#00ffff]/80">{root ? "root@pixel-peeper" : "guest@pixel-peeper"} — vsh</span>
           <span>{booting ? "BOOT" : vim ? "VIM" : "READY"} · ` focus</span>
         </div>
 
-        <div ref={scrollerRef} className="flex-1 overflow-y-auto no-scrollbar space-y-0.5">
+        <div ref={scrollerRef} className="min-h-0 flex-1 overflow-y-auto no-scrollbar space-y-0.5">
           {booting ? (
             <div>
               {bootLines.map((line, index) => (
