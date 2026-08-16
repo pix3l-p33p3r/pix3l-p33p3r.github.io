@@ -6,13 +6,11 @@ import { Menu } from "lucide-react"
 import { trackNavigation } from "@/lib/analytics"
 
 export default function Header() {
-  const [status, setStatus] = useState("SYSTEM STATUS: NORMAL")
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const handleNavClick = (section: string) => {
     trackNavigation(section)
     setMobileMenuOpen(false)
-    console.log(`📊 Analytics: Navigation to ${section} tracked`)
   }
 
   return (

@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     images: [
       {
-        url: "/placeholder-logo.png",
+        url: "/og/default.svg",
         width: 1200,
         height: 630,
         alt: `${SITE_NAME} Portfolio`,
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${SITE_NAME} Portfolio`,
     description: "Cyberpunk-themed portfolio showcasing projects in systems, hardware, and DevSecOps.",
-    images: ["/placeholder-logo.png"],
+    images: ["/og/default.svg"],
   },
 }
 

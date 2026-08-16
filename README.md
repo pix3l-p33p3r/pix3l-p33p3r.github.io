@@ -1,61 +1,83 @@
-## **My GitHub Stats**
-<p align="center">
-  <a href="https://github.com/oakoudad/badge42">
-    <img src="https://badge.mediaplus.ma/binary/elel-yak" alt="pixel 42 stats" />
-  </a>
-</p>
+# Pixel Peeper Portfolio
 
-[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=pix3l-p33p3r&theme=catppuccin_mocha&hide=html,makefile,css&&langs_count=7)](https://github.com/pix3l-p33p3r/github-readme-stats)
-<p align="center">
-  <a href="https://github.com/pix3l-p33p3r">
-    <img src="https://komarev.com/ghpvc/?username=pix3l-p33p3r&color=blue&style=flat)" />
-  </a>
-</p>
-<details>
-<p align="center">
-  <a href="https://github.com/pix3l-p33p3r">
-    <img src="http://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=pix3l-p33p3r&theme=catppuccin_mocha" />
-  </a>
-  <a href="https://github.com/pix3l-p33p3r">
-    <img src="https://github-readme-streak-stats.herokuapp.com/?user=pix3l-p33p3r&hide_border=true&card_width=338&theme=catppuccin_mocha" />
-  </a>
-  <a href="https://github.com/pix3l-p33p3r">
-    <img src="http://github-profile-summary-cards.vercel.app/api/cards/stats?username=pix3l-p33p3r&theme=catppuccin_mocha" />
-  </a>
-</p>
-</details>
+Personal portfolio / blog for **[pix3l_p33p3r](https://github.com/pix3l-p33p3r)** — cyberpunk terminal UI, project pages, MDX blog, and CV download.
 
+**Live site:** [https://www.pixel-peeper.tech](https://www.pixel-peeper.tech)
 
+## Stack
 
-  <h2>Hobbies</h2>
+- **Next.js 14** (App Router) + React 18 + TypeScript
+- **Tailwind CSS** + custom CRT / terminal styling
+- **MDX** blog (`next-mdx-remote`, gray-matter)
+- **pnpm** + Node **22.x**
+- Deploy: **Vercel** (`vercel.json`)
 
-  <p>
-    <img width="50" height="50" src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/design-mode-images/Open-source-hardware-logo%281%29-uMBayTAGdIoZ3Bkej6D06NQe4k9o7t.svg" alt="Open Source Hardware">
-    <img src="https://img.shields.io/badge/-Arduino-00979D?style=for-the-badge&logo=Arduino&logoColor=white" alt="Arduino">
-    <img src="https://img.shields.io/badge/-Raspberry%20Pi-C51A4A?style=for-the-badge&logo=Raspberry-Pi" alt="Raspberry Pi">
-    <img width="90" src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/design-mode-images/KiCad-Logo%281%29-H9wqA0Lw01UQwBWNFZtX9DEoupFeIx.svg" alt="Electronics/KiCad">
-  </p>
+## Quick start
 
-  <h2>IDE/Notes</h2>
+```bash
+# Node 22 + pnpm 10 (see package.json packageManager / engines)
+pnpm install
+pnpm dev          # http://localhost:3000
+pnpm build        # production build
+pnpm start        # serve build
+```
 
-  <p>
-    <img alt="Neovim" src="https://img.shields.io/badge/Neovim-57A143?style=for-the-badge&logo=neovim&logoColor=white">
-    <img alt="Obsidian" src="https://img.shields.io/badge/Obsidian-000000?style=for-the-badge&logo=obsidian&logoColor=white">
-    <img alt="LaTeX" src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/design-mode-images/latex-%2523008080%281%29-m3dJeXau90axzOgrvw1oixHbAi2Yrx.svg">
-    <img alt="Markdown" src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/design-mode-images/markdown-%2523000000%281%29-rNmx2eFOuSx5oUZs97n8mQdQT0r4KI.svg">
-  </p>
+## Repo layout
 
+| Path | Purpose |
+|------|---------|
+| `app/` | Routes: home, `/blog`, `/blog/[slug]`, `/projects/[slug]`, sitemap, robots |
+| `components/` | Page sections + CRT overlays |
+| `content/blog/` | MDX posts (file = route) |
+| `lib/projects.ts` | Project catalog (typed array → `/projects/[slug]`) |
+| `lib/site.ts` | Canonical `SITE_URL` / site name |
+| `public/cv/` | Resume PDF |
+| `.github/workflows/ci.yml` | CI: install + build on `main` and PRs |
 
+## Common tasks
 
-  <h2>Currently Experementing with</h2>
+### Add a blog post
 
-<p align="center">
-  <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/design-mode-images/CUDA-%252361B327%281%29-LXcMIoFcdKudMG5NjNPC6WUcRORSEF.svg" alt="CUDA">
-  <a href="https://img.shields.io/badge/Zig-%23F7A41D.svg?style=for-the-badge&logo=zig&logoColor=white">
-    <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/design-mode-images/Zig-%2523F7A41D%281%29-7y7m8jHjP84yNF1apDvTmiUleTlAYb.svg" alt="Zig">
-  </a>
-  <a href="https://img.shields.io/badge/rust-%23000000.svg?style=for-the-badge&logo=rust&logoColor=white">
-    <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/design-mode-images/rust-%2523000000%281%29-p3sjxeBak7OKBZtmtIqzPWYIZ94wGc.svg" alt="Rust">
-  </a>
-  <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/design-mode-images/Go-%252300ADD8%281%29-AYzWqP5Y5eNYhZloLzz5BdgmlSGl4t.svg" alt="Go">
-</p>
+1. Create `content/blog/my-slug.mdx` with frontmatter:
+
+```mdx
+---
+title: "My post"
+date: "2026-08-16"
+summary: "One-line summary"
+tags: ["dev"]
+---
+
+Your MDX content here.
+```
+
+2. It appears on `/blog` and at `/blog/my-slug` after refresh / rebuild.
+
+### Add or edit a project
+
+Edit the array in `lib/projects.ts`. Each entry drives the home list and `/projects/[slug]`.
+
+### Change the public domain
+
+Update `SITE_URL` in `lib/site.ts` (metadata, sitemap, robots, OG all follow it). Keep Vercel domain / redirects in sync with apex vs `www`.
+
+## Branching (team)
+
+See **[CONTRIBUTING.md](./CONTRIBUTING.md)**. Short version:
+
+- **`main`** is the only long-lived branch (production).
+- Work on short-lived `feature/…`, `fix/…`, or `chore/…` branches.
+- Open a PR into `main`; delete the branch after merge.
+- Do not push directly to `main` once collaborators join.
+
+## Docs
+
+- [CONTRIBUTING.md](./CONTRIBUTING.md) — workflow for teammates
+- [AGENTS.md](./AGENTS.md) — notes for Cursor / cloud agents
+- [docs/TECH_DEBT.md](./docs/TECH_DEBT.md) — honest health rating and backlog
+
+## Known caveats (today)
+
+- Contact UI is link buttons (email / GitHub / X), not a backend form.
+- Shared OG art at `/og/default.svg` until per-project screenshots exist.
+- Canonical host is `www.pixel-peeper.tech` (`lib/site.ts`); keep Vercel redirects for apex aligned.

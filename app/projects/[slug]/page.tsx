@@ -15,7 +15,7 @@ export function generateMetadata({ params }: PageProps): Metadata {
   const title = project ? `${project.title} — ${SITE_NAME}` : `Project — ${SITE_NAME}`
   const description = project?.summary ?? "Project details"
   const url = `${SITE_URL}/projects/${params.slug}`
-  const image = project?.ogImage ?? "/placeholder.jpg"
+  const image = project?.ogImage ?? "/og/default.svg"
 
   return {
     title,
@@ -44,7 +44,9 @@ export default function ProjectPage({ params }: PageProps) {
     return (
       <div className="p-6">
         <h1 className="text-2xl text-[#ff4800] mb-2">Project not found</h1>
-        <Link href="/" className="text-[#00ffff] underline">Go back</Link>
+        <Link href="/" className="text-[#00ffff] underline">
+          Go back
+        </Link>
       </div>
     )
   }
@@ -58,22 +60,40 @@ export default function ProjectPage({ params }: PageProps) {
         </header>
 
         <div className="mb-4">
-          <Image src={project.ogImage ?? "/placeholder.jpg"} alt={`${project.title} cover`} width={1200} height={630} className="w-full h-auto border border-[#333]" />
+          <Image
+            src={project.ogImage ?? "/og/default.svg"}
+            alt={`${project.title} cover`}
+            width={1200}
+            height={630}
+            className="w-full h-auto border border-[#333]"
+          />
         </div>
 
         <div className="flex flex-wrap gap-2 mb-6">
           {project.tags.map((t) => (
-            <span key={t} className="bg-[rgba(0,255,255,0.1)] border border-[#00ffff] py-1 px-3 rounded-full text-sm tracking-wider">
+            <span
+              key={t}
+              className="bg-[rgba(0,255,255,0.1)] border border-[#00ffff] py-1 px-3 rounded-full text-sm tracking-wider"
+            >
               {t}
             </span>
           ))}
         </div>
 
         <div className="flex gap-3">
-          <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" className="text-[#00ffff] border border-[#00ffff] px-4 py-2 inline-block hover:bg-[rgba(0,255,255,0.1)]">
-            View Repository
-          </a>
-          <Link href="/" className="text-white border border-[#333] px-4 py-2 inline-block hover:bg-white/5">Back Home</Link>
+          {project.repoUrl ? (
+            <a
+              href={project.repoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#00ffff] border border-[#00ffff] px-4 py-2 inline-block hover:bg-[rgba(0,255,255,0.1)]"
+            >
+              View Repository
+            </a>
+          ) : null}
+          <Link href="/" className="text-white border border-[#333] px-4 py-2 inline-block hover:bg-white/5">
+            Back Home
+          </Link>
         </div>
       </article>
     </div>
