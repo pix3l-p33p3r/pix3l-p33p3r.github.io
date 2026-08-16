@@ -6,7 +6,7 @@ import "@hpcc-js/wasm"
 export default function Graphviz({ dot }: { dot: string }) {
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
-    if (!ref.current) return
+    if (!ref.current || !dot) return
     const g = graphviz(ref.current)
     g.renderDot(dot).on("end", () => {
       const svgEl = ref.current?.querySelector("svg")

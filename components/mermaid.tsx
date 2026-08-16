@@ -9,6 +9,7 @@ export default function Mermaid({ chart }: { chart: string }) {
   const uniqueId = useMemo(() => `mermaid-${Math.random().toString(36).slice(2)}`, [])
 
   useEffect(() => {
+    if (!chart) return
     if (!mermaidInitialized) {
       mermaid.initialize({ startOnLoad: false, theme: "dark", securityLevel: "strict" })
       mermaidInitialized = true
