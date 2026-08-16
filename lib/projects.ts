@@ -48,7 +48,6 @@ export const projects: Project[] = [
     title: "Homelab",
     summary: "Proxmox/TrueNAS private cloud, NixOS hosts, OpenBSD pf at the edge, Pi-hole, Syncthing.",
     tags: ["Proxmox", "TrueNAS", "NixOS", "OpenBSD", "pf"],
-    repoUrl: "https://github.com/pix3l-p33p3r/RaspberryGate",
     ogImage: DEFAULT_OG,
   },
   {
