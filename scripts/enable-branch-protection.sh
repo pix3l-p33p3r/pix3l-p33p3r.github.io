@@ -113,6 +113,16 @@ else
     --input - || echo "note: ruleset create skipped (plan/permission); classic protection is enough."
 fi
 
+# GitHub Settings UI can clone classic protection into extra rulesets (main-1, main-2).
+# Keep only "Protect main".
+while IFS=$'\t' read -r extra_id extra_name; do
+  [[ -z "${extra_id}" ]] && continue
+  echo "Deleting extra ruleset '${extra_name}' (id=${extra_id}) ..."
+  gh api --method DELETE \
+    -H "Accept: application/vnd.github+json" \
+    "/repos/${OWNER}/${REPO}/rulesets/${extra_id}"
+done < <(gh api "/repos/${OWNER}/${REPO}/rulesets" --jq '.[] | select(.name != "Protect main") | "\(.id)\t\(.name)"')
+
 # Prefer squash merges for this trunk-based flow
 gh api --method PATCH "/repos/${OWNER}/${REPO}" \
   -f allow_squash_merge=true \
