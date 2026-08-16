@@ -25,6 +25,10 @@ export const metadata: Metadata = {
   authors: [{ name: SITE_NAME }],
   creator: SITE_NAME,
   referrer: "strict-origin-when-cross-origin",
+  icons: {
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+    apple: [{ url: "/apple-icon", type: "image/png" }],
+  },
   openGraph: {
     title: `${SITE_NAME} Portfolio`,
     description: "Cyberpunk-themed portfolio showcasing projects in systems, hardware, and DevSecOps.",

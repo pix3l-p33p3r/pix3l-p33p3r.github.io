@@ -4,8 +4,8 @@ export default function Footer() {
   return (
     <footer className="col-span-full border border-[#333] bg-[rgba(20,20,20,0.7)] p-2.5 px-5 flex flex-col md:flex-row justify-between items-center text-base md:text-xl gap-2 md:gap-0">
       <p className="text-center md:text-left">
-        © 2026 pix3l_p33p3r · type <span className="text-[#00ffff]">help</span> · press{" "}
-        <kbd className="text-[#ff4800]">`</kbd>
+        © 2026 pix3l_p33p3r · <span className="text-[#00ffff]">vsh</span> · type{" "}
+        <span className="text-[#00ffff]">help</span> · press <kbd className="text-[#ff4800]">`</kbd>
       </p>
       <div className="flex gap-4 md:gap-0">
         <Link

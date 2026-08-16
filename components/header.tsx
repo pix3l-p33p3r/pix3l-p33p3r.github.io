@@ -3,6 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import { Menu } from "lucide-react"
+import BrandMark from "@/components/brand-mark"
 import { trackNavigation } from "@/lib/analytics"
 
 export default function Header() {
@@ -18,10 +19,11 @@ export default function Header() {
       <div className="flex w-full lg:w-auto justify-between items-center">
         <Link
           href="/"
-          className="text-[#ff4800] font-bold text-xl md:text-2xl flex items-center before:content-[''] before:inline-block before:w-0 before:h-0 before:border-l-[10px] before:border-r-[10px] before:border-transparent before:border-b-[20px] before:border-b-[#ff4800] before:mr-2.5 text-shadow-[0_0_5px_rgba(255,72,0,0.2)]"
+          className="text-[#ff4800] font-bold text-xl md:text-2xl flex items-center gap-2.5 text-shadow-[0_0_5px_rgba(255,72,0,0.2)] no-underline"
           onClick={() => handleNavClick("Home")}
         >
-          pix3l_p33p3r
+          <BrandMark className="w-8 h-8 shrink-0 border border-[#333]" />
+          <span>pix3l_p33p3r</span>
         </Link>
 
         <button
@@ -61,6 +63,13 @@ export default function Header() {
           onClick={() => handleNavClick("Skills")}
         >
           Skills
+        </Link>
+        <Link
+          href="/#interests"
+          className="text-[#00ffff] lg:ml-5 text-lg md:text-xl relative py-1.5 hover:text-[#00cccc] hover:text-shadow-[0_0_5px_rgba(0,255,255,0.2)] after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#00ffff] after:transition-[width] after:duration-300 after:ease-in-out hover:after:w-full w-full lg:w-auto text-center"
+          onClick={() => handleNavClick("Interests")}
+        >
+          Interests
         </Link>
         <Link
           href="/#resume"

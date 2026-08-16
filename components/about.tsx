@@ -1,7 +1,8 @@
 "use client"
 
-import { useCallback, useEffect, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from "react"
-import { applyCd, BIO, completeCommand, MOTTO, runCommand, type ShellLine } from "@/lib/shell"
+import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from "react"
+import { BIO, completeCommand, defaultEnv, MOTTO, runCommand, type ShellLine } from "@/lib/shell"
+import { createGuestFs, formatHome, GUEST_HOME, ROOT_HOME } from "@/lib/vfs"
 import { useKonami } from "@/hooks/use-konami"
 import MatrixRain from "@/components/matrix-rain"
 import SteamLocomotive from "@/components/steam-locomotive"
@@ -69,8 +70,10 @@ export default function About() {
   const [isGlitching, setIsGlitching] = useState(false)
   const [history, setHistory] = useState<HistoryItem[]>([])
   const [input, setInput] = useState("")
-  const [cwd, setCwd] = useState("~")
+  const [cwd, setCwd] = useState(GUEST_HOME)
+  const [env, setEnv] = useState(() => defaultEnv(false))
   const [root, setRoot] = useState(false)
+  const vfs = useMemo(() => createGuestFs(), [])
   const [matrix, setMatrix] = useState(false)
   const [vim, setVim] = useState(false)
   const [train, setTrain] = useState(false)
@@ -176,9 +179,9 @@ export default function About() {
       const typed = raw.trim()
       if (!typed) return
       trackShellCommand(typed.split(/\s+/)[0] ?? typed)
-      const result = runCommand(typed, { cwd, root, matrix })
-      const nextCwd = applyCd(typed, cwd)
-      setCwd(nextCwd)
+      const result = runCommand(typed, { cwd, root, matrix, env, vfs, history: cmdHistory })
+      if (result.cwd) setCwd(result.cwd)
+      if (result.env) setEnv(result.env)
       setCmdHistory((prev) => (typed === prev[prev.length - 1] ? prev : [...prev, typed]))
       setCmdCursor(-1)
 
@@ -189,7 +192,8 @@ export default function About() {
       }
 
       const user = root ? "root" : "guest"
-      setHistory((prev) => [...prev, { tone: "in", text: `${user}@pixel-peeper:${cwd}$ ${typed}` }])
+      const shown = formatHome(cwd, env.HOME || GUEST_HOME)
+      setHistory((prev) => [...prev, { tone: "in", text: `${user}@pixel-peeper:${shown}$ ${typed}` }])
       void printLines(result.lines)
 
       const action = result.action
@@ -222,11 +226,13 @@ export default function About() {
         }
       }
     },
-    [cwd, matrix, printLines, root],
+    [cmdHistory, cwd, env, matrix, printLines, root, vfs],
   )
 
   const onUnlock = useCallback(() => {
     setRoot(true)
+    setEnv((prev) => ({ ...prev, USER: "root", LOGNAME: "root", HOME: ROOT_HOME, PWD: ROOT_HOME }))
+    setCwd(ROOT_HOME)
     setHistory((prev) => [
       ...prev,
       { tone: "accent", text: "KONAMI ACCEPTED — uid flipped to root. try `secret`." },
@@ -304,7 +310,7 @@ export default function About() {
     }
     if (event.key === "Tab") {
       event.preventDefault()
-      const completed = completeCommand(input, cwd)
+      const completed = completeCommand(input, { cwd, env, vfs })
       if (completed) setInput(completed)
       return
     }
@@ -330,7 +336,7 @@ export default function About() {
     }
   }
 
-  const prompt = vim ? ":" : `${root ? "root" : "guest"}@pixel-peeper:${cwd}$`
+  const prompt = vim ? ":" : `${root ? "root" : "guest"}@pixel-peeper:${formatHome(cwd, env.HOME || GUEST_HOME)}$`
 
   return (
     <section id="about" className="mb-0 h-full" style={{ height: "100%" }}>
@@ -358,7 +364,7 @@ export default function About() {
         className={`font-mono text-sm md:text-base leading-relaxed mt-1 h-[96%] overflow-hidden relative p-3 md:p-5 bg-black/55 border border-[#333] shadow-[inset_0_0_20px_rgba(0,255,255,0.2)] rounded flex flex-col ${booting ? "cursor-pointer" : ""} ${isGlitching ? "glitch" : ""} ${root ? "shadow-[inset_0_0_28px_rgba(255,72,0,0.18)]" : ""}`}
       >
         <div className="flex items-center justify-between text-[11px] md:text-xs tracking-wider text-white/70 md:text-white/40 border-b border-[#333] pb-2 mb-2 shrink-0">
-          <span className="text-[#00ffff]/80">{root ? "root@pixel-peeper" : "guest@pixel-peeper"} — psh</span>
+          <span className="text-[#00ffff]/80">{root ? "root@pixel-peeper" : "guest@pixel-peeper"} — vsh</span>
           <span>{booting ? "BOOT" : vim ? "VIM" : "READY"} · ` focus</span>
         </div>
 
