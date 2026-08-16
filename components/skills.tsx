@@ -34,7 +34,7 @@ export default function Skills() {
           <span>SIGNAL</span>
         </div>
 
-        <div className="max-h-[22rem] overflow-y-auto">
+        <div className="max-h-[22rem] overflow-y-auto no-scrollbar">
           {skillGroups.map((group) => (
             <div key={group.title} className="border-b border-[#222] last:border-b-0">
               <div className="px-3 pt-2 pb-1 text-[#00ffff] text-[11px] tracking-[0.22em]">{group.title}</div>

@@ -334,7 +334,7 @@ export default function About() {
           <span>{booting ? "BOOT" : vim ? "VIM" : "READY"} · ` focus</span>
         </div>
 
-        <div ref={scrollerRef} className="flex-1 overflow-y-auto pr-1 space-y-0.5">
+        <div ref={scrollerRef} className="flex-1 overflow-y-auto no-scrollbar space-y-0.5">
           {booting ? (
             <div>
               {bootLines.map((line, index) => (
