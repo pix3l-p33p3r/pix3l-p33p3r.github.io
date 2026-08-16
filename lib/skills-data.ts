@@ -66,4 +66,4 @@ export const skillGroups: { title: string; items: { name: string; level: number;
   },
 ]
 
-export const interests = ["ZK", "PQC", "OSINT", "Side-channels"]
+export { interests, interestChannels } from "@/lib/interests-data"

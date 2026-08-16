@@ -1,10 +1,8 @@
 "use client"
 
-import dynamic from "next/dynamic"
 import type { ReactNode } from "react"
-
-const Mermaid = dynamic(() => import("@/components/mermaid"), { ssr: false })
-const Graphviz = dynamic(() => import("@/components/graphviz"), { ssr: false })
+import Mermaid from "@/components/mermaid"
+import Graphviz from "@/components/graphviz"
 
 interface BlogContentClientProps {
   content: ReactNode

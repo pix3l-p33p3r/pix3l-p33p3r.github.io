@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
+import SiteFrame from "@/components/site-frame"
 import { getProjectBySlug, projects } from "@/lib/projects"
 import { SITE_NAME, SITE_URL } from "@/lib/site"
 
@@ -42,20 +43,26 @@ export default function ProjectPage({ params }: PageProps) {
   const project = getProjectBySlug(params.slug)
   if (!project) {
     return (
-      <div className="p-6">
-        <h1 className="text-2xl text-[#ff4800] mb-2">Project not found</h1>
-        <Link href="/" className="text-[#00ffff] underline">
-          Go back
-        </Link>
-      </div>
+      <SiteFrame>
+        <div className="p-6">
+          <h1 className="text-2xl text-[#ff4800] mb-2">Project not found</h1>
+          <Link href="/" className="text-[#00ffff] underline">
+            Go back
+          </Link>
+        </div>
+      </SiteFrame>
     )
   }
 
   return (
-    <div className="p-4 md:p-6">
+    <SiteFrame>
+      <div className="p-4 md:p-6">
       <article className="max-w-3xl mx-auto bg-black/60 border border-[#333] p-5 shadow-inner shadow-black/50">
         <header className="mb-4">
-          <h1 className="text-3xl md:text-4xl text-[#ff4800] tracking-wider mb-2">{project.title}</h1>
+          <p className="m-0 font-mono text-[10px] tracking-[0.28em] text-[#00ffff]/70">
+            {project.visibility === "public" ? "PUBLIC CLONE" : "42 / NO PUBLIC REPO"}
+          </p>
+          <h1 className="text-3xl md:text-4xl text-[#ff4800] tracking-wider mb-2 mt-1">{project.title}</h1>
           <p className="text-white/90 text-lg">{project.summary}</p>
         </header>
 
@@ -96,6 +103,7 @@ export default function ProjectPage({ params }: PageProps) {
           </Link>
         </div>
       </article>
-    </div>
+      </div>
+    </SiteFrame>
   )
 }

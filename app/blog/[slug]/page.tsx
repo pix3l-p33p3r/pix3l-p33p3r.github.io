@@ -1,11 +1,15 @@
 import type { Metadata } from "next"
+import Link from "next/link"
 import { notFound } from "next/navigation"
 import { compileMDX } from "next-mdx-remote/rsc"
 import remarkGfm from "remark-gfm"
 import remarkMath from "remark-math"
 import rehypeKatex from "rehype-katex"
 import rehypePrettyCode from "rehype-pretty-code"
-import BlogContentClient, { Mermaid, Graphviz } from "./blog-content-client"
+import Mermaid from "@/components/mermaid"
+import Graphviz from "@/components/graphviz"
+import SiteFrame from "@/components/site-frame"
+import BlogContentClient from "./blog-content-client"
 import { BlogPostAnalytics } from "./blog-post-analytics"
 import { getAllPosts, getPostSource } from "@/lib/blog"
 import { SITE_NAME, SITE_URL } from "@/lib/site"
@@ -59,15 +63,20 @@ export default async function BlogPost({ params }: PageProps) {
     if (!content) notFound()
 
     return (
-      <main className="p-4 md:p-6">
-        <BlogPostAnalytics slug={params.slug} title={meta.title} />
+      <SiteFrame>
+        <main id="main-content" className="p-4 md:p-6">
+          <BlogPostAnalytics slug={params.slug} title={meta.title} />
 
-        <article className="w-full max-w-full md:max-w-3xl mx-auto bg-black/60 border border-[#333] p-4 md:p-5 blog-content">
-          <h1 className="text-3xl md:text-4xl text-[#ff4800] tracking-wider mb-2">{meta.title}</h1>
-          {meta.date ? <p className="text-white/50 text-sm">{new Date(meta.date).toDateString()}</p> : null}
-          <BlogContentClient content={content} />
-        </article>
-      </main>
+          <article className="w-full max-w-full md:max-w-3xl mx-auto bg-black/60 border border-[#333] p-4 md:p-5 blog-content">
+            <Link href="/blog" className="font-mono text-xs text-[#00ffff]/70 no-underline hover:text-[#00ffff]">
+              ← /blog
+            </Link>
+            <h1 className="text-3xl md:text-4xl text-[#ff4800] tracking-wider mb-2 mt-2">{meta.title}</h1>
+            {meta.date ? <p className="text-white/50 text-sm">{new Date(meta.date).toDateString()}</p> : null}
+            <BlogContentClient content={content} />
+          </article>
+        </main>
+      </SiteFrame>
     )
   } catch {
     notFound()

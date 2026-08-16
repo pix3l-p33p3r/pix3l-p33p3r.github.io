@@ -3,6 +3,12 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  async redirects() {
+    return [
+      { source: "/projects/cloud-1", destination: "/projects/inception", permanent: true },
+      { source: "/projects/homelab", destination: "/projects/dotfiles", permanent: true },
+    ]
+  },
   async headers() {
     return [
       {

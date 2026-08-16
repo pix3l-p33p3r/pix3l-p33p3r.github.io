@@ -46,6 +46,10 @@ export const trackSkillInspect = (skill: string, group: string) => {
   track("skill_inspect", { skill, group })
 }
 
+export const trackInterestTune = (channel: string) => {
+  track("interest_tune", { channel })
+}
+
 export const trackGpuCapabilities = (data: {
   backend: string
   webgpu: boolean

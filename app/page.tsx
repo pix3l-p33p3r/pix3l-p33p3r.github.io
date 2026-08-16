@@ -4,6 +4,7 @@ import SphereVisualization from "@/components/sphere-visualization"
 import About from "@/components/about"
 import Projects from "@/components/projects"
 import Skills from "@/components/skills"
+import Interests from "@/components/interests"
 import Contact from "@/components/contact"
 import CVSection from "@/components/cv-section"
 import TargetCross from "@/components/ui/target-cross"
@@ -35,6 +36,7 @@ export default function Home() {
         <div className="h-full overflow-y-auto no-scrollbar">
           <Projects />
           <Skills />
+          <Interests />
           <CVSection />
           <Contact />
         </div>

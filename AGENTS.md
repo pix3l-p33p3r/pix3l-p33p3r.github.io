@@ -14,7 +14,7 @@ Standard commands:
 
 Non-obvious notes:
 
-- Blog content is file-based MDX under `content/blog/*.mdx` (gray-matter + `next-mdx-remote`). Add/remove an `.mdx` file → route under `/blog/[slug]` and listing on `/blog`. Mermaid/Graphviz components are injected via `compileMDX` in `app/blog/[slug]/page.tsx` — do not re-import them inside MDX files.
+- Blog content is file-based MDX under `content/blog/*.mdx` (gray-matter + `next-mdx-remote`). Add/remove an `.mdx` file → route under `/blog/[slug]` and listing on `/blog`. Mermaid/Graphviz are client components passed into `compileMDX` in `app/blog/[slug]/page.tsx` — do not wrap them in `dynamic(..., { ssr: false })` (that drops `chart`/`dot`). Prefer a string `chart`/`dot` prop; children are a fallback.
 - Projects live in `lib/projects.ts` → `/projects/[slug]`. `repoUrl` is optional when there is no public repo.
 - Canonical public URL is `SITE_URL` in `lib/site.ts` (`https://www.pixel-peeper.tech`). Prefer editing that constant over hardcoding domains.
 - Deploy target is **Vercel** only.

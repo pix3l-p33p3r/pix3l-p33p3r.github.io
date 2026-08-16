@@ -1,7 +1,8 @@
 "use client"
 
-import { useCallback, useEffect, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from "react"
-import { applyCd, BIO, completeCommand, MOTTO, runCommand, type ShellLine } from "@/lib/shell"
+import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from "react"
+import { BIO, completeCommand, defaultEnv, MOTTO, PHILOSOPHY, runCommand, type ShellLine } from "@/lib/shell"
+import { formatHome, GUEST_HOME, createGuestFs } from "@/lib/vfs"
 import { useKonami } from "@/hooks/use-konami"
 import MatrixRain from "@/components/matrix-rain"
 import SteamLocomotive from "@/components/steam-locomotive"
@@ -15,15 +16,16 @@ const OUTPUT_LINE_MS = 420
 type HistoryItem = ShellLine | { tone: "in"; text: string }
 
 const BOOT: { prompt: string; output: string }[] = [
-  { prompt: "> whoami:", output: "Yo, I'm @PiX3L_P33P3R, a UM6P/1337 student" },
+  { prompt: "> whoami", output: "Yo, I'm @PiX3L_P33P3R, a UM6P/1337 student" },
   { prompt: "> cat motto.txt", output: MOTTO },
   { prompt: "> cat bio.txt", output: BIO },
-  { prompt: "> echo $STATUS", output: "WARNING: OPEN TO WORK!" },
+  { prompt: "> cat philosophy.txt", output: PHILOSOPHY },
+  { prompt: "> echo $STATUS", output: "WARNING: OPEN TO WORK | WILL DEBUG FOR XMR" },
 ]
 
 const BOOT_HINT: HistoryItem[] = [
-  { tone: "sys", text: "boot complete. this box is a shell now." },
-  { tone: "sys", text: "type `help` · press ` to refocus · Konami if you're nosy" },
+  { tone: "sys", text: "vsh 0.5 ready — virtual guest, air-gapped, 512B cmds." },
+  { tone: "sys", text: "type `help` · `ls -la` · `man vsh` · press ` to refocus · Konami if you're nosy" },
 ]
 
 function downloadFile(href: string, filename: string) {
@@ -62,13 +64,15 @@ export default function About() {
   const [isGlitching, setIsGlitching] = useState(false)
   const [history, setHistory] = useState<HistoryItem[]>([])
   const [input, setInput] = useState("")
-  const [cwd, setCwd] = useState("~")
+  const [cwd, setCwd] = useState(GUEST_HOME)
+  const [env, setEnv] = useState(() => defaultEnv(false))
   const [root, setRoot] = useState(false)
   const [matrix, setMatrix] = useState(false)
   const [vim, setVim] = useState(false)
   const [train, setTrain] = useState(false)
   const [cmdHistory, setCmdHistory] = useState<string[]>([])
   const [cmdCursor, setCmdCursor] = useState(-1)
+  const vfs = useMemo(() => createGuestFs(), [])
   const inputRef = useRef<HTMLInputElement>(null)
   const scrollerRef = useRef<HTMLDivElement>(null)
   const glitchRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -136,7 +140,8 @@ export default function About() {
   const printLines = useCallback(async (lines: ShellLine[]) => {
     const gen = ++printGen.current
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    if (reduced) {
+    const bulky = lines.length > 8 || lines.some((line) => line.text.length > 120)
+    if (reduced || bulky) {
       setHistory((prev) => [...prev, ...lines])
       return
     }
@@ -166,9 +171,9 @@ export default function About() {
       const typed = raw.trim()
       if (!typed) return
       trackShellCommand(typed.split(/\s+/)[0] ?? typed)
-      const result = runCommand(typed, { cwd, root, matrix })
-      const nextCwd = applyCd(typed, cwd)
-      setCwd(nextCwd)
+      const result = runCommand(typed, { cwd, root, matrix, env, vfs, history: cmdHistory })
+      if (result.cwd) setCwd(result.cwd)
+      if (result.env) setEnv(result.env)
       setCmdHistory((prev) => (typed === prev[prev.length - 1] ? prev : [...prev, typed]))
       setCmdCursor(-1)
 
@@ -179,7 +184,8 @@ export default function About() {
       }
 
       const user = root ? "root" : "guest"
-      setHistory((prev) => [...prev, { tone: "in", text: `${user}@pixel-peeper:${cwd}$ ${typed}` }])
+      const shown = formatHome(cwd, env.HOME || GUEST_HOME)
+      setHistory((prev) => [...prev, { tone: "in", text: `${user}@pixel-peeper:${shown}$ ${typed}` }])
       void printLines(result.lines)
 
       const action = result.action
@@ -212,11 +218,13 @@ export default function About() {
         }
       }
     },
-    [cwd, matrix, printLines, root],
+    [cmdHistory, cwd, env, matrix, printLines, root, vfs],
   )
 
   const onUnlock = useCallback(() => {
     setRoot(true)
+    setEnv((prev) => ({ ...prev, USER: "root", LOGNAME: "root", HOME: "/root" }))
+    setCwd("/root")
     setHistory((prev) => [
       ...prev,
       { tone: "accent", text: "KONAMI ACCEPTED — uid flipped to root. try `secret`." },
@@ -282,7 +290,7 @@ export default function About() {
     }
     if (event.key === "Tab") {
       event.preventDefault()
-      const completed = completeCommand(input, cwd)
+      const completed = completeCommand(input, { cwd, env, vfs })
       if (completed) setInput(completed)
       return
     }
@@ -308,7 +316,7 @@ export default function About() {
     }
   }
 
-  const prompt = vim ? ":" : `${root ? "root" : "guest"}@pixel-peeper:${cwd}$`
+  const prompt = vim ? ":" : `${root ? "root" : "guest"}@pixel-peeper:${formatHome(cwd, env.HOME || GUEST_HOME)}$`
 
   return (
     <section id="about" className="mb-0 h-full" style={{ height: "100%" }}>
@@ -330,7 +338,7 @@ export default function About() {
         className={`font-mono text-sm md:text-base leading-relaxed mt-1 h-[96%] overflow-hidden relative p-3 md:p-5 bg-black/55 border border-[#333] shadow-[inset_0_0_20px_rgba(0,255,255,0.2)] rounded flex flex-col ${isGlitching ? "glitch" : ""} ${root ? "shadow-[inset_0_0_28px_rgba(255,72,0,0.18)]" : ""}`}
       >
         <div className="flex items-center justify-between text-[11px] md:text-xs tracking-wider text-white/40 border-b border-[#333] pb-2 mb-2 shrink-0">
-          <span className="text-[#00ffff]/80">{root ? "root@pixel-peeper" : "guest@pixel-peeper"} — psh</span>
+          <span className="text-[#00ffff]/80">{root ? "root@pixel-peeper" : "guest@pixel-peeper"} — vsh</span>
           <span>{booting ? "BOOT" : vim ? "VIM" : "READY"} · ` focus</span>
         </div>
 

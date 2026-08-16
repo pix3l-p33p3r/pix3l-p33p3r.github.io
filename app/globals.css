@@ -194,6 +194,15 @@
   }
 }
 
+@keyframes tuner-sweep {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(320%);
+  }
+}
+
 @keyframes slideIn {
   from {
     transform: translateX(-100%);
@@ -243,6 +252,10 @@
 
 .animate-slideIn {
   animation: slideIn 0.3s ease-out;
+}
+
+.animate-tuner-sweep {
+  animation: tuner-sweep 2.8s linear infinite;
 }
 
 /* Responsive utilities */
