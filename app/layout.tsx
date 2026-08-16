@@ -1,8 +1,13 @@
 import type React from "react"
+import { Suspense } from "react"
 import "./globals.css"
+import "katex/dist/katex.min.css"
 import type { Metadata } from "next"
 import { Share_Tech_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from "@vercel/speed-insights/next"
+import Telemetry from "@/components/telemetry"
+import { VercelObservability } from "@/components/vercel-observability"
 import { SITE_NAME, SITE_URL } from "@/lib/site"
 
 const shareTechMono = Share_Tech_Mono({
@@ -51,14 +56,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        <link
-          rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
-          integrity="sha384-nB0mIlpdmpFLNeF2a/9tfuQR2harD4W4+1FHnpuFx22FN93NM8v3Gr6IIH5xWg+S"
-          crossOrigin="anonymous"
-        />
-      </head>
       <body className={`${shareTechMono.className} bg-black text-white overflow-x-hidden relative leading-relaxed`}>
         {/* Skip to content for keyboard users */}
         <a href="#main-content" className="skip-link">
@@ -72,7 +69,10 @@ export default function RootLayout({
           aria-hidden="true"
         ></div>
         {children}
-        <Analytics />
+        <VercelObservability Analytics={Analytics} SpeedInsights={SpeedInsights} />
+        <Suspense fallback={null}>
+          <Telemetry />
+        </Suspense>
       </body>
     </html>
   )

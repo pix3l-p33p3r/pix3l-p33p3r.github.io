@@ -26,6 +26,7 @@ const config: Config = {
         float: "float 5s infinite ease-in-out",
         "blink-cursor": "blink-cursor 0.5s step-end infinite",
         slideIn: "slideIn 0.3s ease-out",
+        sl: "sl 6.5s linear forwards",
       },
       fontFamily: {
         "share-tech": ["Share Tech Mono", "monospace"],
