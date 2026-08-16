@@ -56,11 +56,15 @@ function unknown(cmd: string): ShellResult {
 }
 
 function resolvePath(cwd: string, target?: string): string {
-  if (!target || target === "~") return "~"
-  if (target === ".." || target === "../") return "~"
+  if (!target || target === "." || target === "./") return cwd
+  if (target === "~" || target === "~/") return "~"
+  if (target === ".." || target === "../") {
+    if (cwd === "~") return "~"
+    const parent = cwd.split("/").slice(0, -1).join("/")
+    return parent || "~"
+  }
   if (target === "projects" || target === "projects/" || target === "~/projects") return "~/projects"
   if (target.startsWith("~/")) return target.replace(/\/$/, "")
-  if (cwd === "~" && (target === "." || target === "./")) return "~"
   return `${cwd}/${target}`.replace(/\/+/g, "/").replace(/\/$/, "")
 }
 
