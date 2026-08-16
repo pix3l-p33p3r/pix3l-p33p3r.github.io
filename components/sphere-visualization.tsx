@@ -2,11 +2,9 @@
 
 import { useEffect, useRef } from "react"
 import * as THREE from "three"
-import { useMobile } from "@/hooks/use-mobile"
 
 export default function SphereVisualization() {
   const containerRef = useRef<HTMLDivElement>(null)
-  const isMobile = useMobile()
 
   useEffect(() => {
     const container = containerRef.current
@@ -14,12 +12,13 @@ export default function SphereVisualization() {
 
     let frameId = 0
     const scene = new THREE.Scene()
-    const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000)
-    camera.position.z = isMobile ? 7 : 5
+    const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000)
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
-    renderer.setSize(container.clientWidth, container.clientHeight)
     renderer.setClearColor(0x000000, 0)
+    renderer.domElement.style.display = "block"
+    renderer.domElement.style.width = "100%"
+    renderer.domElement.style.height = "100%"
     container.appendChild(renderer.domElement)
 
     const ambientLight = new THREE.AmbientLight(0x222222)
@@ -65,8 +64,19 @@ export default function SphereVisualization() {
     sphereGroup.add(particles)
     scene.add(sphereGroup)
 
-    const animate = () => {
-      frameId = requestAnimationFrame(animate)
+    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
+
+    const sizeToContainer = () => {
+      const width = container.clientWidth
+      const height = container.clientHeight
+      if (width < 1 || height < 1) return
+      camera.aspect = width / height
+      camera.updateProjectionMatrix()
+      renderer.setSize(width, height, false)
+      camera.position.z = window.innerWidth < 768 ? 7 : 5
+    }
+
+    const tick = () => {
       sphereGroup.rotation.x += 0.002
       sphereGroup.rotation.y += 0.004
       const pulseScale = 0.95 + 0.03 * Math.sin(Date.now() * 0.001)
@@ -76,22 +86,37 @@ export default function SphereVisualization() {
       }
       renderer.render(scene, camera)
     }
-    animate()
 
-    const handleResize = () => {
-      const newWidth = container.clientWidth
-      const newHeight = container.clientHeight
-      camera.aspect = newWidth / newHeight
-      camera.updateProjectionMatrix()
-      renderer.setSize(newWidth, newHeight)
-      camera.position.z = window.innerWidth < 768 ? 7 : 5
+    const animate = () => {
+      if (motionQuery.matches) {
+        renderer.render(scene, camera)
+        return
+      }
+      frameId = requestAnimationFrame(animate)
+      tick()
     }
 
-    window.addEventListener("resize", handleResize)
+    const onMotion = () => {
+      cancelAnimationFrame(frameId)
+      if (motionQuery.matches) {
+        renderer.render(scene, camera)
+        return
+      }
+      animate()
+    }
+
+    sizeToContainer()
+    const observer = new ResizeObserver(sizeToContainer)
+    observer.observe(container)
+    window.addEventListener("resize", sizeToContainer)
+    motionQuery.addEventListener("change", onMotion)
+    animate()
 
     return () => {
       cancelAnimationFrame(frameId)
-      window.removeEventListener("resize", handleResize)
+      observer.disconnect()
+      window.removeEventListener("resize", sizeToContainer)
+      motionQuery.removeEventListener("change", onMotion)
       if (renderer.domElement.parentNode === container) {
         container.removeChild(renderer.domElement)
       }
@@ -103,7 +128,7 @@ export default function SphereVisualization() {
       particleMaterial.dispose()
       renderer.dispose()
     }
-  }, [isMobile])
+  }, [])
 
-  return <div id="sphere-container" ref={containerRef} className="w-full h-full" aria-hidden="true"></div>
+  return <div id="sphere-container" ref={containerRef} className="absolute inset-0 w-full h-full" aria-hidden="true"></div>
 }
