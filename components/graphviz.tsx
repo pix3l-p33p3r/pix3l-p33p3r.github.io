@@ -12,8 +12,9 @@ export default function Graphviz({ dot }: { dot: string }) {
       const svgEl = ref.current?.querySelector("svg")
       if (!svgEl) return
       svgEl.setAttribute("width", "100%")
-      svgEl.setAttribute("height", "auto")
+      svgEl.removeAttribute("height")
       svgEl.style.maxWidth = "100%"
+      svgEl.style.height = "auto"
       svgEl.style.display = "block"
     })
   }, [dot])

@@ -25,8 +25,9 @@ export default function Mermaid({ chart }: { chart: string }) {
         const svgEl = wrapper.querySelector("svg")
         if (svgEl) {
           svgEl.setAttribute("width", "100%")
-          svgEl.setAttribute("height", "auto")
+          svgEl.removeAttribute("height")
           svgEl.style.maxWidth = "100%"
+          svgEl.style.height = "auto"
           svgEl.style.display = "block"
           containerRef.current.appendChild(svgEl)
         }
