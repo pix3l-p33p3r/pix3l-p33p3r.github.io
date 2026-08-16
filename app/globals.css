@@ -304,6 +304,24 @@
   height: 0;
 }
 
+.show-scrollbar {
+  scrollbar-width: auto;
+  scrollbar-color: #00ffff #1a1a1a;
+}
+
+.show-scrollbar::-webkit-scrollbar {
+  width: 12px;
+}
+
+.show-scrollbar::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+.show-scrollbar::-webkit-scrollbar-thumb {
+  background: #00cccc;
+  border: 2px solid #1a1a1a;
+}
+
 .font-share-tech {
   font-family: "Share Tech Mono", monospace;
 }
