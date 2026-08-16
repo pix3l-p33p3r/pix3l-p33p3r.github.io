@@ -1,10 +1,12 @@
 import type React from "react"
+import { Suspense } from "react"
 import "./globals.css"
 import type { Metadata } from "next"
 import { Share_Tech_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import Telemetry from "@/components/telemetry"
+import { VercelObservability } from "@/components/vercel-observability"
 import { SITE_NAME, SITE_URL } from "@/lib/site"
 
 const shareTechMono = Share_Tech_Mono({
@@ -74,9 +76,10 @@ export default function RootLayout({
           aria-hidden="true"
         ></div>
         {children}
-        <Analytics />
-        <SpeedInsights />
-        <Telemetry />
+        <VercelObservability Analytics={Analytics} SpeedInsights={SpeedInsights} />
+        <Suspense fallback={null}>
+          <Telemetry />
+        </Suspense>
       </body>
     </html>
   )

@@ -9,6 +9,7 @@ export default function Mermaid({ chart }: { chart: string }) {
   const uniqueId = useMemo(() => `mermaid-${Math.random().toString(36).slice(2)}`, [])
 
   useEffect(() => {
+    if (!chart) return
     if (!mermaidInitialized) {
       mermaid.initialize({ startOnLoad: false, theme: "dark", securityLevel: "strict" })
       mermaidInitialized = true
@@ -25,8 +26,9 @@ export default function Mermaid({ chart }: { chart: string }) {
         const svgEl = wrapper.querySelector("svg")
         if (svgEl) {
           svgEl.setAttribute("width", "100%")
-          svgEl.setAttribute("height", "auto")
+          svgEl.removeAttribute("height")
           svgEl.style.maxWidth = "100%"
+          svgEl.style.height = "auto"
           svgEl.style.display = "block"
           containerRef.current.appendChild(svgEl)
         }

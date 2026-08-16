@@ -15,7 +15,7 @@ Standard commands:
 Non-obvious notes:
 
 - Blog content is file-based MDX under `content/blog/*.mdx` (gray-matter + `next-mdx-remote`). Add/remove an `.mdx` file → route under `/blog/[slug]` and listing on `/blog`. Mermaid/Graphviz components are injected via `compileMDX` in `app/blog/[slug]/page.tsx` — do not re-import them inside MDX files.
-- Projects live in `lib/projects.ts` → `/projects/[slug]`. `repoUrl` is optional when there is no public repo.
+- Projects live in `lib/projects.ts` → `/projects` and `/projects/[slug]`. `repoUrl` is optional when there is no public repo.
 - Canonical public URL is `SITE_URL` in `lib/site.ts` (`https://www.pixel-peeper.tech`). Prefer editing that constant over hardcoding domains.
 - Deploy target is **Vercel** only.
 - The `pnpm install` warning about ignored build scripts is usually harmless; approve only if a package actually needs a postinstall.

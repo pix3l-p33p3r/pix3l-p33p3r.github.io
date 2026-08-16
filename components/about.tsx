@@ -242,11 +242,23 @@ export default function About() {
         focusShell()
       }
     }
+    const skipBootFromKey = (event: globalThis.KeyboardEvent) => {
+      if (!booting || event.key === "Tab") return
+      finishBoot()
+    }
+    const skipBootFromPointer = () => {
+      if (!booting) return
+      finishBoot()
+    }
     window.addEventListener("pixel-shell-focus", focusShell)
     window.addEventListener("keydown", onHotkey)
+    window.addEventListener("keydown", skipBootFromKey)
+    window.addEventListener("pointerdown", skipBootFromPointer)
     return () => {
       window.removeEventListener("pixel-shell-focus", focusShell)
       window.removeEventListener("keydown", onHotkey)
+      window.removeEventListener("keydown", skipBootFromKey)
+      window.removeEventListener("pointerdown", skipBootFromPointer)
     }
   }, [booting, finishBoot])
 
@@ -315,11 +327,14 @@ export default function About() {
       <MatrixRain active={matrix} />
       <SteamLocomotive active={train} onDone={() => setTrain(false)} />
       <div className="sr-only">
-        Interactive portfolio shell. Type help after the boot sequence, or press any key to skip.
+        Interactive portfolio shell. Type help after the boot sequence, or tap / press any key to skip.
       </div>
       <div
         role="application"
         aria-label="Interactive about terminal"
+        onPointerDown={() => {
+          if (booting) finishBoot()
+        }}
         onClick={() => {
           if (booting) finishBoot()
           inputRef.current?.focus()
@@ -327,7 +342,7 @@ export default function About() {
         onKeyDown={(event) => {
           if (booting && event.key !== "Tab") finishBoot()
         }}
-        className={`font-mono text-sm md:text-base leading-relaxed mt-1 h-[96%] overflow-hidden relative p-3 md:p-5 bg-black/55 border border-[#333] shadow-[inset_0_0_20px_rgba(0,255,255,0.2)] rounded flex flex-col ${isGlitching ? "glitch" : ""} ${root ? "shadow-[inset_0_0_28px_rgba(255,72,0,0.18)]" : ""}`}
+        className={`font-mono text-sm md:text-base leading-relaxed mt-1 h-[96%] overflow-hidden relative p-3 md:p-5 bg-black/55 border border-[#333] shadow-[inset_0_0_20px_rgba(0,255,255,0.2)] rounded flex flex-col ${booting ? "cursor-pointer" : ""} ${isGlitching ? "glitch" : ""} ${root ? "shadow-[inset_0_0_28px_rgba(255,72,0,0.18)]" : ""}`}
       >
         <div className="flex items-center justify-between text-[11px] md:text-xs tracking-wider text-white/40 border-b border-[#333] pb-2 mb-2 shrink-0">
           <span className="text-[#00ffff]/80">{root ? "root@pixel-peeper" : "guest@pixel-peeper"} — psh</span>
@@ -374,7 +389,7 @@ export default function About() {
               />
             </div>
           ) : (
-            <p className="text-white/30 text-xs mt-4">press any key to skip boot</p>
+            <p className="text-white/30 text-xs mt-4">tap or press any key to skip boot</p>
           )}
         </div>
       </div>

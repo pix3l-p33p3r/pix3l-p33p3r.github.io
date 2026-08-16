@@ -71,7 +71,7 @@ const HELP_GROUPS: Record<string, { title: string; commands: string[]; note: str
   hint: {
     title: "hint",
     commands: ["42", "1337", "peep", "secret"],
-    note: "Konami (click off the input first). skip boot with any key.",
+    note: "Konami (click off the input first). skip boot with a tap or any key.",
   },
 }
 
