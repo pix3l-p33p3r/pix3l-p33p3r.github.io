@@ -305,12 +305,12 @@
 }
 
 .show-scrollbar {
-  scrollbar-width: thin;
+  scrollbar-width: auto;
   scrollbar-color: #00ffff #1a1a1a;
 }
 
 .show-scrollbar::-webkit-scrollbar {
-  width: 10px;
+  width: 12px;
 }
 
 .show-scrollbar::-webkit-scrollbar-track {
