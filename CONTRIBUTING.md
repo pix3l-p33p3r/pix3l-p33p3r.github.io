@@ -2,6 +2,8 @@
 
 This repo is a small Next.js portfolio. Keep the process light, but consistent so onboarding stays smooth.
 
+**Branch architecture (read this first):** [docs/BRANCHING.md](./docs/BRANCHING.md)
+
 ## Prerequisites
 
 - **Node.js 22.x**
@@ -10,40 +12,42 @@ This repo is a small Next.js portfolio. Keep the process light, but consistent s
 ```bash
 pnpm install
 pnpm dev
-pnpm build
+pnpm typecheck && pnpm lint && pnpm build
 ```
 
-## Branch model
+## Branch model (summary)
 
-| Branch | Role |
-|--------|------|
-| `main` | Production. Always deployable. Protected once the team grows. |
-| `feature/<short-name>` | New work |
-| `fix/<short-name>` | Bugfixes |
-| `chore/<short-name>` | Docs, deps, CI, cleanup |
-| `cursor/<short-name>-…` | Cursor / cloud agent branches (same rules as features) |
+Trunk-based: **`main` only** as the long-lived branch. Production = `main` → Vercel.
+
+| Prefix | Use |
+|--------|-----|
+| `feature/<name>` | New work |
+| `fix/<name>` | Bugfixes |
+| `chore/<name>` | Tooling, deps, cleanup |
+| `docs/<name>` | Documentation |
+| `cursor/<name>` | Cursor / cloud agents |
+| `hotfix/<name>` | Urgent production fix |
 
 Rules:
 
 1. Branch off the latest `main`.
-2. Prefer small PRs with one clear purpose.
-3. Squash-merge (or merge + delete) — **delete the remote branch after merge**.
-4. No long-lived side branches (`test`, `latest-version`, `v0/…`). If you need an experiment, use a short-lived branch or a fork.
-
-### After merge
+2. Open a PR **into `main`** (CI enforces naming + base).
+3. Squash-merge; remote branch auto-deletes once protection/settings are on.
+4. No `develop` / `test` / `latest-version` / `v0/*` branches.
 
 ```bash
-git checkout main
-git pull origin main
-git push origin --delete <your-branch>   # if GitHub did not auto-delete
+git checkout main && git pull
+git checkout -b feature/short-name
+git push -u origin HEAD
+gh pr create --base main --fill
 ```
 
 ## Pull requests
 
 - Title: imperative and specific (`fix: dispose Three.js renderer on unmount`).
-- Body: what / why; how to verify (`pnpm build`, pages touched).
-- CI must pass (`.github/workflows/ci.yml` runs `pnpm install --frozen-lockfile` + `pnpm build`).
-- Do not merge with known broken `main` builds.
+- Body: use the template — what / why / how to verify.
+- Required checks: **`build`** and **`branch-naming`**.
+- Do not merge with a red check.
 
 ## Where to change what
 
@@ -64,6 +68,14 @@ git push origin --delete <your-branch>   # if GitHub did not auto-delete
 - Keep imports at the top of the file (no inline imports).
 - CI must pass: `pnpm typecheck`, `pnpm lint`, `pnpm build`.
 
-## Collaborators
+## Owner: protect `main` before teammates land
 
-Invite teammates as GitHub collaborators on this repository. Until branch protection is enabled, treat `main` as protected by convention: **PRs only**.
+Cloud agents cannot flip GitHub admin settings. As repo owner, run **one** of:
+
+```bash
+./scripts/enable-branch-protection.sh
+```
+
+or add secret `BRANCH_PROTECTION_TOKEN` (classic PAT, `repo` scope) and run workflow **Enable branch protection** from the Actions tab.
+
+Details: [docs/BRANCHING.md](./docs/BRANCHING.md#protection-on-main-required).

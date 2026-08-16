@@ -63,18 +63,29 @@ Update `SITE_URL` in `lib/site.ts` (metadata, sitemap, robots, OG all follow it)
 
 ## Branching (team)
 
-See **[CONTRIBUTING.md](./CONTRIBUTING.md)**. Short version:
+**Full architecture:** [docs/BRANCHING.md](./docs/BRANCHING.md)
 
-- **`main`** is the only long-lived branch (production).
-- Work on short-lived `feature/…`, `fix/…`, or `chore/…` branches.
-- Open a PR into `main`; delete the branch after merge.
-- Do not push directly to `main` once collaborators join.
+Short version:
+
+- **`main`** is the only long-lived branch (production → Vercel).
+- Work on `feature/…`, `fix/…`, `chore/…`, `docs/…`, or `cursor/…`.
+- Open a PR into `main`; squash-merge; branch deletes after merge.
+- Never push directly to `main` (enable protection before teammates land — see below).
+
+### Protect `main` (owner, once)
+
+```bash
+./scripts/enable-branch-protection.sh
+```
+
+Or Actions → **Enable branch protection** after adding secret `BRANCH_PROTECTION_TOKEN`.
 
 ## Docs
 
-- [CONTRIBUTING.md](./CONTRIBUTING.md) — workflow for teammates
+- [docs/BRANCHING.md](./docs/BRANCHING.md) — branch architecture for the team
+- [CONTRIBUTING.md](./CONTRIBUTING.md) — day-to-day workflow
 - [AGENTS.md](./AGENTS.md) — notes for Cursor / cloud agents
-- [docs/TECH_DEBT.md](./docs/TECH_DEBT.md) — honest health rating and backlog
+- [docs/TECH_DEBT.md](./docs/TECH_DEBT.md) — health rating and backlog
 
 ## Known caveats (today)
 

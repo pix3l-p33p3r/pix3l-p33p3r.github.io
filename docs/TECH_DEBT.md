@@ -26,4 +26,6 @@ Honest snapshot for teammates. Rating reflects **team-readiness and maintainabil
 
 ## Branch hygiene
 
-`main` is the only long-lived branch. Short-lived feature branches; delete after merge. See `CONTRIBUTING.md`.
+`main` is the only long-lived branch. Architecture: `docs/BRANCHING.md`.
+
+Protect `main` before collaborators land (`./scripts/enable-branch-protection.sh` as owner).
