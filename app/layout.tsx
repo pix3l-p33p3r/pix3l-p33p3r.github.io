@@ -3,6 +3,8 @@ import "./globals.css"
 import type { Metadata } from "next"
 import { Share_Tech_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from "@vercel/speed-insights/next"
+import Telemetry from "@/components/telemetry"
 import { SITE_NAME, SITE_URL } from "@/lib/site"
 
 const shareTechMono = Share_Tech_Mono({
@@ -73,6 +75,8 @@ export default function RootLayout({
         ></div>
         {children}
         <Analytics />
+        <SpeedInsights />
+        <Telemetry />
       </body>
     </html>
   )
