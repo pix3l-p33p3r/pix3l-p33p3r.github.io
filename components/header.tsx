@@ -68,6 +68,16 @@ export default function Header() {
         >
           Contact
         </Link>
+        <button
+          type="button"
+          className="text-[#ff4800] lg:ml-5 text-lg md:text-xl py-1.5 tracking-wider hover:text-[#00ffff] w-full lg:w-auto text-center"
+          onClick={() => {
+            handleNavClick("Shell")
+            window.dispatchEvent(new Event("pixel-shell-focus"))
+          }}
+        >
+          &gt;_
+        </button>
       </nav>
     </header>
   )

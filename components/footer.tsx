@@ -3,7 +3,10 @@ import Link from "next/link"
 export default function Footer() {
   return (
     <footer className="col-span-full row-start-5 md:row-start-3 border border-[#333] bg-[rgba(20,20,20,0.7)] p-2.5 px-5 flex flex-col md:flex-row justify-between items-center text-base md:text-xl gap-2 md:gap-0">
-      <p className="text-center md:text-left">© 2026 pix3l_p33p3r. All rights pixelated no cap.</p>
+      <p className="text-center md:text-left">
+        © 2026 pix3l_p33p3r · type <span className="text-[#00ffff]">help</span> · press{" "}
+        <kbd className="text-[#ff4800]">`</kbd>
+      </p>
       <div className="flex gap-4 md:gap-0">
         <Link
           href="https://github.com/pix3l-p33p3r"

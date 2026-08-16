@@ -34,6 +34,8 @@ pnpm start        # serve build
 | `public/cv/` | Resume PDF |
 | `.github/workflows/ci.yml` | CI: install + build on `main` and PRs |
 
+The home About panel is an interactive shell (`help`, `projects`, `matrix`, Konami). Press `` ` `` to focus it.
+
 ## Common tasks
 
 ### Add a blog post
