@@ -78,6 +78,6 @@ See **[CONTRIBUTING.md](./CONTRIBUTING.md)**. Short version:
 
 ## Known caveats (today)
 
-- `pnpm lint` is not useful yet (ESLint not configured); builds also ignore ESLint/TS errors via `next.config.mjs`. Tracked in `docs/TECH_DEBT.md`.
 - Contact UI is link buttons (email / GitHub / X), not a backend form.
-- Many UI packages in `package.json` are leftover scaffold deps — prune before relying on bundle size.
+- Shared OG art at `/og/default.svg` until per-project screenshots exist.
+- Canonical host is `www.pixel-peeper.tech` (`lib/site.ts`); keep Vercel redirects for apex aligned.

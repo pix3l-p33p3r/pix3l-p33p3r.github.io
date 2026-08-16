@@ -58,10 +58,11 @@ git push origin --delete <your-branch>   # if GitHub did not auto-delete
 
 ## Code expectations
 
-- Prefer TypeScript correctness over silencing errors. Do not add new `as any` or expand `ignoreBuildErrors` without a follow-up issue.
-- Avoid adding new dependencies “just in case.” This repo already carries unused Radix/shadcn leftovers — see `docs/TECH_DEBT.md`.
+- Prefer TypeScript correctness over silencing errors. Do not reintroduce `ignoreBuildErrors` / `ignoreDuringBuilds`.
+- Avoid adding dependencies “just in case.” Keep the dependency set lean.
 - Match existing visual language (Share Tech Mono, cyan `#00ffff`, orange `#ff4800`, dark CRT panels) unless the PR is a deliberate redesign.
 - Keep imports at the top of the file (no inline imports).
+- CI must pass: `pnpm typecheck`, `pnpm lint`, `pnpm build`.
 
 ## Collaborators
 

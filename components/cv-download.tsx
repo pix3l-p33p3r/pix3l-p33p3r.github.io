@@ -29,8 +29,6 @@ export default function CVDownload() {
 
       setIsDownloaded(true)
       setTimeout(() => setIsDownloaded(false), 3000)
-
-      console.log("📊 Analytics: Resume download tracked")
     } catch (error) {
       console.error("Download failed:", error)
     } finally {

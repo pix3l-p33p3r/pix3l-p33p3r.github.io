@@ -2,124 +2,92 @@
 
 import { useState, useEffect, useRef } from "react"
 
+type Command = {
+  prompt: string
+  output: string
+}
+
+const COMMANDS: Command[] = [
+  {
+    prompt: "> whoami:",
+    output: "Pixel Peeper // @PiX3L_P33P3R | DevSecOps | 1337/UM6P",
+  },
+  {
+    prompt: "> cat bio.txt",
+    output: "Vault + K3s. Dynamic creds, rotating PKI, GitOps. Hardened clusters, not vibes.",
+  },
+  {
+    prompt: "> skills",
+    output: "Vault · K3s · Docker · Python · C/C++ · Zig · SAST/DAST · EN fluent / FR professional / AR native",
+  },
+  {
+    prompt: "> echo $STATUS",
+    output: "WARNING: OPEN TO WORK!",
+  },
+]
+
+const FULL_TEXT = COMMANDS.map((cmd) => `${cmd.prompt} ${cmd.output}`).join(" ")
+
 export default function About() {
   const [currentCommandIndex, setCurrentCommandIndex] = useState(0)
   const [charIndex, setCharIndex] = useState(0)
+  const [lines, setLines] = useState<{ text: string; isPrompt: boolean }[]>([])
   const [isHovering, setIsHovering] = useState(false)
   const terminalRef = useRef<HTMLDivElement>(null)
-  const outputRef = useRef<HTMLDivElement>(null)
 
-  const commands = [
-    {
-      prompt: "> whoami:",
-      output: "Pixel Peeper // @PiX3L_P33P3R | DevSecOps | 1337/UM6P",
-    },
-    {
-      prompt: "> cat bio.txt",
-      output: "Vault + K3s. Dynamic creds, rotating PKI, GitOps. Hardened clusters, not vibes.",
-    },
-    {
-      prompt: "> skills",
-      output: "Vault · K3s · Docker · Python · C/C++ · Zig · SAST/DAST · EN fluent / FR professional / AR native",
-    },
-    {
-      prompt: "> echo $STATUS",
-      output: "WARNING: OPEN TO WORK!",
-    },
-  ]
-
-  // Combine all text for accessibility
-  const fullText = commands.map((cmd) => `${cmd.prompt} ${cmd.output}`).join(" ")
-
-  // Typing effect
   useEffect(() => {
-    if (currentCommandIndex >= commands.length) {
+    if (currentCommandIndex >= COMMANDS.length) {
       if (!isHovering) {
         const resetTimer = setTimeout(() => {
-          if (outputRef.current) {
-            outputRef.current.innerHTML = ""
-            outputRef.current.classList.remove("glitch")
-          }
+          setLines([])
           setCurrentCommandIndex(0)
           setCharIndex(0)
         }, 5000)
-
         return () => clearTimeout(resetTimer)
       }
       return
     }
 
-    const currentCommand = commands[currentCommandIndex]
+    const currentCommand = COMMANDS[currentCommandIndex]
     const fullCommandText = `${currentCommand.prompt}\n${currentCommand.output}\n`
-
-    if (charIndex === 0 && outputRef.current) {
-      outputRef.current.classList.add("glitch")
-      setTimeout(() => {
-        if (outputRef.current) outputRef.current.classList.remove("glitch")
-      }, 1337)
-    }
 
     if (charIndex < fullCommandText.length) {
       const timer = setTimeout(() => {
-        if (outputRef.current) {
-          const currentText = fullCommandText.substring(0, charIndex + 1)
-          const lines = currentText.split("\n")
-          const html = lines
-            .map((line, index) => {
-              if (index === 0 && line.startsWith(">")) {
-                return `<span class="text-[#ff4800]">${line}</span>`
-              }
-              return `<span>${line}</span>`
-            })
-            .join("<br>")
-          outputRef.current.innerHTML = html
-        }
+        const currentText = fullCommandText.substring(0, charIndex + 1)
+        const nextLines = currentText.split("\n").map((line, index) => ({
+          text: line,
+          isPrompt: index === 0 && line.startsWith(">"),
+        }))
+        setLines(nextLines)
         setCharIndex(charIndex + 1)
       }, 42)
-
       return () => clearTimeout(timer)
-    } else {
-      const nextCommandTimer = setTimeout(() => {
-        setCurrentCommandIndex(currentCommandIndex + 1)
-        setCharIndex(0)
-      }, 500)
-
-      return () => clearTimeout(nextCommandTimer)
     }
+
+    const nextTimer = setTimeout(() => {
+      setCurrentCommandIndex((prev) => prev + 1)
+      setCharIndex(0)
+    }, 800)
+    return () => clearTimeout(nextTimer)
   }, [charIndex, currentCommandIndex, isHovering])
 
-  useEffect(() => {
-    if (currentCommandIndex >= commands.length && !isHovering) {
-      const resetTimer = setTimeout(() => {
-        if (outputRef.current) {
-          outputRef.current.innerHTML = ""
-          outputRef.current.classList.remove("glitch")
-        }
-        setCurrentCommandIndex(0)
-        setCharIndex(0)
-      }, 5000)
-
-      return () => clearTimeout(resetTimer)
-    }
-  }, [isHovering, currentCommandIndex])
-
   return (
-    <section
-      id="about"
-      className="mb-8 pb-5 border-b border-dashed border-[#333] last:border-b-0"
-      style={{ height: "100%" }}
+    <div
+      ref={terminalRef}
+      className="h-full flex flex-col font-mono text-sm md:text-base"
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+      aria-label={FULL_TEXT}
     >
-      <div className="sr-only">{fullText}</div>
-      <div
-        ref={terminalRef}
-        onMouseEnter={() => setIsHovering(true)}
-        onMouseLeave={() => setIsHovering(false)}
-        className="font-mono text-[#00ffff] text-sm md:text-xl leading-relaxed mt-4 overflow-hidden relative p-4 md:p-7 bg-black/50 border border-[#333] shadow-[inset_0_0_20px_rgba(0,255,255,0.2)] rounded"
-        aria-label="About me terminal display"
-        style={{ height: "96%" }}
-      >
-        <div ref={outputRef} className="relative after:content-['|'] after:text-[#ff4800] after:animate-blink"></div>
+      <div className="border-b border-[#333] pb-2 mb-3 text-[#00ffff] tracking-wider">ABOUT_TERMINAL</div>
+      <div className="flex-1 overflow-y-auto space-y-0.5 pr-1">
+        {lines.map((line, index) => (
+          <div key={`${index}-${line.text}`} className={line.isPrompt ? "text-[#ff4800]" : "text-white/90"}>
+            {line.text || "\u00A0"}
+          </div>
+        ))}
+        <span className="inline-block w-2 h-4 bg-[#00ffff] animate-blink-cursor align-middle" aria-hidden="true" />
       </div>
-    </section>
+    </div>
   )
 }

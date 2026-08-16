@@ -1,100 +1,46 @@
-// Vercel Analytics tracking functions
+type VaEventPayload = {
+  name: string
+  data?: Record<string, string | number>
+}
+
+declare global {
+  interface Window {
+    va?: (event: "event", payload: VaEventPayload) => void
+  }
+}
+
+function track(name: string, data?: Record<string, string | number>) {
+  if (typeof window === "undefined") return
+  window.va?.("event", { name, data })
+}
 
 export const trackResumeDownload = () => {
-  if (typeof window !== "undefined") {
-    window.va?.("event", {
-      name: "resume_download",
-      data: {
-        type: "PDF Download",
-      },
-    })
-  }
-  console.log("Analytics: Resume download tracked")
+  track("resume_download", { type: "PDF Download" })
 }
 
 export const trackContactClick = (platform: string) => {
-  if (typeof window !== "undefined") {
-    window.va?.("event", {
-      name: "contact_click",
-      data: {
-        platform: platform,
-      },
-    })
-  }
-  console.log(`Analytics: ${platform} contact click tracked`)
+  track("contact_click", { platform })
 }
 
 export const trackNavigation = (section: string) => {
-  if (typeof window !== "undefined") {
-    window.va?.("event", {
-      name: "navigation",
-      data: {
-        section: section,
-      },
-    })
-  }
-  console.log(`Analytics: Navigation to ${section} tracked`)
+  track("navigation", { section })
 }
 
 export const trackProjectView = (projectName: string) => {
-  if (typeof window !== "undefined") {
-    window.va?.("event", {
-      name: "project_view",
-      data: {
-        project: projectName,
-      },
-    })
-  }
-  console.log(`Analytics: ${projectName} project view tracked`)
+  track("project_view", { project: projectName })
 }
 
 export const trackBlogView = (slug: string, title: string) => {
-  if (typeof window !== "undefined") {
-    window.va?.("event", {
-      name: "blog_post_view",
-      data: {
-        slug: slug,
-        title: title,
-      },
-    })
-  }
-  console.log(`Analytics: Blog post "${title}" viewed`)
-}
-
-export const trackBlogListView = () => {
-  if (typeof window !== "undefined") {
-    window.va?.("event", {
-      name: "blog_list_view",
-      data: {
-        page: "blog_index",
-      },
-    })
-  }
-  console.log("Analytics: Blog list page viewed")
+  track("blog_post_view", { slug, title })
 }
 
 export const trackTimeOnPage = (slug: string, timeSpent: number) => {
-  if (typeof window !== "undefined") {
-    window.va?.("event", {
-      name: "time_on_page",
-      data: {
-        page: slug,
-        duration_seconds: Math.round(timeSpent / 1000),
-      },
-    })
-  }
-  console.log(`Analytics: Time on page tracked - ${Math.round(timeSpent / 1000)}s`)
+  track("time_on_page", {
+    page: slug,
+    duration_seconds: Math.round(timeSpent / 1000),
+  })
 }
 
 export const trackBlogEngagement = (slug: string, action: "scroll" | "like" | "share") => {
-  if (typeof window !== "undefined") {
-    window.va?.("event", {
-      name: "blog_engagement",
-      data: {
-        slug: slug,
-        action: action,
-      },
-    })
-  }
-  console.log(`Analytics: Blog engagement tracked - ${action}`)
+  track("blog_engagement", { slug, action })
 }

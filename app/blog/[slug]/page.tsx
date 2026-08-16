@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     if (!meta) return {}
     const title = `${meta.title} — ${SITE_NAME}`
     const url = `${SITE_URL}/blog/${meta.slug}`
-    const image = meta.ogImage ?? "/placeholder.jpg"
+    const image = meta.ogImage ?? "/og/default.svg"
     return {
       title,
       description: meta.summary ?? undefined,

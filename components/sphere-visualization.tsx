@@ -9,10 +9,10 @@ export default function SphereVisualization() {
   const isMobile = useMobile()
 
   useEffect(() => {
-    if (!containerRef.current) return
-
-    // Initialize 3D sphere
     const container = containerRef.current
+    if (!container) return
+
+    let frameId = 0
     const scene = new THREE.Scene()
     const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000)
     camera.position.z = isMobile ? 7 : 5
@@ -22,7 +22,6 @@ export default function SphereVisualization() {
     renderer.setClearColor(0x000000, 0)
     container.appendChild(renderer.domElement)
 
-    // Lighting
     const ambientLight = new THREE.AmbientLight(0x222222)
     scene.add(ambientLight)
     const directionalLight = new THREE.DirectionalLight(0xff4800, 0.8)
@@ -32,7 +31,6 @@ export default function SphereVisualization() {
     blueLight.position.set(-2, 1, 3)
     scene.add(blueLight)
 
-    // Create sphere with wireframe and inner glow
     const geometry = new THREE.SphereGeometry(2, 32, 32)
     const wireframe = new THREE.WireframeGeometry(geometry)
     const lineMaterial = new THREE.LineBasicMaterial({ color: 0x00ffff, transparent: true, opacity: 0.4 })
@@ -53,7 +51,6 @@ export default function SphereVisualization() {
     sphereGroup.add(wireframeMesh)
     sphereGroup.add(sphere)
 
-    // Add particles
     const particleGeometry = new THREE.BufferGeometry()
     const particleCount = 100
     const positions = new Float32Array(particleCount * 3)
@@ -66,12 +63,10 @@ export default function SphereVisualization() {
     const particleMaterial = new THREE.PointsMaterial({ color: 0x00ffff, size: 0.05, transparent: true })
     const particles = new THREE.Points(particleGeometry, particleMaterial)
     sphereGroup.add(particles)
-
     scene.add(sphereGroup)
 
-    // Animation function
-    function animate() {
-      requestAnimationFrame(animate)
+    const animate = () => {
+      frameId = requestAnimationFrame(animate)
       sphereGroup.rotation.x += 0.002
       sphereGroup.rotation.y += 0.004
       const pulseScale = 0.95 + 0.03 * Math.sin(Date.now() * 0.001)
@@ -83,32 +78,32 @@ export default function SphereVisualization() {
     }
     animate()
 
-    // Resize Handler
     const handleResize = () => {
       const newWidth = container.clientWidth
       const newHeight = container.clientHeight
       camera.aspect = newWidth / newHeight
       camera.updateProjectionMatrix()
       renderer.setSize(newWidth, newHeight)
-
-      // Adjust camera position based on screen size
       camera.position.z = window.innerWidth < 768 ? 7 : 5
     }
 
     window.addEventListener("resize", handleResize)
 
-    // Cleanup
     return () => {
+      cancelAnimationFrame(frameId)
       window.removeEventListener("resize", handleResize)
-      container.removeChild(renderer.domElement)
+      if (renderer.domElement.parentNode === container) {
+        container.removeChild(renderer.domElement)
+      }
       geometry.dispose()
       wireframe.dispose()
       lineMaterial.dispose()
       innerMaterial.dispose()
       particleGeometry.dispose()
       particleMaterial.dispose()
+      renderer.dispose()
     }
-  }, [])
+  }, [isMobile])
 
   return <div id="sphere-container" ref={containerRef} className="w-full h-full" aria-hidden="true"></div>
 }
