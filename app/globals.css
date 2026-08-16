@@ -22,7 +22,8 @@
 
 @layer components {
   /* Blog content helpers for responsive diagrams and code */
-  .blog-content svg {
+  .blog-content svg,
+  .blog-content img {
     max-width: 100%;
     height: auto;
     display: block;

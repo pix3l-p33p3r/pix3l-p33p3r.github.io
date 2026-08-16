@@ -5,7 +5,6 @@ import remarkGfm from "remark-gfm"
 import remarkMath from "remark-math"
 import rehypeKatex from "rehype-katex"
 import rehypePrettyCode from "rehype-pretty-code"
-import Graphviz from "@/components/graphviz"
 import Mermaid from "@/components/mermaid"
 import { BlogPostAnalytics } from "./blog-post-analytics"
 import { getAllPosts, getPostSource } from "@/lib/blog"
@@ -48,7 +47,7 @@ export default async function BlogPost({ params }: PageProps) {
 
     const { content } = await compileMDX({
       source,
-      components: { Mermaid, Graphviz },
+      components: { Mermaid },
       options: {
         mdxOptions: {
           remarkPlugins: [remarkGfm, remarkMath],
