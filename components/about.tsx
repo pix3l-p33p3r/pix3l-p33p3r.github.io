@@ -74,10 +74,12 @@ export default function About() {
   const glitchRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const printGen = useRef(0)
 
-  const finishBoot = useCallback(() => {
+  const finishBoot = useCallback((opts?: { focus?: boolean }) => {
     setBooting(false)
     setHistory(BOOT_HINT)
-    requestAnimationFrame(() => inputRef.current?.focus())
+    if (opts?.focus) {
+      requestAnimationFrame(() => inputRef.current?.focus())
+    }
   }, [])
 
   useEffect(() => {
@@ -227,8 +229,8 @@ export default function About() {
 
   useEffect(() => {
     const focusShell = () => {
-      if (booting) finishBoot()
-      inputRef.current?.focus()
+      if (booting) finishBoot({ focus: true })
+      else inputRef.current?.focus()
     }
     const onHotkey = (event: globalThis.KeyboardEvent) => {
       const target = event.target
@@ -244,7 +246,7 @@ export default function About() {
     }
     const skipBootFromKey = (event: globalThis.KeyboardEvent) => {
       if (!booting || event.key === "Tab") return
-      finishBoot()
+      finishBoot({ focus: true })
     }
     const skipBootFromPointer = () => {
       if (!booting) return
@@ -336,20 +338,23 @@ export default function About() {
           if (booting) finishBoot()
         }}
         onClick={() => {
-          if (booting) finishBoot()
+          if (booting) {
+            finishBoot()
+            return
+          }
           inputRef.current?.focus()
         }}
         onKeyDown={(event) => {
-          if (booting && event.key !== "Tab") finishBoot()
+          if (booting && event.key !== "Tab") finishBoot({ focus: true })
         }}
-        className={`font-mono text-sm md:text-base leading-relaxed mt-1 h-[96%] overflow-hidden relative p-3 md:p-5 bg-black/55 border border-[#333] shadow-[inset_0_0_20px_rgba(0,255,255,0.2)] rounded flex flex-col ${booting ? "cursor-pointer" : ""} ${isGlitching ? "glitch" : ""} ${root ? "shadow-[inset_0_0_28px_rgba(255,72,0,0.18)]" : ""}`}
+        className={`font-mono text-sm md:text-base leading-relaxed md:mt-1 h-full md:h-[96%] overflow-hidden relative p-1.5 md:p-5 bg-black/55 border border-[#333] shadow-[inset_0_0_20px_rgba(0,255,255,0.2)] rounded flex flex-col ${booting ? "cursor-pointer" : ""} ${isGlitching ? "glitch" : ""} ${root ? "shadow-[inset_0_0_28px_rgba(255,72,0,0.18)]" : ""}`}
       >
-        <div className="flex items-center justify-between text-[11px] md:text-xs tracking-wider text-white/40 border-b border-[#333] pb-2 mb-2 shrink-0">
+        <div className="flex items-center justify-between text-[11px] md:text-xs tracking-wider text-white/70 md:text-white/40 border-b-0 md:border-b border-[#333] pb-0 md:pb-2 mb-0 md:mb-2 shrink-0">
           <span className="text-[#00ffff]/80">{root ? "root@pixel-peeper" : "guest@pixel-peeper"} — psh</span>
           <span>{booting ? "BOOT" : vim ? "VIM" : "READY"} · ` focus</span>
         </div>
 
-        <div ref={scrollerRef} className="flex-1 overflow-y-auto no-scrollbar space-y-0.5">
+        <div ref={scrollerRef} className="hidden md:block flex-1 overflow-y-auto no-scrollbar space-y-0.5">
           {booting ? (
             <div>
               {bootLines.map((line, index) => (
@@ -389,7 +394,7 @@ export default function About() {
               />
             </div>
           ) : (
-            <p className="text-white/30 text-xs mt-4">tap or press any key to skip boot</p>
+            <p className="text-white/70 text-xs mt-4">tap or press any key to skip boot</p>
           )}
         </div>
       </div>

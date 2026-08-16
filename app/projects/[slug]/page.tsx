@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
+import PageChrome from "@/components/page-chrome"
 import { getProjectBySlug, projects } from "@/lib/projects"
 import { SITE_NAME, SITE_URL } from "@/lib/site"
 
@@ -42,60 +43,65 @@ export default function ProjectPage({ params }: PageProps) {
   const project = getProjectBySlug(params.slug)
   if (!project) {
     return (
-      <div className="p-6">
-        <h1 className="text-2xl text-[#ff4800] mb-2">Project not found</h1>
-        <Link href="/" className="text-[#00ffff] underline">
-          Go back
-        </Link>
-      </div>
+      <PageChrome>
+        <main id="main-content" tabIndex={-1} className="border border-[#333] bg-[rgba(20,20,20,0.7)] p-4 md:p-6">
+          <h1 className="text-2xl text-[#ff4800] mb-2 tracking-wider">Project not found</h1>
+          <p className="text-white/80 mb-4">No such path.</p>
+          <Link href="/" className="text-[#00ffff] underline">
+            Back Home
+          </Link>
+        </main>
+      </PageChrome>
     )
   }
 
   return (
-    <div className="p-4 md:p-6">
-      <article className="max-w-3xl mx-auto bg-black/60 border border-[#333] p-5 shadow-inner shadow-black/50">
-        <header className="mb-4">
-          <h1 className="text-3xl md:text-4xl text-[#ff4800] tracking-wider mb-2">{project.title}</h1>
-          <p className="text-white/90 text-lg">{project.summary}</p>
-        </header>
+    <PageChrome>
+      <main id="main-content" tabIndex={-1} className="border border-[#333] bg-[rgba(20,20,20,0.7)] p-4 md:p-6 overflow-auto">
+        <article className="max-w-3xl mx-auto bg-black/60 border border-[#333] p-5 shadow-inner shadow-black/50">
+          <header className="mb-4">
+            <h1 className="text-3xl md:text-4xl text-[#ff4800] tracking-wider mb-2">{project.title}</h1>
+            <p className="text-white/90 text-lg">{project.summary}</p>
+          </header>
 
-        <div className="mb-4">
-          <Image
-            src={project.ogImage ?? "/og/default.svg"}
-            alt={`${project.title} cover`}
-            width={1200}
-            height={630}
-            className="w-full h-auto border border-[#333]"
-          />
-        </div>
+          <div className="mb-4">
+            <Image
+              src={project.ogImage ?? "/og/default.svg"}
+              alt={`${project.title} cover`}
+              width={1200}
+              height={630}
+              className="w-full h-auto border border-[#333]"
+            />
+          </div>
 
-        <div className="flex flex-wrap gap-2 mb-6">
-          {project.tags.map((t) => (
-            <span
-              key={t}
-              className="bg-[rgba(0,255,255,0.1)] border border-[#00ffff] py-1 px-3 rounded-full text-sm tracking-wider"
-            >
-              {t}
-            </span>
-          ))}
-        </div>
+          <div className="flex flex-wrap gap-2 mb-6">
+            {project.tags.map((t) => (
+              <span
+                key={t}
+                className="bg-[rgba(0,255,255,0.1)] border border-[#00ffff] py-1 px-3 rounded-full text-sm tracking-wider"
+              >
+                {t}
+              </span>
+            ))}
+          </div>
 
-        <div className="flex gap-3">
-          {project.repoUrl ? (
-            <a
-              href={project.repoUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[#00ffff] border border-[#00ffff] px-4 py-2 inline-block hover:bg-[rgba(0,255,255,0.1)]"
-            >
-              View Repository
-            </a>
-          ) : null}
-          <Link href="/" className="text-white border border-[#333] px-4 py-2 inline-block hover:bg-white/5">
-            Back Home
-          </Link>
-        </div>
-      </article>
-    </div>
+          <div className="flex gap-3">
+            {project.repoUrl ? (
+              <a
+                href={project.repoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#00ffff] border border-[#00ffff] px-4 py-2 inline-block hover:bg-[rgba(0,255,255,0.1)]"
+              >
+                View Repository
+              </a>
+            ) : null}
+            <Link href="/" className="text-white border border-[#333] px-4 py-2 inline-block hover:bg-white/5">
+              Back Home
+            </Link>
+          </div>
+        </article>
+      </main>
+    </PageChrome>
   )
 }
