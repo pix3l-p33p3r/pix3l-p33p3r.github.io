@@ -47,13 +47,96 @@ function lines(...texts: string[]): ShellLine[] {
   return texts.map((text) => out(text))
 }
 
+const HELP_GROUPS: Record<string, { title: string; commands: string[]; note: string }> = {
+  nav: {
+    title: "nav",
+    commands: ["help", "clear", "pwd", "ls", "cd", "cat", "open", "projects", "skills", "resume", "contact", "blog"],
+    note: "move around the site / fake fs",
+  },
+  me: {
+    title: "me",
+    commands: ["whoami", "motto", "bio", "status", "neofetch", "id"],
+    note: "the human behind the CRT",
+  },
+  toys: {
+    title: "toys",
+    commands: ["echo", "date", "uname", "ping", "fortune", "cowsay", "matrix", "sl"],
+    note: "not useful. very necessary.",
+  },
+  traps: {
+    title: "traps",
+    commands: ["sudo", "vim", "emacs", "rm", "ssh", "hack"],
+    note: "you can type these. outcomes vary.",
+  },
+  hint: {
+    title: "hint",
+    commands: ["42", "1337", "peep", "secret"],
+    note: "Konami (click off the input first). skip boot with any key.",
+  },
+}
+
+function suggestCommand(cmd: string): string[] {
+  const catalog = [...COMMAND_NAMES, ...Object.keys(HELP_GROUPS)]
+  const exactGroup = HELP_GROUPS[cmd]
+  if (exactGroup) return exactGroup.commands.slice(0, 4)
+
+  const scored = catalog
+    .map((name) => {
+      if (name === cmd) return { name, score: 0 }
+      if (name.startsWith(cmd) || cmd.startsWith(name)) return { name, score: 1 }
+      if (name.includes(cmd) || cmd.includes(name)) return { name, score: 2 }
+      const a = new Set(name)
+      const overlap = [...cmd].filter((ch) => a.has(ch)).length
+      return { name, score: overlap >= 3 ? 4 : 9 }
+    })
+    .filter((row) => row.score < 5)
+    .sort((left, right) => left.score - right.score || left.name.localeCompare(right.name))
+
+  return [...new Set(scored.map((row) => row.name))].slice(0, 3)
+}
+
 function unknown(cmd: string): ShellResult {
+  const group = HELP_GROUPS[cmd]
+  if (group) {
+    return { lines: groupHelp(cmd).map((text) => out(text, "sys")) }
+  }
+
+  const suggestions = suggestCommand(cmd)
   return {
     lines: [
       out(`command not found: ${cmd}`, "err"),
-      out("type `help` — or guess. guessing is a personality trait here.", "sys"),
+      out(
+        suggestions.length
+          ? `did you mean: ${suggestions.join(" · ")}   (or type help)`
+          : "type `help` — or guess. guessing is a personality trait here.",
+        "sys",
+      ),
     ],
   }
+}
+
+function groupHelp(name: string): string[] {
+  const group = HELP_GROUPS[name]
+  if (!group) return helpText(false)
+  return [
+    `${group.title} — ${group.note}`,
+    `try: ${group.commands.join("  ")}`,
+  ]
+}
+
+function helpText(root: boolean): string[] {
+  const rows = [
+    "psh — not a real shell. labels on the left are also commands.",
+    "",
+    "nav     help  ls  cd  cat  open  projects  skills  resume  contact  blog",
+    "me      whoami  motto  bio  status  neofetch  id",
+    "toys    echo  date  ping  fortune  cowsay  matrix  sl",
+    "traps   sudo  vim  emacs  rm  ssh  hack",
+    "hint    42  1337  peep   (Konami off-input → secret)",
+  ]
+  if (root) rows.push("root    secret  peep")
+  rows.push("", "type a label (toys, hint, …) to list just that group.")
+  return rows
 }
 
 function resolvePath(cwd: string, target?: string): string {
@@ -74,20 +157,6 @@ function projectByQuery(query: string) {
   return projects.find((p) => p.slug === q || p.title.toLowerCase() === q || p.slug.includes(q))
 }
 
-function helpText(root: boolean): string[] {
-  const common = [
-    "guest@pixel-peeper — tiny TUI. not a real shell. worse: it's honest.",
-    "",
-    "nav     help  clear  pwd  ls  cd  cat  open  projects  skills  resume  contact  blog",
-    "me      whoami  motto  bio  status  neofetch  id",
-    "toys    echo  date  uname  ping  fortune  cowsay  matrix  sl",
-    "traps   sudo  vim  emacs  rm  ssh  hack",
-  ]
-  if (root) common.push("root    secret  peep")
-  common.push("", "hint    Konami. 42. 1337. skip boot with any key.")
-  return common
-}
-
 function neofetch(): string[] {
   return [
     "        .--.          guest@pixel-peeper",
@@ -98,7 +167,7 @@ function neofetch(): string[] {
     "    /'\\_   _/`\\       Shell  psh 0.4 (personality)",
     "    \\___)=(___/       Uptime since the last `clear`",
     "                      School 1337 / UM6P",
-    "                      Motto  jack of all, prisoner of none",
+    `                      Motto  ${MOTTO}`,
   ]
 }
 
@@ -164,6 +233,11 @@ export const COMMAND_NAMES = [
   "peep",
   "42",
   "1337",
+  "nav",
+  "me",
+  "toys",
+  "traps",
+  "hint",
   "exit",
 ] as const
 
@@ -195,7 +269,16 @@ export function runCommand(raw: string, ctx: ShellContext): ShellResult {
   switch (cmd) {
     case "help":
     case "?":
+      if (arg && HELP_GROUPS[arg.toLowerCase()]) {
+        return { lines: groupHelp(arg.toLowerCase()).map((text) => out(text, "sys")) }
+      }
       return { lines: helpText(ctx.root).map((text) => out(text, "sys")) }
+    case "nav":
+    case "me":
+    case "toys":
+    case "traps":
+    case "hint":
+      return { lines: groupHelp(cmd).map((text) => out(text, "sys")) }
     case "clear":
     case "cls":
       return { lines: [], action: { type: "clear" } }
