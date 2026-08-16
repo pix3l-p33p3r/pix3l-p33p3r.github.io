@@ -47,9 +47,18 @@ export default function Skills() {
           </div>
         ))}
 
-        <div>
+        <div id="interests">
           <h3 className="text-[#00ffff] text-sm tracking-[0.18em] font-mono mb-2.5">INTERESTS</h3>
-          <p className="font-mono text-sm text-white/70 tracking-wide m-0">{interests.join(" · ")}</p>
+          <ul className="flex flex-wrap gap-2 list-none p-0 m-0">
+            {interests.map((interest) => (
+              <li
+                key={interest}
+                className="font-mono text-sm text-white/90 border border-[#333] bg-black/25 px-2.5 py-1 tracking-wide hover:border-[#00ffff]/60 hover:text-[#00ffff] transition-colors duration-200"
+              >
+                {interest}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </section>
