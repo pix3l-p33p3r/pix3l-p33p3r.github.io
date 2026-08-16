@@ -26,8 +26,8 @@ export default function Home() {
         <GridLines />
         <FloatingElements />
 
-        <div className="absolute inset-0 z-20 items-center justify-center p-4" style={{ height: "100%" }}>
-          <div className="w-full max-w-4xl" style={{ height: "100%" }}>
+        <div className="absolute inset-x-0 bottom-0 z-20 flex justify-center p-3 md:p-4 pointer-events-none">
+          <div className="w-full max-w-xl pointer-events-auto">
             <About />
           </div>
         </div>
