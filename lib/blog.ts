@@ -13,6 +13,18 @@ export type PostMeta = {
 
 const BLOG_DIR = path.join(process.cwd(), "content", "blog")
 
+/** gray-matter/js-yaml turns unquoted `date: YYYY-MM-DD` into a Date. Normalize to ISO. */
+function toIsoDate(value: unknown): string | null {
+  if (value instanceof Date && !Number.isNaN(value.getTime())) {
+    return value.toISOString()
+  }
+  if (typeof value === "string" || typeof value === "number") {
+    const parsed = new Date(value)
+    if (!Number.isNaN(parsed.getTime())) return parsed.toISOString()
+  }
+  return null
+}
+
 export async function getAllPosts(): Promise<PostMeta[]> {
   if (!fs.existsSync(BLOG_DIR)) return []
   const files = fs.readdirSync(BLOG_DIR).filter((f) => f.endsWith(".md") || f.endsWith(".mdx"))
@@ -25,7 +37,7 @@ export async function getAllPosts(): Promise<PostMeta[]> {
       return {
         slug,
         title: frontmatter.title ?? slug,
-        date: frontmatter.date ?? null,
+        date: toIsoDate(frontmatter.date),
         summary: frontmatter.summary ?? "",
         tags: frontmatter.tags ?? [],
         ogImage: frontmatter.ogImage ?? null,
@@ -49,7 +61,7 @@ export async function getPostSource(slug: string): Promise<{ source: string; met
     meta: {
       slug,
       title: frontmatter.title ?? slug,
-      date: frontmatter.date ?? null,
+      date: toIsoDate(frontmatter.date),
       summary: frontmatter.summary ?? "",
       tags: frontmatter.tags ?? [],
       ogImage: frontmatter.ogImage ?? null,
