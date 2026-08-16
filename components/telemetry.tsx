@@ -13,19 +13,13 @@ export default function Telemetry() {
   }, [pathname])
 
   useEffect(() => {
-    let cancelled = false
-    void detectGpu().then((gpu) => {
-      if (cancelled) return
-      trackGpuCapabilities({
-        backend: gpu.backend,
-        webgpu: gpu.webgpu,
-        webgl2: gpu.webgl2,
-        webgl: gpu.webgl,
-      })
+    const gpu = detectGpu()
+    trackGpuCapabilities({
+      backend: gpu.backend,
+      webgpu: gpu.webgpu,
+      webgl2: gpu.webgl2,
+      webgl: gpu.webgl,
     })
-    return () => {
-      cancelled = true
-    }
   }, [])
 
   useEffect(() => {
