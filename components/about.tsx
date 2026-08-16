@@ -331,7 +331,7 @@ export default function About() {
   const prompt = vim ? ":" : `${root ? "root" : "guest"}@pixel-peeper:${formatHome(cwd, env.HOME || GUEST_HOME)}$`
 
   return (
-    <section id="about" className="mb-0 min-w-0 w-full">
+    <section id="about" className="mb-0 h-full" style={{ height: "100%" }}>
       <MatrixRain active={matrix} />
       <SteamLocomotive active={train} onDone={() => setTrain(false)} />
       <div className="sr-only">
@@ -344,14 +344,14 @@ export default function About() {
           if (booting) return
           inputRef.current?.focus()
         }}
-        className={`font-mono text-sm leading-snug relative px-3 py-2 md:px-3.5 md:py-2.5 bg-black border border-[#333] shadow-[inset_0_0_20px_rgba(0,255,255,0.2)] rounded flex flex-col text-shadow min-w-0 ${!booting && history.length > 0 ? "max-h-[min(16rem,40vh)] overflow-hidden" : ""} ${isGlitching ? "glitch" : ""} ${root ? "shadow-[inset_0_0_28px_rgba(255,72,0,0.18)]" : ""}`}
+        className={`font-mono text-sm md:text-base leading-relaxed mt-1 h-[96%] overflow-hidden relative p-3 md:p-5 bg-black/55 border border-[#333] shadow-[inset_0_0_20px_rgba(0,255,255,0.2)] rounded flex flex-col ${isGlitching ? "glitch" : ""} ${root ? "shadow-[inset_0_0_28px_rgba(255,72,0,0.18)]" : ""}`}
       >
-        <div className="flex items-center justify-between text-[11px] tracking-wider text-white/60 border-b border-[#333] pb-1.5 mb-1.5 shrink-0">
+        <div className="flex items-center justify-between text-[11px] md:text-xs tracking-wider text-white/70 md:text-white/40 border-b border-[#333] pb-2 mb-2 shrink-0">
           <span className="text-[#00ffff]/80">{root ? "root@pixel-peeper" : "guest@pixel-peeper"} — vsh</span>
           <span>{booting ? "BOOT" : vim ? "VIM" : "READY"} · ` focus</span>
         </div>
 
-        <div ref={scrollerRef} className="min-h-0 overflow-y-auto no-scrollbar space-y-0.5">
+        <div ref={scrollerRef} className="min-h-0 flex-1 overflow-y-auto no-scrollbar space-y-0.5">
           {booting ? (
             <div>
               {teleprompter.map((line, index) => (
@@ -377,7 +377,7 @@ export default function About() {
           )}
 
           {booting ? null : (
-            <div className="flex gap-2 items-center">
+            <div className="flex gap-2 items-center pt-1">
               <label htmlFor="pixel-shell-input" className="text-[#ff4800] shrink-0">
                 {prompt}
               </label>
