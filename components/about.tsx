@@ -4,6 +4,13 @@ import { useCallback, useEffect, useRef, useState, type KeyboardEvent as ReactKe
 import { applyCd, BIO, completeCommand, MOTTO, runCommand, type ShellLine } from "@/lib/shell"
 import { useKonami } from "@/hooks/use-konami"
 import MatrixRain from "@/components/matrix-rain"
+import SteamLocomotive from "@/components/steam-locomotive"
+import { trackShellCommand } from "@/lib/analytics"
+
+const BOOT_CHAR_MS = 52
+const BOOT_PAUSE_MS = 1400
+const OUTPUT_CHAR_MS = 32
+const OUTPUT_LINE_MS = 420
 
 type HistoryItem = ShellLine | { tone: "in"; text: string }
 
@@ -59,11 +66,13 @@ export default function About() {
   const [root, setRoot] = useState(false)
   const [matrix, setMatrix] = useState(false)
   const [vim, setVim] = useState(false)
+  const [train, setTrain] = useState(false)
   const [cmdHistory, setCmdHistory] = useState<string[]>([])
   const [cmdCursor, setCmdCursor] = useState(-1)
   const inputRef = useRef<HTMLInputElement>(null)
   const scrollerRef = useRef<HTMLDivElement>(null)
   const glitchRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const printGen = useRef(0)
 
   const finishBoot = useCallback(() => {
     setBooting(false)
@@ -74,7 +83,7 @@ export default function About() {
   useEffect(() => {
     if (!booting) return
     if (bootIndex >= BOOT.length) {
-      const done = setTimeout(finishBoot, 700)
+      const done = setTimeout(finishBoot, 1600)
       return () => clearTimeout(done)
     }
 
@@ -97,14 +106,14 @@ export default function About() {
           })),
         )
         setBootChar((n) => n + 1)
-      }, 18)
+      }, BOOT_CHAR_MS)
       return () => clearTimeout(timer)
     }
 
     const next = setTimeout(() => {
       setBootIndex((n) => n + 1)
       setBootChar(0)
-    }, 280)
+    }, BOOT_PAUSE_MS)
     return () => clearTimeout(next)
   }, [bootChar, bootIndex, booting, finishBoot])
 
@@ -124,10 +133,39 @@ export default function About() {
     scrollerRef.current?.scrollTo({ top: scrollerRef.current.scrollHeight })
   }, [history, bootLines, input, booting])
 
+  const printLines = useCallback(async (lines: ShellLine[]) => {
+    const gen = ++printGen.current
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    if (reduced) {
+      setHistory((prev) => [...prev, ...lines])
+      return
+    }
+
+    for (const line of lines) {
+      if (gen !== printGen.current) return
+      let built = ""
+      setHistory((prev) => [...prev, { tone: line.tone, text: "" }])
+      const step = line.text.length > 100 ? 10 : OUTPUT_CHAR_MS
+      for (const ch of line.text) {
+        if (gen !== printGen.current) return
+        built += ch
+        const snapshot = built
+        setHistory((prev) => {
+          const next = [...prev]
+          next[next.length - 1] = { tone: line.tone, text: snapshot }
+          return next
+        })
+        await new Promise((resolve) => setTimeout(resolve, step))
+      }
+      await new Promise((resolve) => setTimeout(resolve, OUTPUT_LINE_MS))
+    }
+  }, [])
+
   const run = useCallback(
     (raw: string) => {
       const typed = raw.trim()
       if (!typed) return
+      trackShellCommand(typed.split(/\s+/)[0] ?? typed)
       const result = runCommand(typed, { cwd, root, matrix })
       const nextCwd = applyCd(typed, cwd)
       setCwd(nextCwd)
@@ -135,15 +173,14 @@ export default function About() {
       setCmdCursor(-1)
 
       if (result.action?.type === "clear") {
+        printGen.current += 1
         setHistory([])
         return
       }
 
-      setHistory((prev) => [
-        ...prev,
-        { tone: "in", text: `guest@pixel-peeper:${cwd}$ ${typed}` },
-        ...result.lines,
-      ])
+      const user = root ? "root" : "guest"
+      setHistory((prev) => [...prev, { tone: "in", text: `${user}@pixel-peeper:${cwd}$ ${typed}` }])
+      void printLines(result.lines)
 
       const action = result.action
       if (!action) return
@@ -166,13 +203,16 @@ export default function About() {
         case "vim":
           setVim(action.on)
           break
+        case "sl":
+          setTrain(true)
+          break
         default: {
           const _exhaustive: never = action
           return _exhaustive
         }
       }
     },
-    [cwd, matrix, root],
+    [cwd, matrix, printLines, root],
   )
 
   const onUnlock = useCallback(() => {
@@ -273,6 +313,7 @@ export default function About() {
   return (
     <section id="about" className="mb-0 h-full" style={{ height: "100%" }}>
       <MatrixRain active={matrix} />
+      <SteamLocomotive active={train} onDone={() => setTrain(false)} />
       <div className="sr-only">
         Interactive portfolio shell. Type help after the boot sequence, or press any key to skip.
       </div>

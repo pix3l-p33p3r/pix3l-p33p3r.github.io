@@ -185,6 +185,15 @@
   }
 }
 
+@keyframes sl {
+  from {
+    transform: translateX(100vw);
+  }
+  to {
+    transform: translateX(-140%);
+  }
+}
+
 @keyframes slideIn {
   from {
     transform: translateX(-100%);

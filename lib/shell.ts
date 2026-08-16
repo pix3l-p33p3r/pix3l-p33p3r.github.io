@@ -16,6 +16,7 @@ export type ShellAction =
   | { type: "open"; href: string }
   | { type: "matrix"; on: boolean }
   | { type: "vim"; on: boolean }
+  | { type: "sl" }
 
 export type ShellResult = {
   lines: ShellLine[]
@@ -79,7 +80,7 @@ function helpText(root: boolean): string[] {
     "",
     "nav     help  clear  pwd  ls  cd  cat  open  projects  skills  resume  contact  blog",
     "me      whoami  motto  bio  status  neofetch  id",
-    "toys    echo  date  uname  ping  fortune  cowsay  matrix",
+    "toys    echo  date  uname  ping  fortune  cowsay  matrix  sl",
     "traps   sudo  vim  emacs  rm  ssh  hack",
   ]
   if (root) common.push("root    secret  peep")
@@ -151,6 +152,7 @@ export const COMMAND_NAMES = [
   "ping",
   "fortune",
   "cowsay",
+  "sl",
   "matrix",
   "sudo",
   "vim",
@@ -218,7 +220,7 @@ export function runCommand(raw: string, ctx: ShellContext): ShellResult {
         return {
           lines: skillGroups.flatMap((group) => [
             out(group.title, "accent"),
-            out(group.items.join(" · ")),
+            out(group.items.map((item) => item.name).join(" · ")),
           ]),
         }
       }
@@ -254,7 +256,9 @@ export function runCommand(raw: string, ctx: ShellContext): ShellResult {
     case "skills":
       return {
         lines: [
-          ...skillGroups.flatMap((group) => [out(`${group.title}: ${group.items.join(" · ")}`)]),
+          ...skillGroups.flatMap((group) => [
+            out(`${group.title}: ${group.items.map((item) => item.name).join(" · ")}`),
+          ]),
           out(`INTERESTS: ${interests.join(" · ")}`, "sys"),
         ],
         action: { type: "scroll", id: "skills" },
@@ -329,6 +333,11 @@ export function runCommand(raw: string, ctx: ShellContext): ShellResult {
       return { lines: [out(FORTUNES[Math.floor(Math.random() * FORTUNES.length)], "accent")] }
     case "cowsay":
       return { lines: cowsay(arg).map((text) => out(text, "accent")) }
+    case "sl":
+      return {
+        lines: [out("you meant ls. too late. the locomotive has opinions.", "sys")],
+        action: { type: "sl" },
+      }
     case "matrix":
       return {
         lines: [out(ctx.matrix ? "rain stopped. back to scanlines." : "wake up, peeper…", "accent")],
