@@ -1,10 +1,57 @@
-import { track as vercelTrack } from "@vercel/analytics"
+import { track as vercelTrack, type BeforeSendEvent } from "@vercel/analytics"
 
 type Props = Record<string, string | number | boolean | null>
 
 function track(name: string, data?: Props) {
   if (typeof window === "undefined") return
   vercelTrack(name, data)
+}
+
+/** Drop query/hash so intake never sees tokens or form leftovers. */
+export function stripTrackingUrl(url: string): string {
+  try {
+    const parsed = new URL(url)
+    parsed.search = ""
+    parsed.hash = ""
+    return parsed.toString()
+  } catch {
+    return url
+  }
+}
+
+export function analyticsBeforeSend(event: BeforeSendEvent): BeforeSendEvent | null {
+  return { ...event, url: stripTrackingUrl(event.url) }
+}
+
+function referrerHost(): string {
+  if (!document.referrer) return "direct"
+  try {
+    return new URL(document.referrer).hostname || "direct"
+  } catch {
+    return "direct"
+  }
+}
+
+export const trackPageView = () => {
+  track("page_view", {
+    path: window.location.pathname,
+    referrer_host: referrerHost(),
+    language: navigator.language || "unknown",
+    viewport_w: window.innerWidth,
+    viewport_h: window.innerHeight,
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || "unknown",
+  })
+}
+
+export const trackOutboundClick = (host: string) => {
+  track("outbound_click", { host })
+}
+
+export const trackPageNotFound = (path: string) => {
+  track("page_not_found", {
+    path,
+    referrer_host: referrerHost(),
+  })
 }
 
 export const trackResumeDownload = () => {

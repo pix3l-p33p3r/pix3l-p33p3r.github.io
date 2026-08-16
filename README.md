@@ -26,7 +26,7 @@ pnpm start        # serve build
 
 | Path | Purpose |
 |------|---------|
-| `app/` | Routes: home, `/blog`, `/blog/[slug]`, `/projects/[slug]`, sitemap, robots |
+| `app/` | Routes: home, `/blog`, `/blog/[slug]`, `/projects`, `/projects/[slug]`, sitemap, robots |
 | `components/` | Page sections + CRT overlays |
 | `content/blog/` | MDX posts (file = route) |
 | `lib/projects.ts` | Project catalog (typed array → `/projects/[slug]`) |
@@ -57,7 +57,7 @@ Your MDX content here.
 
 ### Add or edit a project
 
-Edit the array in `lib/projects.ts`. Each entry drives the home list and `/projects/[slug]`.
+Edit the array in `lib/projects.ts`. Each entry drives the home list, `/projects`, and `/projects/[slug]`.
 
 ### Change the public domain
 
