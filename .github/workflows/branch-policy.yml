@@ -1,0 +1,39 @@
+name: Branch policy
+
+on:
+  pull_request:
+    types: [opened, edited, reopened, synchronize]
+
+jobs:
+  naming:
+    name: branch-naming
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enforce branch architecture naming
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          set -euo pipefail
+
+          if [[ "${BASE_REF}" != "main" ]]; then
+            echo "::error::PRs must target main (got base '${BASE_REF}'). See docs/BRANCHING.md"
+            exit 1
+          fi
+
+          # Allow dependabot / renovate without renaming
+          if [[ "${HEAD_REF}" == dependabot/* || "${HEAD_REF}" == renovate/* ]]; then
+            echo "Allowed bot branch: ${HEAD_REF}"
+            exit 0
+          fi
+
+          PATTERN='^(feature|fix|chore|docs|cursor|hotfix)/[a-z0-9]+([.-][a-z0-9]+)*$'
+          if [[ ! "${HEAD_REF}" =~ ${PATTERN} ]]; then
+            echo "::error::Branch '${HEAD_REF}' does not match the team architecture."
+            echo "Use: feature|fix|chore|docs|cursor|hotfix / kebab-case"
+            echo "Examples: feature/blog-rss, fix/sphere-leak, chore/ci-cache"
+            echo "Full rules: docs/BRANCHING.md"
+            exit 1
+          fi
+
+          echo "OK: ${HEAD_REF} → ${BASE_REF}"
