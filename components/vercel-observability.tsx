@@ -1,32 +1,29 @@
 "use client"
 
-import type { ComponentType } from "react"
-import type { AnalyticsProps } from "@vercel/analytics/react"
-import { analyticsBeforeSend, isPrivateAdminUrl, stripTrackingUrl } from "@/lib/analytics"
-
-type SpeedInsightsEvent = { type: "vital"; url: string; route?: string }
-
-type SpeedInsightsProps = {
-  beforeSend?: (event: SpeedInsightsEvent) => SpeedInsightsEvent | null | undefined | false
-  debug?: boolean
-}
+import Script from "next/script"
+import { SpeedInsights } from "@vercel/speed-insights/next"
+import { flushAnalyticsQueue, isPrivateAdminUrl, stripTrackingUrl } from "@/lib/analytics"
+import { readUmamiPublicConfig, umamiScriptSrc } from "@/lib/umami-config"
 
 const isProd = process.env.NODE_ENV === "production"
 const prodOnly = isProd ? { debug: false as const } : {}
 
-export function VercelObservability({
-  Analytics,
-  SpeedInsights,
-}: {
-  Analytics: ComponentType<AnalyticsProps>
-  SpeedInsights: ComponentType<SpeedInsightsProps>
-}) {
+export function VercelObservability() {
+  const umami = readUmamiPublicConfig()
+
   return (
     <>
-      <Analytics
-        beforeSend={analyticsBeforeSend}
-        {...(isProd ? { mode: "production" as const, debug: false } : {})}
-      />
+      {umami ? (
+        <Script
+          src={umamiScriptSrc(umami.url)}
+          strategy="afterInteractive"
+          data-website-id={umami.websiteId}
+          data-exclude-search="true"
+          data-exclude-hash="true"
+          data-before-send="pixelUmamiBeforeSend"
+          onLoad={flushAnalyticsQueue}
+        />
+      ) : null}
       <SpeedInsights
         beforeSend={(event) => {
           if (isPrivateAdminUrl(event.url)) return null

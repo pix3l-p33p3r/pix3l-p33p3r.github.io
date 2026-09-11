@@ -52,7 +52,7 @@ export type NamedCount = {
 
 export type EventTotals = Record<CustomEventName, { count: number | null; visitors: number | null }>
 
-export type DataSource = "vercel" | "unconfigured" | "error"
+export type DataSource = "umami" | "vercel" | "unconfigured" | "error"
 
 export type TrafficKpis = {
   pageviews: number | null

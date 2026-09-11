@@ -1,4 +1,4 @@
-import { loadAnalyticsSnapshot } from "@/lib/vercel-web-analytics"
+import { loadAnalyticsSnapshot } from "@/lib/umami-analytics"
 import { loadSpeedInsights } from "@/lib/vercel-speed-insights"
 import type { AnalyticsSnapshot } from "@/lib/analytics-kpis"
 

@@ -4,8 +4,7 @@ import "./globals.css"
 import "katex/dist/katex.min.css"
 import type { Metadata } from "next"
 import { Share_Tech_Mono } from "next/font/google"
-import { Analytics } from "@vercel/analytics/react"
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import Script from "next/script"
 import Telemetry from "@/components/telemetry"
 import { VercelObservability } from "@/components/vercel-observability"
 import { SITE_NAME, SITE_URL } from "@/lib/site"
@@ -73,7 +72,10 @@ export default function RootLayout({
           aria-hidden="true"
         ></div>
         {children}
-        <VercelObservability Analytics={Analytics} SpeedInsights={SpeedInsights} />
+        <Script id="umami-before-send" strategy="beforeInteractive">
+          {`window.pixelUmamiBeforeSend=function(type,payload){try{if(!payload||!payload.url)return payload;var raw=String(payload.url);var path=raw.charAt(0)==="/"?raw.split("?")[0].split("#")[0]:new URL(raw,location.origin).pathname;if(path==="/admin"||path.indexOf("/admin/")===0)return false;return payload;}catch(e){return payload;}}`}
+        </Script>
+        <VercelObservability />
         <Suspense fallback={null}>
           <Telemetry />
         </Suspense>

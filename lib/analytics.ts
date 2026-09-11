@@ -1,7 +1,23 @@
-import { track as vercelTrack, type BeforeSendEvent } from "@vercel/analytics"
 import { isAdminPath } from "@/lib/admin-path"
 
 type Props = Record<string, string | number | boolean | null>
+
+type UmamiClient = {
+  track: (eventName: string, data?: Props) => void
+}
+
+type UmamiBeforeSendPayload = { url?: string } & Record<string, unknown>
+
+declare global {
+  interface Window {
+    umami?: UmamiClient
+    pixelUmamiBeforeSend?: typeof umamiBeforeSend
+  }
+}
+
+type QueuedEvent = { name: string; data?: Props }
+
+const queue: QueuedEvent[] = []
 
 export function isPrivateAdminUrl(url: string): boolean {
   try {
@@ -9,11 +25,6 @@ export function isPrivateAdminUrl(url: string): boolean {
   } catch {
     return false
   }
-}
-
-function track(name: string, data?: Props) {
-  if (typeof window === "undefined") return
-  vercelTrack(name, data)
 }
 
 /** Drop query/hash so intake never sees tokens or form leftovers. */
@@ -28,9 +39,54 @@ export function stripTrackingUrl(url: string): string {
   }
 }
 
-export function analyticsBeforeSend(event: BeforeSendEvent): BeforeSendEvent | null {
-  if (isPrivateAdminUrl(event.url)) return null
-  return { ...event, url: stripTrackingUrl(event.url) }
+export function umamiBeforeSend(_type: string, payload: UmamiBeforeSendPayload): UmamiBeforeSendPayload | false {
+  const url = typeof payload.url === "string" ? payload.url : ""
+  if (url && isPrivateAdminUrl(url)) return false
+  return payload
+}
+
+function bindUmamiBeforeSend(): void {
+  if (typeof window === "undefined") return
+  window.pixelUmamiBeforeSend = umamiBeforeSend
+}
+
+bindUmamiBeforeSend()
+
+function shouldDropClientEvent(): boolean {
+  if (typeof window === "undefined") return true
+  return isAdminPath(window.location.pathname)
+}
+
+export function flushAnalyticsQueue(): void {
+  if (typeof window === "undefined") return
+  bindUmamiBeforeSend()
+  const umami = window.umami
+  if (typeof umami?.track !== "function") return
+  while (queue.length > 0) {
+    const item = queue.shift()
+    if (!item) break
+    umami.track(item.name, item.data)
+  }
+}
+
+function compactProps(data?: Props): Props | undefined {
+  if (!data) return undefined
+  const next: Props = {}
+  for (const [key, value] of Object.entries(data)) {
+    if (value !== null) next[key] = value
+  }
+  return next
+}
+
+function track(name: string, data?: Props) {
+  if (shouldDropClientEvent()) return
+  const payload = compactProps(data)
+  const umami = window.umami
+  if (typeof umami?.track === "function") {
+    umami.track(name, payload)
+    return
+  }
+  queue.push({ name, data: payload })
 }
 
 function referrerHost(): string {

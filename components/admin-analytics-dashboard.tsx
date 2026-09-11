@@ -38,6 +38,8 @@ function vitalTone(kind: "lcp" | "inp" | "cls" | "fcp" | "ttfb", value: number |
 
 function sourceLabel(source: AnalyticsSnapshot["source"]): string {
   switch (source) {
+    case "umami":
+      return "UMAMI_LIVE"
     case "vercel":
       return "VERCEL_LIVE"
     case "unconfigured":
@@ -122,7 +124,7 @@ export default function AdminAnalyticsDashboard({ snapshot }: { snapshot: Analyt
           <p className="font-mono text-xs tracking-widest text-[#00ffff]/70">KPI_CONSOLE</p>
           <h1 className="text-3xl text-[#ff4800] tracking-wider mt-1">Site analytics</h1>
           <p className="text-white/60 text-sm mt-2">
-            Last {snapshot.windowDays} days · {sourceLabel(snapshot.source)} · first-party Vercel only
+            Last {snapshot.windowDays} days · {sourceLabel(snapshot.source)} · Umami (Cloud or self-host)
           </p>
         </div>
         <form action="/admin/logout" method="post">
@@ -150,8 +152,8 @@ export default function AdminAnalyticsDashboard({ snapshot }: { snapshot: Analyt
       ) : null}
 
       <section className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        <KpiCard label="VISITORS_30D" value={formatCount(snapshot.traffic.visitors)} hint="Web Analytics visitors" />
-        <KpiCard label="PAGEVIEWS_30D" value={formatCount(snapshot.traffic.pageviews)} hint="Web Analytics page views" />
+        <KpiCard label="VISITORS_30D" value={formatCount(snapshot.traffic.visitors)} hint="Umami visitors" />
+        <KpiCard label="PAGEVIEWS_30D" value={formatCount(snapshot.traffic.pageviews)} hint="Umami page views" />
         <KpiCard label="RESUME_DL" value={formatCount(resume.count)} hint="resume_download events" />
         <KpiCard
           label="OUTBOUND"
@@ -164,12 +166,12 @@ export default function AdminAnalyticsDashboard({ snapshot }: { snapshot: Analyt
         <KpiCard
           label="VISITORS_LIFE"
           value={formatCount(snapshot.traffic.lifetimeVisitors)}
-          hint="Since Analytics was enabled"
+          hint="Since Umami collection started"
         />
         <KpiCard
           label="PAGEVIEWS_LIFE"
           value={formatCount(snapshot.traffic.lifetimePageviews)}
-          hint="Production count endpoint"
+          hint="Umami stats since 2015-01-01"
         />
         <KpiCard label="CUSTOM_PAGE_VIEW" value={formatCount(snapshot.events.totals.page_view.count)} />
         <KpiCard label="404S" value={formatCount(snapshot.events.totals.page_not_found.count)} />
