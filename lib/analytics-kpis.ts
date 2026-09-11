@@ -52,7 +52,7 @@ export type NamedCount = {
 
 export type EventTotals = Record<CustomEventName, { count: number | null; visitors: number | null }>
 
-export type DataSource = "vercel" | "unconfigured" | "error"
+export type DataSource = "dual" | "umami" | "vercel" | "unconfigured" | "error"
 
 export type TrafficKpis = {
   pageviews: number | null
@@ -87,6 +87,8 @@ export type VitalKpis = {
 
 export type AnalyticsSnapshot = {
   source: DataSource
+  trafficSource: DataSource
+  eventsSource: DataSource
   windowDays: number
   since: string
   until: string
@@ -118,6 +120,8 @@ export function emptyEventTotals(): EventTotals {
 
 export function emptySnapshot(partial: {
   source: DataSource
+  trafficSource?: DataSource
+  eventsSource?: DataSource
   windowDays: number
   since: string
   until: string
@@ -127,6 +131,8 @@ export function emptySnapshot(partial: {
 }): AnalyticsSnapshot {
   return {
     source: partial.source,
+    trafficSource: partial.trafficSource ?? partial.source,
+    eventsSource: partial.eventsSource ?? partial.source,
     windowDays: partial.windowDays,
     since: partial.since,
     until: partial.until,
