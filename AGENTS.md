@@ -16,6 +16,7 @@ Non-obvious notes:
 
 - Blog content is file-based MDX under `content/blog/*.mdx` (gray-matter + `next-mdx-remote`). Add/remove an `.mdx` file → route under `/blog/[slug]` and listing on `/blog`. The Mermaid client component is injected via `compileMDX` in `app/blog/[slug]/page.tsx` — do not re-import it inside MDX files. Do not add browser WASM Graphviz (`d3-graphviz` / `@hpcc-js/wasm`); use a checked-in or inline SVG instead.
 - Projects live in `lib/projects.ts` → `/projects` and `/projects/[slug]`. `repoUrl` is optional when there is no public repo.
+- Private site-KPI dashboard is `/admin/analytics` (env password `ADMIN_DASHBOARD_PASSWORD`). Do not add it to the public header or sitemap. Setup: `docs/ADMIN_ANALYTICS.md`.
 - Canonical public URL is `SITE_URL` in `lib/site.ts` (`https://www.pixel-peeper.tech`). Prefer editing that constant over hardcoding domains.
 - Deploy target is **Vercel** only.
 - The `pnpm install` warning about ignored build scripts is usually harmless; approve only if a package actually needs a postinstall.

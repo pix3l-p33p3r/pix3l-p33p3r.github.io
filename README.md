@@ -26,7 +26,7 @@ pnpm start        # serve build
 
 | Path | Purpose |
 |------|---------|
-| `app/` | Routes: home, `/blog`, `/blog/[slug]`, `/projects`, `/projects/[slug]`, sitemap, robots |
+| `app/` | Routes: home, `/blog`, `/blog/[slug]`, `/projects`, `/projects/[slug]`, private `/admin/analytics`, sitemap, robots |
 | `components/` | Page sections + CRT overlays |
 | `content/blog/` | MDX posts (file = route) |
 | `lib/projects.ts` | Project catalog (typed array → `/projects/[slug]`) |
@@ -85,6 +85,7 @@ Or Actions → **Enable branch protection** after adding secret `BRANCH_PROTECTI
 ## Docs
 
 - [docs/BRANCHING.md](./docs/BRANCHING.md) — branch architecture for the team
+- [docs/ADMIN_ANALYTICS.md](./docs/ADMIN_ANALYTICS.md) — private `/admin/analytics` gate + Vercel env vars
 - [CONTRIBUTING.md](./CONTRIBUTING.md) — day-to-day workflow
 - [AGENTS.md](./AGENTS.md) — notes for Cursor / cloud agents
 - [docs/TECH_DEBT.md](./docs/TECH_DEBT.md) — health rating and backlog

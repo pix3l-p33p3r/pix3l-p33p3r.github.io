@@ -15,6 +15,32 @@ const nextConfig = {
   async headers() {
     return [
       {
+        source: "/admin",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "private, no-store",
+          },
+          {
+            key: "X-Robots-Tag",
+            value: "noindex, nofollow, noarchive",
+          },
+        ],
+      },
+      {
+        source: "/admin/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "private, no-store",
+          },
+          {
+            key: "X-Robots-Tag",
+            value: "noindex, nofollow, noarchive",
+          },
+        ],
+      },
+      {
         source: "/(.*)",
         headers: [
           // Note: 'unsafe-inline' is still required for Next.js / KaTeX; tighten further when possible.

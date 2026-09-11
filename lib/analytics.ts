@@ -1,6 +1,15 @@
 import { track as vercelTrack, type BeforeSendEvent } from "@vercel/analytics"
+import { isAdminPath } from "@/lib/admin-path"
 
 type Props = Record<string, string | number | boolean | null>
+
+export function isPrivateAdminUrl(url: string): boolean {
+  try {
+    return isAdminPath(new URL(url, "https://www.pixel-peeper.tech").pathname)
+  } catch {
+    return false
+  }
+}
 
 function track(name: string, data?: Props) {
   if (typeof window === "undefined") return
@@ -20,6 +29,7 @@ export function stripTrackingUrl(url: string): string {
 }
 
 export function analyticsBeforeSend(event: BeforeSendEvent): BeforeSendEvent | null {
+  if (isPrivateAdminUrl(event.url)) return null
   return { ...event, url: stripTrackingUrl(event.url) }
 }
 
