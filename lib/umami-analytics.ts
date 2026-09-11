@@ -52,7 +52,7 @@ async function queryMetrics(
   config: UmamiQueryConfig,
   startAt: number,
   endAt: number,
-  type: "url" | "referrer" | "event",
+  type: "path" | "referrer" | "event",
 ) {
   return umamiGetJson(config, websitePath(config, "/metrics"), {
     startAt,
@@ -153,7 +153,7 @@ export async function loadAnalyticsSnapshot(): Promise<AnalyticsSnapshot> {
     queryStats(config, sinceMs, untilMs),
     queryStats(config, LIFETIME_START_MS, untilMs),
     queryPageviews(config, sinceMs, untilMs),
-    queryMetrics(config, sinceMs, untilMs, "url"),
+    queryMetrics(config, sinceMs, untilMs, "path"),
     queryMetrics(config, sinceMs, untilMs, "referrer"),
     queryMetrics(config, sinceMs, untilMs, "event"),
     queryEventValues(config, sinceMs, untilMs, "outbound_click", "host"),

@@ -77,7 +77,7 @@ export function namedMetricRows(
         .map((key) => row[key])
         .find((value) => typeof value === "string" && value.trim())
       const count = asFiniteNumber(row.y ?? row.count ?? row.total ?? row.pageviews ?? row.events)
-      const visitors = asFiniteNumber(row.visitors ?? row.y)
+      const visitors = asFiniteNumber(row.visitors)
       return {
         label: typeof label === "string" ? label : "unknown",
         count,
