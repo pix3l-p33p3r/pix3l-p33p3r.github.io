@@ -8,7 +8,7 @@ import Script from "next/script"
 import Telemetry from "@/components/telemetry"
 import { VercelObservability } from "@/components/vercel-observability"
 import { SITE_NAME, SITE_URL } from "@/lib/site"
-import { readUmamiPublicConfig } from "@/lib/umami-config"
+import { readUmamiPublicConfig, umamiScriptSrc } from "@/lib/umami-config"
 
 const shareTechMono = Share_Tech_Mono({
   weight: "400",
@@ -76,6 +76,17 @@ export default function RootLayout({
         ></div>
         {children}
         <Script id="umami-before-send" src="/umami-before-send.js" strategy="beforeInteractive" />
+        {umami ? (
+          <script
+            defer
+            src={umamiScriptSrc(umami.url)}
+            data-website-id={umami.websiteId}
+            data-exclude-search="true"
+            data-exclude-hash="true"
+            data-before-send="pixelUmamiBeforeSend"
+            data-pixel-umami="1"
+          />
+        ) : null}
         <VercelObservability umami={umami} />
         <Suspense fallback={null}>
           <Telemetry />
