@@ -1,3 +1,4 @@
+import { track as vercelTrack, type BeforeSendEvent } from "@vercel/analytics"
 import { isAdminPath } from "@/lib/admin-path"
 
 type Props = Record<string, string | number | boolean | null>
@@ -38,6 +39,11 @@ export function stripTrackingUrl(url: string): string {
   } catch {
     return url
   }
+}
+
+export function analyticsBeforeSend(event: BeforeSendEvent): BeforeSendEvent | null {
+  if (isPrivateAdminUrl(event.url)) return null
+  return { ...event, url: stripTrackingUrl(event.url) }
 }
 
 export function umamiBeforeSend(_type: string, payload: UmamiBeforeSendPayload): UmamiBeforeSendPayload | false {
@@ -84,6 +90,7 @@ function compactProps(data?: Props): Props | undefined {
 function track(name: string, data?: Props) {
   if (shouldDropClientEvent()) return
   const payload = compactProps(data)
+  vercelTrack(name, payload)
   const umami = window.umami
   if (typeof umami?.track === "function") {
     umami.track(name, payload)

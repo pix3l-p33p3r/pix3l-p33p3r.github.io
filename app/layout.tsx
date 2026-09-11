@@ -4,6 +4,8 @@ import "./globals.css"
 import "katex/dist/katex.min.css"
 import type { Metadata } from "next"
 import { Share_Tech_Mono } from "next/font/google"
+import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import Telemetry from "@/components/telemetry"
 import { VercelObservability } from "@/components/vercel-observability"
 import { SITE_NAME, SITE_URL } from "@/lib/site"
@@ -86,7 +88,7 @@ export default function RootLayout({
             data-pixel-umami="1"
           />
         ) : null}
-        <VercelObservability umami={umami} />
+        <VercelObservability Analytics={Analytics} SpeedInsights={SpeedInsights} umami={umami} />
         <Suspense fallback={null}>
           <Telemetry />
         </Suspense>

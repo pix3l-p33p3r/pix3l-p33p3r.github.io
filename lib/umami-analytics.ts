@@ -142,7 +142,7 @@ export async function loadAnalyticsSnapshot(): Promise<AnalyticsSnapshot> {
       since,
       until,
       message:
-        "Umami is not fully configured. Set the public tracker URL and website id for pageviews/events, plus UMAMI_API_TOKEN for this console. KPI cards stay empty — counts are never invented.",
+        "Umami event KPIs stay empty until the public tracker URL, website id, and UMAMI_API_TOKEN are set. Counts are never invented.",
       missingEnv,
     })
   }
@@ -197,6 +197,8 @@ export async function loadAnalyticsSnapshot(): Promise<AnalyticsSnapshot> {
 
   return {
     source: "umami",
+    trafficSource: "umami",
+    eventsSource: "umami",
     windowDays: WINDOW_DAYS,
     since,
     until,

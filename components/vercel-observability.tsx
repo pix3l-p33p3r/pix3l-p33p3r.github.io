@@ -1,9 +1,16 @@
 "use client"
 
-import { useEffect } from "react"
-import { SpeedInsights } from "@vercel/speed-insights/next"
-import { flushAnalyticsQueue, isPrivateAdminUrl, stripTrackingUrl } from "@/lib/analytics"
+import { useEffect, type ComponentType } from "react"
+import type { AnalyticsProps } from "@vercel/analytics/react"
+import { analyticsBeforeSend, flushAnalyticsQueue, isPrivateAdminUrl, stripTrackingUrl } from "@/lib/analytics"
 import { type UmamiPublicConfig, umamiScriptSrc } from "@/lib/umami-config"
+
+type SpeedInsightsEvent = { type: "vital"; url: string; route?: string }
+
+type SpeedInsightsProps = {
+  beforeSend?: (event: SpeedInsightsEvent) => SpeedInsightsEvent | null | undefined | false
+  debug?: boolean
+}
 
 const isProd = process.env.NODE_ENV === "production"
 const prodOnly = isProd ? { debug: false as const } : {}
@@ -24,7 +31,15 @@ function injectUmamiScript(config: UmamiPublicConfig): void {
   document.body.appendChild(el)
 }
 
-export function VercelObservability({ umami }: { umami: UmamiPublicConfig | null }) {
+export function VercelObservability({
+  Analytics,
+  SpeedInsights,
+  umami,
+}: {
+  Analytics: ComponentType<AnalyticsProps>
+  SpeedInsights: ComponentType<SpeedInsightsProps>
+  umami: UmamiPublicConfig | null
+}) {
   useEffect(() => {
     if (!umami) return
     injectUmamiScript(umami)
@@ -39,12 +54,18 @@ export function VercelObservability({ umami }: { umami: UmamiPublicConfig | null
   }, [umami])
 
   return (
-    <SpeedInsights
-      beforeSend={(event) => {
-        if (isPrivateAdminUrl(event.url)) return null
-        return { ...event, url: stripTrackingUrl(event.url) }
-      }}
-      {...prodOnly}
-    />
+    <>
+      <Analytics
+        beforeSend={analyticsBeforeSend}
+        {...(isProd ? { mode: "production" as const, debug: false } : {})}
+      />
+      <SpeedInsights
+        beforeSend={(event) => {
+          if (isPrivateAdminUrl(event.url)) return null
+          return { ...event, url: stripTrackingUrl(event.url) }
+        }}
+        {...prodOnly}
+      />
+    </>
   )
 }
