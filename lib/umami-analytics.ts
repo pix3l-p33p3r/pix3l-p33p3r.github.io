@@ -48,11 +48,13 @@ async function queryPageviews(config: UmamiQueryConfig, startAt: number, endAt: 
   })
 }
 
+type UmamiMetricType = "path" | "url" | "referrer" | "event"
+
 async function queryMetrics(
   config: UmamiQueryConfig,
   startAt: number,
   endAt: number,
-  type: "url" | "referrer" | "event",
+  type: UmamiMetricType,
 ) {
   return umamiGetJson(config, websitePath(config, "/metrics"), {
     startAt,
@@ -60,6 +62,15 @@ async function queryMetrics(
     type,
     limit: 50,
   })
+}
+
+async function queryTopPaths(config: UmamiQueryConfig, startAt: number, endAt: number) {
+  const pathResult = await queryMetrics(config, startAt, endAt, "path")
+  if (pathResult.ok || pathResult.status !== 400) {
+    return pathResult
+  }
+  // Older self-hosted Umami v2 accepted type=url instead of type=path.
+  return queryMetrics(config, startAt, endAt, "url")
 }
 
 async function queryEventValues(
@@ -153,7 +164,7 @@ export async function loadAnalyticsSnapshot(): Promise<AnalyticsSnapshot> {
     queryStats(config, sinceMs, untilMs),
     queryStats(config, LIFETIME_START_MS, untilMs),
     queryPageviews(config, sinceMs, untilMs),
-    queryMetrics(config, sinceMs, untilMs, "url"),
+    queryTopPaths(config, sinceMs, untilMs),
     queryMetrics(config, sinceMs, untilMs, "referrer"),
     queryMetrics(config, sinceMs, untilMs, "event"),
     queryEventValues(config, sinceMs, untilMs, "outbound_click", "host"),
