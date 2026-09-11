@@ -12,6 +12,7 @@ declare global {
   interface Window {
     umami?: UmamiClient
     pixelUmamiBeforeSend?: typeof umamiBeforeSend
+    pixelUmamiFlush?: () => void
   }
 }
 
@@ -45,13 +46,6 @@ export function umamiBeforeSend(_type: string, payload: UmamiBeforeSendPayload):
   return payload
 }
 
-function bindUmamiBeforeSend(): void {
-  if (typeof window === "undefined") return
-  window.pixelUmamiBeforeSend = umamiBeforeSend
-}
-
-bindUmamiBeforeSend()
-
 function shouldDropClientEvent(): boolean {
   if (typeof window === "undefined") return true
   return isAdminPath(window.location.pathname)
@@ -59,7 +53,8 @@ function shouldDropClientEvent(): boolean {
 
 export function flushAnalyticsQueue(): void {
   if (typeof window === "undefined") return
-  bindUmamiBeforeSend()
+  window.pixelUmamiBeforeSend = umamiBeforeSend
+  window.pixelUmamiFlush = flushAnalyticsQueue
   const umami = window.umami
   if (typeof umami?.track !== "function") return
   while (queue.length > 0) {
@@ -68,6 +63,14 @@ export function flushAnalyticsQueue(): void {
     umami.track(item.name, item.data)
   }
 }
+
+function bindUmamiGlobals(): void {
+  if (typeof window === "undefined") return
+  window.pixelUmamiBeforeSend = umamiBeforeSend
+  window.pixelUmamiFlush = flushAnalyticsQueue
+}
+
+bindUmamiGlobals()
 
 function compactProps(data?: Props): Props | undefined {
   if (!data) return undefined

@@ -4,7 +4,6 @@ import "./globals.css"
 import "katex/dist/katex.min.css"
 import type { Metadata } from "next"
 import { Share_Tech_Mono } from "next/font/google"
-import Script from "next/script"
 import Telemetry from "@/components/telemetry"
 import { VercelObservability } from "@/components/vercel-observability"
 import { SITE_NAME, SITE_URL } from "@/lib/site"
@@ -75,7 +74,7 @@ export default function RootLayout({
           aria-hidden="true"
         ></div>
         {children}
-        <Script id="umami-before-send" src="/umami-before-send.js" strategy="beforeInteractive" />
+        <script src="/umami-before-send.js" defer />
         {umami ? (
           <script
             defer
