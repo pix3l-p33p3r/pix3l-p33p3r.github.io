@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next"
 import { getAllPosts } from "@/lib/blog"
+import { getDashboardBook } from "@/lib/dashboard"
 import { projects } from "@/lib/projects"
 import { SITE_URL } from "@/lib/site"
 
@@ -33,6 +34,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     },
   ]
+
+  try {
+    const book = await getDashboardBook()
+    entries.push({
+      url: `${SITE_URL}/dashboard`,
+      lastModified: lastmod(book.generated_at),
+      changeFrequency: "daily",
+      priority: 0.8,
+    })
+  } catch {
+    entries.push({
+      url: `${SITE_URL}/dashboard`,
+      lastModified: now,
+      changeFrequency: "daily",
+      priority: 0.8,
+    })
+  }
 
   for (const p of projects) {
     entries.push({

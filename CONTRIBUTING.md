@@ -57,6 +57,7 @@ gh pr create --base main --fill
 | Site URL / name | `lib/site.ts` |
 | Projects | `lib/projects.ts` |
 | Blog posts | `content/blog/*.mdx` |
+| Public weekday book | `data/dashboard/*.json`, `lib/dashboard.ts`, `app/dashboard/page.tsx` |
 | Global styles | `app/globals.css`, `tailwind.config.ts` |
 | Security headers | `next.config.mjs` |
 

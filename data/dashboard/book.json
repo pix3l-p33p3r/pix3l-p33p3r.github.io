@@ -1,0 +1,18 @@
+{
+  "mode": "paper",
+  "timezone": "Africa/Casablanca",
+  "generated_at": null,
+  "balances": {
+    "equity": null,
+    "cash": null,
+    "unsettled": null,
+    "buying_power": null,
+    "currency": "USD"
+  },
+  "positions": [],
+  "orders": [],
+  "inception": {
+    "start": null,
+    "points": []
+  }
+}
