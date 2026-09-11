@@ -2,7 +2,7 @@
 
 import type { ComponentType } from "react"
 import type { AnalyticsProps } from "@vercel/analytics/react"
-import { analyticsBeforeSend, stripTrackingUrl } from "@/lib/analytics"
+import { analyticsBeforeSend, isPrivateAdminUrl, stripTrackingUrl } from "@/lib/analytics"
 
 type SpeedInsightsEvent = { type: "vital"; url: string; route?: string }
 
@@ -28,7 +28,10 @@ export function VercelObservability({
         {...(isProd ? { mode: "production" as const, debug: false } : {})}
       />
       <SpeedInsights
-        beforeSend={(event) => ({ ...event, url: stripTrackingUrl(event.url) })}
+        beforeSend={(event) => {
+          if (isPrivateAdminUrl(event.url)) return null
+          return { ...event, url: stripTrackingUrl(event.url) }
+        }}
         {...prodOnly}
       />
     </>

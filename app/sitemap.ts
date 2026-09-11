@@ -13,6 +13,7 @@ function lastmod(value?: string | null): Date {
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = lastmod()
+  // /admin/* is intentionally omitted — private gate, not a public surface.
   const entries: MetadataRoute.Sitemap = [
     {
       url: `${SITE_URL}/`,

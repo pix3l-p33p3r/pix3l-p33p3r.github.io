@@ -9,10 +9,12 @@ export default function Telemetry() {
   const pathname = usePathname()
 
   useEffect(() => {
+    if (pathname?.startsWith("/admin")) return
     trackPageView()
   }, [pathname])
 
   useEffect(() => {
+    if (window.location.pathname.startsWith("/admin")) return
     const gpu = detectGpu()
     trackGpuCapabilities({
       backend: gpu.backend,

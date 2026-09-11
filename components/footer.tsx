@@ -1,4 +1,7 @@
-import Link from "next/link"
+import TrackedContactLink from "@/components/tracked-contact-link"
+
+const footerLinkClass =
+  "text-[#00ffff] transition-colors duration-200 hover:text-[#00cccc] hover:underline"
 
 export default function Footer() {
   return (
@@ -8,24 +11,29 @@ export default function Footer() {
         <span className="text-[#00ffff]">help</span> · press <kbd className="text-[#ff4800]">`</kbd>
       </p>
       <div className="flex gap-4 md:gap-0">
-        <Link
+        <TrackedContactLink
+          platform="GitHub"
           href="https://github.com/pix3l-p33p3r"
-          className="text-[#00ffff] md:ml-4 transition-colors duration-200 hover:text-[#00cccc] hover:underline"
+          external
+          className={`${footerLinkClass} md:ml-4`}
         >
           GitHub
-        </Link>
-        <Link
+        </TrackedContactLink>
+        <TrackedContactLink
+          platform="Twitter/X"
           href="https://x.com/PiX3L_P33P3R"
-          className="text-[#00ffff] ml-4 transition-colors duration-200 hover:text-[#00cccc] hover:underline"
+          external
+          className={`${footerLinkClass} ml-4`}
         >
           X
-        </Link>
-        <Link
+        </TrackedContactLink>
+        <TrackedContactLink
+          platform="Email"
           href="mailto:pix3l-p33p3r@proton.me"
-          className="text-[#00ffff] ml-4 transition-colors duration-200 hover:text-[#00cccc] hover:underline"
+          className={`${footerLinkClass} ml-4`}
         >
           Email
-        </Link>
+        </TrackedContactLink>
       </div>
     </footer>
   )
