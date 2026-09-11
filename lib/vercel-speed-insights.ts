@@ -17,10 +17,19 @@ const SPEED_METRICS = [
 
 type SpeedMetricKey = (typeof SPEED_METRICS)[number]["key"]
 
-function projectScope(config: VercelQueryConfig): Record<string, unknown> {
-  return config.teamId
-    ? { type: "project", ownerId: config.teamId, projectId: config.projectId }
-    : { type: "project", projectId: config.projectId }
+type ObservabilityProjectScope = {
+  type: "project"
+  ownerId: string
+  projectIds: string[]
+}
+
+function projectScope(config: VercelQueryConfig): ObservabilityProjectScope | null {
+  if (!config.teamId) return null
+  return {
+    type: "project",
+    ownerId: config.teamId,
+    projectIds: [config.projectId],
+  }
 }
 
 function readVitalValue(payload: unknown): { value: number | null; samples: number | null } {
@@ -68,6 +77,21 @@ export async function loadSpeedInsights(since: string, until: string): Promise<V
     }
   }
 
+  const scope = projectScope(config)
+  if (!scope) {
+    return {
+      source: "unconfigured",
+      message:
+        "Speed Insights needs VERCEL_TEAM_ID as ownerId (plus the API token and project id). Values are never invented.",
+      lcpMs: null,
+      inpMs: null,
+      cls: null,
+      fcpMs: null,
+      ttfbMs: null,
+      samples: null,
+    }
+  }
+
   const values: Record<SpeedMetricKey, number | null> = {
     lcpMs: null,
     inpMs: null,
@@ -83,7 +107,7 @@ export async function loadSpeedInsights(since: string, until: string): Promise<V
     SPEED_METRICS.map(async (metric) => {
       const result = await vercelPostJson(config, "/v2/observability/query", {
         metric: metric.id,
-        scope: projectScope(config),
+        scope,
         aggregation: "p75",
         startTime: since,
         endTime: until,
@@ -100,8 +124,11 @@ export async function loadSpeedInsights(since: string, until: string): Promise<V
     }
     const parsed = readVitalValue(result.data)
     values[metric.key] = parsed.value
+    // Same page-load window across series — one population size, never a sum.
     if (parsed.samples !== null) {
-      samples = samples === null ? parsed.samples : samples + parsed.samples
+      if (metric.key === "lcpMs" || samples === null) {
+        samples = parsed.samples
+      }
     }
     if (parsed.value !== null) success += 1
   }
