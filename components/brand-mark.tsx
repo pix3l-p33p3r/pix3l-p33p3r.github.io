@@ -1,15 +1,17 @@
 type BrandMarkProps = {
   className?: string
   title?: string
+  decorative?: boolean
 }
 
-export default function BrandMark({ className, title = "pix3l_p33p3r" }: BrandMarkProps) {
+export default function BrandMark({ className, title = "pix3l_p33p3r", decorative = false }: BrandMarkProps) {
   return (
     <svg
       viewBox="0 0 32 32"
       className={className}
-      role="img"
-      aria-label={title}
+      role={decorative ? undefined : "img"}
+      aria-label={decorative ? undefined : title}
+      aria-hidden={decorative ? true : undefined}
       xmlns="http://www.w3.org/2000/svg"
     >
       <rect width="32" height="32" fill="#050505" />

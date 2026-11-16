@@ -3,6 +3,14 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  async rewrites() {
+    return [
+      {
+        source: "/favicon.ico",
+        destination: "/icon.svg",
+      },
+    ]
+  },
   async redirects() {
     return [
       {
@@ -68,6 +76,24 @@ const nextConfig = {
           {
             key: "Strict-Transport-Security",
             value: "max-age=31536000; includeSubDomains; preload",
+          },
+        ],
+      },
+      {
+        source: "/cv/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=300, stale-while-revalidate=60",
+          },
+        ],
+      },
+      {
+        source: "/:path*.:ext(svg|png|jpg|jpeg|webp|gif|ico|woff2)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=86400, stale-while-revalidate=604800",
           },
         ],
       },

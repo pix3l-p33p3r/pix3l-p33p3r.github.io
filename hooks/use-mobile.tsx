@@ -14,7 +14,7 @@ export function useMobile() {
     checkMobile()
 
     // Add event listener for window resize
-    window.addEventListener("resize", checkMobile)
+    window.addEventListener("resize", checkMobile, { passive: true })
 
     // Clean up event listener
     return () => window.removeEventListener("resize", checkMobile)
