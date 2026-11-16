@@ -14,9 +14,9 @@ export default function Projects({ heading = "h2" }: { heading?: "h1" | "h2" }) 
         {projects.map((p) => (
           <article
             key={p.slug}
-            className="project-card bg-gradient-to-br from-black/60 to-black/80 border border-[#333] p-5 relative overflow-hidden before:content-[''] before:absolute before:top-0 before:inset-inline-start-0 before:w-1 before:h-full before:bg-[#00ffff] before:opacity-70 transition-colors duration-150 flex flex-col"
+            className="project-card bg-gradient-to-br from-black/60 to-black/80 border border-[#333] relative overflow-hidden transition-colors duration-150 flex flex-col"
           >
-            <div className="absolute top-4 inset-inline-end-4 w-2 h-2 rounded-full bg-[#00ffff]"></div>
+            <div className="status-dot" aria-hidden="true"></div>
             <h3 className="text-[#ff4800] text-2xl mb-3">{p.title}</h3>
             <div className="flex-1 flex flex-col">
               <p className="text-white text-xl mb-3">{p.summary}</p>

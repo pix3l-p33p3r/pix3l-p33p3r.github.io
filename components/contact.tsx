@@ -27,7 +27,7 @@ const CONTACTS = [
 ] as const
 
 const rowClassName =
-  "bg-black/30 border border-[#333] p-4 px-5 min-h-11 rounded-lg flex items-center justify-between gap-4 transition-colors duration-150 relative overflow-hidden w-full cursor-pointer before:content-[''] before:absolute before:inset-inline-start-0 before:top-0 before:h-full before:w-1 before:bg-[#00ffff] before:opacity-0 before:transition-opacity before:duration-150 hover:border-[#00ffff] hover:bg-[rgba(0,255,255,0.08)] hover:before:opacity-100"
+  "bg-black/30 border border-[#333] p-4 ps-6 min-h-11 rounded-lg flex items-center justify-between gap-4 transition-colors duration-150 relative overflow-hidden w-full cursor-pointer before:content-[''] before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:bg-[#00ffff] before:opacity-0 before:transition-opacity before:duration-150 hover:border-[#00ffff] hover:bg-[rgba(0,255,255,0.08)] hover:before:opacity-100"
 
 export default function Contact() {
   const handleContactClick = (platform: string, url: string) => {

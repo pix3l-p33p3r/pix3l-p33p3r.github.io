@@ -10,7 +10,6 @@ import Contact from "@/components/contact"
 import CVSection from "@/components/cv-section"
 import TargetCross from "@/components/ui/target-cross"
 import GridLines from "@/components/ui/grid-lines"
-import FloatingElements from "@/components/ui/floating-elements"
 import { SITE_URL } from "@/lib/site"
 
 export const metadata: Metadata = {
@@ -27,7 +26,6 @@ export default function Home() {
           <SphereGate />
           <TargetCross />
           <GridLines />
-          <FloatingElements />
         </div>
         <div className="terminal-layer">
           <About />

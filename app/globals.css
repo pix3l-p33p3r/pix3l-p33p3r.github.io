@@ -293,9 +293,35 @@ html[data-motion="halt"] :where(
   }
 }
 
+.project-card {
+  padding: 16px 16px 16px 20px;
+}
+
+.project-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 4px;
+  background: #00ffff;
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.project-card .status-dot {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: #00ffff;
+}
+
 @media (max-width: 640px) {
   .project-card {
-    padding: 15px;
+    padding: 16px 16px 16px 20px;
   }
 
   .project-card h3 {
@@ -368,12 +394,18 @@ button:active {
 }
 
 .fine-pointer-only {
-  display: none;
+  display: none !important;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .fine-pointer-only {
-    display: inline;
+    display: inline !important;
+  }
+}
+
+@media (max-width: 767px), (pointer: coarse), (hover: none) {
+  .fine-pointer-only {
+    display: none !important;
   }
 }
 
@@ -421,6 +453,39 @@ button:active {
   border: 1px solid #333;
   background: rgba(20, 20, 20, 0.7);
   box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.55);
+  container: sphere / size;
+}
+
+.crosshair {
+  pointer-events: none;
+}
+
+.crosshair-frame {
+  position: relative;
+  width: 78cqmin;
+  aspect-ratio: 1;
+}
+
+.sphere-still {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 200ms linear;
+}
+
+.sphere-still.is-live {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sphere-still {
+    transition: none;
+  }
 }
 
 .sphere-fallback {
@@ -463,16 +528,15 @@ button:active {
 .about-section {
   display: flex;
   flex-direction: column;
-  min-block-size: 16rem;
-  max-block-size: 70dvh;
+  min-block-size: 0;
 }
 
 .about-panel {
   display: flex;
   flex-direction: column;
-  flex: 1 1 auto;
-  min-block-size: 0;
-  block-size: 100%;
+  flex: 0 0 auto;
+  min-block-size: 7.5rem;
+  block-size: auto;
 }
 
 .side-pane {
@@ -549,6 +613,12 @@ button:active {
 
   .terminal-layer .about-section {
     max-block-size: none;
+    min-block-size: 0;
+    block-size: 100%;
+  }
+
+  .terminal-layer .about-panel {
+    flex: 1 1 auto;
     min-block-size: 0;
     block-size: 100%;
   }
