@@ -5,7 +5,7 @@ import remarkGfm from "remark-gfm"
 import remarkMath from "remark-math"
 import rehypeKatex from "rehype-katex"
 import rehypePrettyCode from "rehype-pretty-code"
-import MathStyles from "@/components/math-styles"
+import KatexCss from "@/components/katex-css"
 import Mermaid from "@/components/mermaid"
 import PageChrome from "@/components/page-chrome"
 import { BlogPostAnalytics } from "./blog-post-analytics"
@@ -89,7 +89,7 @@ export default async function BlogPost({ params }: PageProps) {
     return (
       <PageChrome>
         <main id="main-content" tabIndex={-1} className="border border-[#333] bg-[rgba(20,20,20,0.7)] p-4 md:p-6 overflow-auto">
-          {postUsesMath(source, meta.tags) ? <MathStyles /> : null}
+          {postUsesMath(source, meta.tags) ? <KatexCss /> : null}
           <BlogPostAnalytics slug={params.slug} title={meta.title} />
 
           <article className="w-full max-w-full md:max-w-3xl mx-auto bg-black/60 border border-[#333] p-4 md:p-5 blog-content">

@@ -262,6 +262,23 @@
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .glitch,
+  .animate-scanline,
+  .animate-flicker,
+  .animate-blink,
+  .animate-glitch,
+  .animate-glitch-text,
+  .animate-float,
+  .animate-blink-cursor,
+  .animate-pulse,
+  .animate-slideIn,
+  .animate-tuner-sweep,
+  .animate-sl {
+    animation: none;
+  }
+}
+
 html[data-motion="halt"] :where(
   .glitch,
   .animate-scanline,
@@ -414,11 +431,6 @@ button:active {
     min-block-size: 44px;
     min-inline-size: 44px;
   }
-}
-
-.defer-render {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 320px;
 }
 
 .chip:focus-visible {

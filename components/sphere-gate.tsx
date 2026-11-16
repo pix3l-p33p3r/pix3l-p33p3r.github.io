@@ -1,7 +1,7 @@
 "use client"
 
 import dynamic from "next/dynamic"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useLayoutEffect, useRef, useState } from "react"
 import { SphereBoundary } from "@/components/sphere-boundary"
 
 const SphereVisualization = dynamic(() => import("@/components/sphere-visualization"), {
@@ -62,6 +62,10 @@ export default function SphereGate() {
   const [failed, setFailed] = useState(false)
   const [halted, setHalted] = useState(false)
   const mountId = useRef(0)
+
+  useLayoutEffect(() => {
+    setHalted(document.documentElement.dataset.motion === "halt")
+  }, [])
 
   useEffect(() => {
     const onFrame = () => setPainted(true)

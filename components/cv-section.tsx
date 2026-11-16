@@ -16,7 +16,7 @@ export default function CVSection() {
   const [hovered, setHovered] = useState(false)
 
   return (
-    <section id="resume" className="defer-render mb-8 pb-5 border-b border-dashed border-[#333] last:border-b-0">
+    <section id="resume" className="mb-8 pb-5 border-b border-dashed border-[#333] last:border-b-0">
       <div className="flex items-center justify-between mb-4 border-b border-[#ff4800] pb-1.5">
         <h2 className="text-[#ff4800] text-2xl tracking-wider text-shadow-[0_0_5px_rgba(255,72,0,0.2)] m-0">RESUME</h2>
         <span className="font-mono text-xs text-[#00ffff]/70 tracking-widest">cat ./cv/*.pdf</span>

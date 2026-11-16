@@ -79,7 +79,6 @@ export default function ProjectPage({ params }: PageProps) {
             {project.tags.map((t) => (
               <span
                 key={t}
-                tabIndex={0}
                 className="chip bg-[rgba(0,255,255,0.1)] border border-[#00ffff] py-1 px-3 rounded text-sm tracking-wider"
               >
                 {t}
