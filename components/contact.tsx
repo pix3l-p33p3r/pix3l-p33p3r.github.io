@@ -36,7 +36,7 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" className="defer-render mb-8 pb-5 border-b border-dashed border-[#333] last:border-b-0">
+    <section id="contact" className="mb-8 pb-5 border-b border-dashed border-[#333] last:border-b-0">
       <h2 className="text-[#ff4800] mb-4 border-b border-[#ff4800] pb-1.5 text-2xl tracking-wider text-shadow-[0_0_5px_rgba(255,72,0,0.2)]">
         CONTACT_INTERFACE
       </h2>

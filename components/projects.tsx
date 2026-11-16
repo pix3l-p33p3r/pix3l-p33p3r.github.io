@@ -24,7 +24,6 @@ export default function Projects({ heading = "h2" }: { heading?: "h1" | "h2" }) 
                 {p.tags.map((t) => (
                   <span
                     key={t}
-                    tabIndex={0}
                     className="chip bg-[rgba(0,255,255,0.1)] border border-[#00ffff] py-1 px-3 rounded text-sm tracking-wider transition-colors duration-150 hover:bg-[rgba(0,255,255,0.2)]"
                   >
                     {t}

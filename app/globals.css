@@ -262,6 +262,15 @@
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  /* Unlayered so this beats Tailwind's @layer utilities animation classes. */
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+  }
+}
+
 html[data-motion="halt"] :where(
   .glitch,
   .animate-scanline,
@@ -382,11 +391,6 @@ button:active {
     min-block-size: 44px;
     min-inline-size: 44px;
   }
-}
-
-.defer-render {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 320px;
 }
 
 .chip:focus-visible {

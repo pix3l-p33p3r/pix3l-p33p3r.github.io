@@ -1,7 +1,7 @@
 "use client"
 
 import dynamic from "next/dynamic"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useSyncExternalStore } from "react"
 
 const SphereVisualization = dynamic(() => import("@/components/sphere-visualization"), {
   ssr: false,
@@ -28,6 +28,28 @@ function scheduleIdle(callback: () => void): () => void {
   return () => globalThis.clearTimeout(timer)
 }
 
+type MotionMode = "reduced" | "halt" | "run"
+
+function motionMode(): MotionMode {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return "reduced"
+  if (document.documentElement.dataset.motion === "halt") return "halt"
+  return "run"
+}
+
+function subscribeMotion(onStoreChange: () => void): () => void {
+  const query = window.matchMedia("(prefers-reduced-motion: reduce)")
+  query.addEventListener("change", onStoreChange)
+  window.addEventListener("pixel-motion", onStoreChange)
+  return () => {
+    query.removeEventListener("change", onStoreChange)
+    window.removeEventListener("pixel-motion", onStoreChange)
+  }
+}
+
+function serverMotionMode(): MotionMode {
+  return "run"
+}
+
 function SphereFallback() {
   return (
     <svg className="sphere-fallback" viewBox="0 0 200 200" aria-hidden="true">
@@ -42,7 +64,20 @@ function SphereFallback() {
 
 export default function SphereGate() {
   const [live, setLive] = useState(false)
-  const [halted, setHalted] = useState(false)
+  const mode = useSyncExternalStore(subscribeMotion, motionMode, serverMotionMode)
+
+  useEffect(() => {
+    const root = document.documentElement
+    const reducedQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
+    const applyReduced = () => {
+      if (!reducedQuery.matches || root.dataset.motion === "halt") return
+      root.dataset.motion = "halt"
+      window.dispatchEvent(new Event("pixel-motion"))
+    }
+    applyReduced()
+    reducedQuery.addEventListener("change", applyReduced)
+    return () => reducedQuery.removeEventListener("change", applyReduced)
+  }, [])
 
   useEffect(() => {
     const host = document.getElementById("sphere-container")
@@ -73,10 +108,15 @@ export default function SphereGate() {
 
   const toggleHalt = () => {
     const root = document.documentElement
-    const next = root.dataset.motion === "halt" ? "" : "halt"
-    if (next) root.dataset.motion = next
-    else delete root.dataset.motion
-    setHalted(Boolean(next))
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      if (root.dataset.motion !== "halt") {
+        root.dataset.motion = "halt"
+        window.dispatchEvent(new Event("pixel-motion"))
+      }
+      return
+    }
+    if (root.dataset.motion === "halt") delete root.dataset.motion
+    else root.dataset.motion = "halt"
     window.dispatchEvent(new Event("pixel-motion"))
   }
 
@@ -88,10 +128,10 @@ export default function SphereGate() {
       <button
         type="button"
         className="sphere-halt"
-        aria-label={halted ? "Play sphere" : "Pause sphere"}
+        aria-label={mode === "run" ? "Pause sphere" : mode === "halt" ? "Play sphere" : "Sphere paused"}
         onClick={toggleHalt}
       >
-        {halted ? ">" : "||"}
+        {mode === "run" ? "||" : ">"}
       </button>
     </>
   )

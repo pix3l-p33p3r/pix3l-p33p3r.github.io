@@ -1,9 +1,5 @@
-"use client"
-
-import dynamic from "next/dynamic"
-
-const KatexCss = dynamic(() => import("@/components/katex-css"), { ssr: false })
+import "katex/dist/katex.min.css"
 
 export default function MathStyles() {
-  return <KatexCss />
+  return null
 }
