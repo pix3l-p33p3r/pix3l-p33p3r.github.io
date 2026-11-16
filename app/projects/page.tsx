@@ -18,7 +18,7 @@ export default function ProjectsIndex() {
             Back Home
           </Link>
         </p>
-        <Projects />
+        <Projects heading="h1" />
       </div>
     </main>
   )

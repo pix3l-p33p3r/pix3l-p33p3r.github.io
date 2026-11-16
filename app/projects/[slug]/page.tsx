@@ -3,7 +3,7 @@ import Image from "next/image"
 import Link from "next/link"
 import PageChrome from "@/components/page-chrome"
 import { getProjectBySlug, projects } from "@/lib/projects"
-import { SITE_NAME, SITE_URL } from "@/lib/site"
+import { resolveOgImage, SITE_NAME, SITE_URL } from "@/lib/site"
 
 type PageProps = { params: { slug: string } }
 
@@ -16,7 +16,7 @@ export function generateMetadata({ params }: PageProps): Metadata {
   const title = project ? `${project.title} — ${SITE_NAME}` : `Project — ${SITE_NAME}`
   const description = project?.summary ?? "Project details"
   const url = `${SITE_URL}/projects/${params.slug}`
-  const image = project?.ogImage ?? "/og/default.svg"
+  const image = resolveOgImage(project?.ogImage)
 
   return {
     title,
@@ -66,10 +66,11 @@ export default function ProjectPage({ params }: PageProps) {
 
           <div className="mb-4">
             <Image
-              src={project.ogImage ?? "/og/default.svg"}
+              src={resolveOgImage(project.ogImage)}
               alt={`${project.title} cover`}
               width={1200}
               height={630}
+              priority
               className="w-full h-auto border border-[#333]"
             />
           </div>
@@ -78,7 +79,8 @@ export default function ProjectPage({ params }: PageProps) {
             {project.tags.map((t) => (
               <span
                 key={t}
-                className="bg-[rgba(0,255,255,0.1)] border border-[#00ffff] py-1 px-3 rounded-full text-sm tracking-wider"
+                tabIndex={0}
+                className="chip bg-[rgba(0,255,255,0.1)] border border-[#00ffff] py-1 px-3 rounded text-sm tracking-wider"
               >
                 {t}
               </span>

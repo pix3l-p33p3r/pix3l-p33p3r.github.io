@@ -5,11 +5,38 @@ import remarkGfm from "remark-gfm"
 import remarkMath from "remark-math"
 import rehypeKatex from "rehype-katex"
 import rehypePrettyCode from "rehype-pretty-code"
+import MathStyles from "@/components/math-styles"
 import Mermaid from "@/components/mermaid"
 import PageChrome from "@/components/page-chrome"
 import { BlogPostAnalytics } from "./blog-post-analytics"
 import { getAllPosts, getPostSource } from "@/lib/blog"
-import { SITE_NAME, SITE_URL } from "@/lib/site"
+import { resolveOgImage, SITE_NAME, SITE_URL } from "@/lib/site"
+
+type HastNode = {
+  type?: string
+  tagName?: string
+  properties?: Record<string, unknown>
+  children?: HastNode[]
+}
+
+function rehypeLazyImages() {
+  return (tree: HastNode) => {
+    const walk = (node: HastNode) => {
+      if (node.type === "element" && node.tagName === "img") {
+        node.properties = node.properties ?? {}
+        if (!node.properties.loading) node.properties.loading = "lazy"
+        if (!node.properties.decoding) node.properties.decoding = "async"
+      }
+      node.children?.forEach(walk)
+    }
+    walk(tree)
+  }
+}
+
+function postUsesMath(source: string, tags: string[] | undefined): boolean {
+  if (tags?.some((tag) => tag.toLowerCase() === "math")) return true
+  return /\$\$[\s\S]+?\$\$|\$[^$\n]+\$/.test(source)
+}
 
 type PageProps = { params: { slug: string } }
 
@@ -24,7 +51,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     if (!meta) return {}
     const title = `${meta.title} — ${SITE_NAME}`
     const url = `${SITE_URL}/blog/${meta.slug}`
-    const image = meta.ogImage ?? "/og/default.svg"
+    const image = resolveOgImage(meta.ogImage)
     return {
       title,
       description: meta.summary ?? undefined,
@@ -48,11 +75,11 @@ export default async function BlogPost({ params }: PageProps) {
 
     const { content } = await compileMDX({
       source,
-      components: { Mermaid },
+      components: { Mermaid, h1: () => null },
       options: {
         mdxOptions: {
           remarkPlugins: [remarkGfm, remarkMath],
-          rehypePlugins: [rehypeKatex, [rehypePrettyCode, { theme: "one-dark-pro" }]],
+          rehypePlugins: [rehypeKatex, rehypeLazyImages, [rehypePrettyCode, { theme: "one-dark-pro" }]],
         },
       },
     })
@@ -62,6 +89,7 @@ export default async function BlogPost({ params }: PageProps) {
     return (
       <PageChrome>
         <main id="main-content" tabIndex={-1} className="border border-[#333] bg-[rgba(20,20,20,0.7)] p-4 md:p-6 overflow-auto">
+          {postUsesMath(source, meta.tags) ? <MathStyles /> : null}
           <BlogPostAnalytics slug={params.slug} title={meta.title} />
 
           <article className="w-full max-w-full md:max-w-3xl mx-auto bg-black/60 border border-[#333] p-4 md:p-5 blog-content">

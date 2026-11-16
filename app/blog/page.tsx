@@ -1,10 +1,13 @@
 import Link from "next/link"
 import PageChrome from "@/components/page-chrome"
 import { getAllPosts } from "@/lib/blog"
+import { DEFAULT_OG_PATH, SITE_URL } from "@/lib/site"
 
 export const metadata = {
   title: "Blog | pix3l_p33p3r",
   description: "Technical articles and insights",
+  alternates: { canonical: `${SITE_URL}/blog` },
+  openGraph: { images: [{ url: DEFAULT_OG_PATH, width: 1200, height: 630 }] },
 }
 
 export default async function BlogIndex() {

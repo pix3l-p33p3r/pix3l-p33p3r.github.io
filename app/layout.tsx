@@ -1,20 +1,28 @@
 import type React from "react"
 import { Suspense } from "react"
 import "./globals.css"
-import "katex/dist/katex.min.css"
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import { Share_Tech_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import JsonLd from "@/components/json-ld"
 import Telemetry from "@/components/telemetry"
 import { VercelObservability } from "@/components/vercel-observability"
-import { SITE_NAME, SITE_URL } from "@/lib/site"
+import { DEFAULT_OG_PATH, SITE_NAME, SITE_URL } from "@/lib/site"
 
 const shareTechMono = Share_Tech_Mono({
   weight: "400",
   subsets: ["latin"],
   display: "swap",
 })
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#000000",
+  colorScheme: "dark",
+}
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -36,7 +44,7 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     images: [
       {
-        url: "/og/default.svg",
+        url: DEFAULT_OG_PATH,
         width: 1200,
         height: 630,
         alt: `${SITE_NAME} Portfolio`,
@@ -49,7 +57,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${SITE_NAME} Portfolio`,
     description: "Cyberpunk-themed portfolio showcasing projects in systems, hardware, and DevSecOps.",
-    images: ["/og/default.svg"],
+    images: [DEFAULT_OG_PATH],
   },
 }
 
@@ -73,6 +81,7 @@ export default function RootLayout({
           aria-hidden="true"
         ></div>
         {children}
+        <JsonLd />
         <VercelObservability Analytics={Analytics} SpeedInsights={SpeedInsights} />
         <Suspense fallback={null}>
           <Telemetry />

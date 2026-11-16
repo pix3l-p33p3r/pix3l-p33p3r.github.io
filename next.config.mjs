@@ -71,6 +71,15 @@ const nextConfig = {
           },
         ],
       },
+      {
+        source: "/:path*.:ext(svg|png|jpg|jpeg|webp|gif|ico|woff2|pdf)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=86400, stale-while-revalidate=604800",
+          },
+        ],
+      },
     ]
   },
 }

@@ -1,3 +1,5 @@
+import { DEFAULT_OG_PATH } from "@/lib/site"
+
 export type Project = {
   slug: string
   title: string
@@ -8,7 +10,7 @@ export type Project = {
   ogImage?: string
 }
 
-const DEFAULT_OG = "/og/default.svg"
+const DEFAULT_OG = DEFAULT_OG_PATH
 
 export const projects: Project[] = [
   {
