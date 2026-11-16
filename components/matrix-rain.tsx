@@ -11,6 +11,7 @@ export default function MatrixRain({ active }: { active: boolean }) {
 
     const ctx = canvas.getContext("2d")
     if (!ctx) return
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
 
     let frame = 0
     let columns = 0
@@ -25,7 +26,7 @@ export default function MatrixRain({ active }: { active: boolean }) {
     }
 
     resize()
-    window.addEventListener("resize", resize)
+    window.addEventListener("resize", resize, { passive: true })
 
     const draw = () => {
       frame = requestAnimationFrame(draw)

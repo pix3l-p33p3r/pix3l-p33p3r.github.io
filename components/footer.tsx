@@ -1,14 +1,18 @@
 import TrackedContactLink from "@/components/tracked-contact-link"
 
 const footerLinkClass =
-  "text-[#00ffff] transition-colors duration-200 hover:text-[#00cccc] hover:underline"
+  "text-[#00ffff] inline-flex items-center justify-center min-h-11 min-w-11 px-2 transition-colors duration-200 hover:text-[#00cccc] hover:underline"
 
 export default function Footer() {
   return (
-    <footer className="col-span-full border border-[#333] bg-[rgba(20,20,20,0.7)] p-2.5 px-5 flex flex-col md:flex-row justify-between items-center text-base md:text-xl gap-2 md:gap-0">
+    <footer className="col-span-full border border-[#333] bg-[rgba(20,20,20,0.7)] p-3 px-5 flex flex-col md:flex-row justify-between items-center text-base md:text-xl gap-2 md:gap-0">
       <p className="text-center md:text-left">
         © 2026 pix3l_p33p3r · <span className="text-[#00ffff]">vsh</span> · type{" "}
-        <span className="text-[#00ffff]">help</span> · press <kbd className="text-[#ff4800]">`</kbd>
+        <span className="text-[#00ffff]">help</span>
+        <span className="fine-pointer-only">
+          {" "}
+          · press <kbd className="text-[#ff4800]">`</kbd>
+        </span>
       </p>
       <div className="flex gap-4 md:gap-0">
         <TrackedContactLink
