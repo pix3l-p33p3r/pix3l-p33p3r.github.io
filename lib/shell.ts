@@ -206,7 +206,7 @@ function neofetch(ctx: ShellContext): string[] {
     "        .--.          " + `${user}@${HOSTNAME}`,
     "       |o_o |         ----------------- ",
     "       |:_/ |         OS     CRT-Linux 14.2 (scanline)",
-    "      //   \\ \\        Host   www.pixel-peeper.tech",
+    "      //   \\ \\        Host   pixel-peeper.tech",
     "     (|     | )       Kernel vsh 0.5-peeper",
     "    /'\\_   _/`\\       Shell  /bin/vsh (virtual, limited)",
     "    \\___)=(___/       Uptime since the last `clear`",

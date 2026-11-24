@@ -14,7 +14,7 @@ Trunk-based workflow for this portfolio. One long-lived branch. Everything else 
 
 | Ref | Lifetime | Deploys to | Who updates |
 |-----|----------|------------|-------------|
-| `main` | Forever | Vercel production (`www.pixel-peeper.tech`) | Squash-merged PRs only |
+| `main` | Forever | Vercel production (`pixel-peeper.tech`) | Squash-merged PRs only |
 | `feature/<name>` | Hours–days | Vercel preview (PR) | One author / agent |
 | `fix/<name>` | Hours–days | Vercel preview (PR) | One author / agent |
 | `chore/<name>` | Hours–days | Vercel preview (PR) | One author / agent |
@@ -93,7 +93,7 @@ Cloud / Cursor tokens cannot set this (need `Administration` scope). The script 
 
 | Environment | Branch | URL |
 |-------------|--------|-----|
-| Production | `main` | https://www.pixel-peeper.tech |
+| Production | `main` | https://pixel-peeper.tech |
 | Preview | PR head | Vercel preview URL on each PR |
 
 No separate staging branch. Preview deployments on PRs are the QA surface.

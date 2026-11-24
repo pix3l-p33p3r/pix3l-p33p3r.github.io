@@ -2,7 +2,7 @@
 
 Personal portfolio / blog for **[pix3l_p33p3r](https://github.com/pix3l-p33p3r)** — cyberpunk terminal UI, project pages, MDX blog, and CV download.
 
-**Live site:** [https://www.pixel-peeper.tech](https://www.pixel-peeper.tech)
+**Live site:** [https://pixel-peeper.tech](https://pixel-peeper.tech)
 
 ## Stack
 
@@ -94,4 +94,4 @@ Or Actions → **Enable branch protection** after adding secret `BRANCH_PROTECTI
 
 - Contact UI is link buttons (email / GitHub / X), not a backend form.
 - Shared OG art at `/og/default.svg` until per-project screenshots exist.
-- Canonical host is `www.pixel-peeper.tech` (`lib/site.ts`); keep Vercel redirects for apex aligned.
+- Canonical host is the bare `pixel-peeper.tech` (`lib/site.ts`); `www` 308-redirects to it in Vercel domain settings.

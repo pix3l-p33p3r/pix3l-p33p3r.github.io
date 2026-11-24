@@ -41,7 +41,7 @@ Create the token under Vercel **Account / Team → Settings → Tokens**. Scope 
 1. Squash-merge this PR into `main` when CI is green (coordinator merge unless auto-merge is already policy).
 2. On Vercel project `portfolio`, set `ADMIN_DASHBOARD_PASSWORD` (Production + Preview). Pick a long random password; do not put it in GitHub, the PR, or chat logs.
 3. Optionally set `VERCEL_API_TOKEN`, `VERCEL_PROJECT_ID`, and `VERCEL_TEAM_ID` so the dashboard can pull live Web Analytics + Speed Insights.
-4. Redeploy production (a merge to `main` is enough) and open `https://www.pixel-peeper.tech/admin/analytics`.
+4. Redeploy production (a merge to `main` is enough) and open `https://pixel-peeper.tech/admin/analytics`.
 5. Confirm a logged-out browser sees the login gate, not KPI numbers.
 
 Local check:
