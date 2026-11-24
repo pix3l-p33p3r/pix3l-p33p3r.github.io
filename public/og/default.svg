@@ -8,7 +8,7 @@
   <rect width="1200" height="630" fill="url(#bg)"/>
   <rect x="48" y="48" width="1104" height="534" fill="none" stroke="#333" stroke-width="2"/>
   <text x="80" y="160" fill="#ff4800" font-family="Share Tech Mono, monospace" font-size="64">pix3l_p33p3r</text>
-  <text x="80" y="250" fill="#00ffff" font-family="Share Tech Mono, monospace" font-size="36">portfolio // systems · hardware · DevSecOps</text>
+  <text x="80" y="250" fill="#00ffff" font-family="Share Tech Mono, monospace" font-size="36">portfolio // systems &#183; hardware &#183; DevSecOps</text>
   <text x="80" y="520" fill="#aaaaaa" font-family="Share Tech Mono, monospace" font-size="28">pixel-peeper.tech</text>
   <circle cx="1080" cy="120" r="10" fill="#00ffff"/>
 </svg>
