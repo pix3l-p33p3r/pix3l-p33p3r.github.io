@@ -17,7 +17,17 @@ export default function SphereVisualization() {
     const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000)
     camera.position.z = isMobile ? 7 : 5
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
+    const canvas = document.createElement("canvas")
+    const context = canvas.getContext("webgl2", { antialias: true, alpha: true })
+    if (!context) return
+
+    let renderer: THREE.WebGLRenderer
+    try {
+      renderer = new THREE.WebGLRenderer({ canvas, context, antialias: true, alpha: true })
+    } catch {
+      // The sphere is decorative. Keep the page usable if renderer setup fails.
+      return
+    }
     renderer.setSize(container.clientWidth, container.clientHeight)
     renderer.setClearColor(0x000000, 0)
     container.appendChild(renderer.domElement)
