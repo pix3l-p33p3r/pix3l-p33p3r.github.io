@@ -8,14 +8,10 @@ import MatrixRain from "@/components/matrix-rain"
 import SteamLocomotive from "@/components/steam-locomotive"
 import { trackShellCommand } from "@/lib/analytics"
 
-const BOOT_CHAR_MS = 52
-const BOOT_PAUSE_MS = 1400
 const OUTPUT_CHAR_MS = 32
 const OUTPUT_LINE_MS = 420
 
 type HistoryItem = ShellLine | { tone: "in"; text: string }
-
-type BootLine = { text: string; isPrompt: boolean }
 
 const BOOT: { prompt: string; output: string }[] = [
   { prompt: "> whoami:", output: "Yo, I'm @PiX3L_P33P3R, a UM6P/1337 student" },
@@ -23,26 +19,6 @@ const BOOT: { prompt: string; output: string }[] = [
   { prompt: "> cat bio.txt", output: BIO },
   { prompt: "> echo $STATUS", output: "WARNING: OPEN TO WORK!" },
 ]
-
-const BOOT_DONE_MS = 1600
-
-function bootLinesAt(index: number, char: number): BootLine[] {
-  const done: BootLine[] = []
-  for (const item of BOOT.slice(0, index)) {
-    done.push({ text: item.prompt, isPrompt: true })
-    done.push({ text: item.output, isPrompt: false })
-  }
-  if (index >= BOOT.length) return done
-  const current = BOOT[index]
-  const full = `${current.prompt}\n${current.output}`
-  return [
-    ...done,
-    ...full.slice(0, char).split("\n").map((line, lineIndex) => ({
-      text: line,
-      isPrompt: lineIndex === 0,
-    })),
-  ]
-}
 
 function downloadFile(href: string, filename: string) {
   const link = document.createElement("a")
@@ -73,11 +49,12 @@ function toneClass(tone: HistoryItem["tone"]): string {
 }
 
 export default function About() {
-  const [booting, setBooting] = useState(true)
-  const [bootIndex, setBootIndex] = useState(0)
-  const [bootChar, setBootChar] = useState(0)
-  const [isGlitching, setIsGlitching] = useState(false)
-  const [history, setHistory] = useState<HistoryItem[]>([])
+  const [history, setHistory] = useState<HistoryItem[]>(() =>
+    BOOT.flatMap(({ prompt, output }) => [
+      { tone: "in", text: prompt },
+      { tone: "out", text: output },
+    ]),
+  )
   const [input, setInput] = useState("")
   const [cwd, setCwd] = useState(GUEST_HOME)
   const [env, setEnv] = useState(() => defaultEnv(false))
@@ -90,65 +67,11 @@ export default function About() {
   const [cmdCursor, setCmdCursor] = useState(-1)
   const inputRef = useRef<HTMLInputElement>(null)
   const scrollerRef = useRef<HTMLDivElement>(null)
-  const glitchRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const printGen = useRef(0)
-
-  const teleprompter = useMemo(() => bootLinesAt(bootIndex, bootChar), [bootChar, bootIndex])
-
-  const finishBoot = useCallback((opts?: { focus?: boolean }) => {
-    setBooting(false)
-    setHistory([])
-    if (opts?.focus !== false) {
-      requestAnimationFrame(() => inputRef.current?.focus())
-    }
-  }, [])
-
-  useEffect(() => {
-    if (!booting) return
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
-    if (bootIndex >= BOOT.length) {
-      const done = setTimeout(() => finishBoot({ focus: true }), BOOT_DONE_MS)
-      return () => clearTimeout(done)
-    }
-
-    const current = BOOT[bootIndex]
-    const full = `${current.prompt}\n${current.output}`
-
-    if (bootChar === 0) {
-      setIsGlitching(true)
-      if (glitchRef.current) clearTimeout(glitchRef.current)
-      glitchRef.current = setTimeout(() => setIsGlitching(false), 400)
-    }
-
-    if (bootChar < full.length) {
-      const timer = setTimeout(() => setBootChar((n) => n + 1), BOOT_CHAR_MS)
-      return () => clearTimeout(timer)
-    }
-
-    const next = setTimeout(() => {
-      setBootIndex((n) => n + 1)
-      setBootChar(0)
-    }, BOOT_PAUSE_MS)
-    return () => clearTimeout(next)
-  }, [bootChar, bootIndex, booting, finishBoot])
-
-  useEffect(() => {
-    return () => {
-      if (glitchRef.current) clearTimeout(glitchRef.current)
-    }
-  }, [])
-
-  useEffect(() => {
-    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
-    setBootIndex(BOOT.length)
-    setBootChar(0)
-    const done = setTimeout(() => finishBoot({ focus: true }), BOOT_PAUSE_MS)
-    return () => clearTimeout(done)
-  }, [finishBoot])
 
   useEffect(() => {
     scrollerRef.current?.scrollTo({ top: scrollerRef.current.scrollHeight })
-  }, [history, teleprompter, input, booting])
+  }, [history, input])
 
   const printLines = useCallback(async (lines: ShellLine[]) => {
     const gen = ++printGen.current
@@ -247,7 +170,6 @@ export default function About() {
 
   useEffect(() => {
     const focusShell = () => {
-      if (booting) return
       inputRef.current?.focus()
     }
     const onHotkey = (event: globalThis.KeyboardEvent) => {
@@ -268,7 +190,7 @@ export default function About() {
       window.removeEventListener("pixel-shell-focus", focusShell)
       window.removeEventListener("keydown", onHotkey)
     }
-  }, [booting])
+  }, [])
 
   const onKeyDown = (event: ReactKeyboardEvent<HTMLInputElement>) => {
     if (vim) {
@@ -335,66 +257,45 @@ export default function About() {
       <MatrixRain active={matrix} />
       <SteamLocomotive active={train} onDone={() => setTrain(false)} />
       <div className="sr-only">
-        Interactive portfolio shell. After the boot teleprompter, type help at the guest prompt.
+        Interactive portfolio shell. Type help at the guest prompt.
       </div>
       <div
         role="application"
         aria-label="Interactive about terminal"
         onClick={() => {
-          if (booting) return
           inputRef.current?.focus()
         }}
-        className={`font-mono text-sm md:text-base leading-relaxed mt-1 h-[96%] overflow-hidden relative p-3 md:p-5 bg-black/55 border border-[#333] shadow-[inset_0_0_20px_rgba(0,255,255,0.2)] rounded flex flex-col ${isGlitching ? "glitch" : ""} ${root ? "shadow-[inset_0_0_28px_rgba(255,72,0,0.18)]" : ""}`}
+        className={`font-mono text-sm md:text-base leading-relaxed mt-1 h-[96%] overflow-hidden relative p-3 md:p-5 bg-black/55 border border-[#333] shadow-[inset_0_0_20px_rgba(0,255,255,0.2)] rounded flex flex-col ${root ? "shadow-[inset_0_0_28px_rgba(255,72,0,0.18)]" : ""}`}
       >
         <div className="flex items-center justify-between text-[11px] md:text-xs tracking-wider text-white/70 md:text-white/40 border-b border-[#333] pb-2 mb-2 shrink-0">
           <span className="text-[#00ffff]/80">{root ? "root@pixel-peeper" : "guest@pixel-peeper"} — vsh</span>
-          <span>{booting ? "BOOT" : vim ? "VIM" : "READY"} · ` focus</span>
+          <span>{vim ? "VIM" : "READY"} · ` focus</span>
         </div>
 
         <div ref={scrollerRef} className="min-h-0 flex-1 overflow-y-auto no-scrollbar space-y-0.5">
-          {booting ? (
-            <div>
-              {teleprompter.map((line, index) => (
-                <div
-                  key={`${index}-${line.isPrompt ? "p" : "o"}-${line.text.length}`}
-                  className={`whitespace-pre-wrap break-words [overflow-wrap:anywhere] ${line.isPrompt ? "text-[#ff4800]" : "text-[#00ffff]"}`}
-                >
-                  {line.text}
-                  {index === teleprompter.length - 1 ? (
-                    <span className="text-[#ff4800] animate-blink-cursor" aria-hidden="true">
-                      |
-                    </span>
-                  ) : null}
-                </div>
-              ))}
+          {history.map((line, index) => (
+            <div key={`${index}-${line.text}`} className={`whitespace-pre-wrap break-words ${toneClass(line.tone)}`}>
+              {line.text}
             </div>
-          ) : (
-            history.map((line, index) => (
-              <div key={`${index}-${line.text}`} className={`whitespace-pre-wrap break-words ${toneClass(line.tone)}`}>
-                {line.text}
-              </div>
-            ))
-          )}
+          ))}
 
-          {booting ? null : (
-            <div className="flex gap-2 items-center pt-1">
-              <label htmlFor="pixel-shell-input" className="text-[#ff4800] shrink-0">
-                {prompt}
-              </label>
-              <input
-                id="pixel-shell-input"
-                ref={inputRef}
-                value={input}
-                onChange={(event) => setInput(event.target.value)}
-                onKeyDown={onKeyDown}
-                autoComplete="off"
-                autoCorrect="off"
-                spellCheck={false}
-                aria-label="Shell command"
-                className="flex-1 bg-transparent border-0 outline-none text-[#00ffff] caret-[#ff4800] min-w-0"
-              />
-            </div>
-          )}
+          <div className="flex gap-2 items-center pt-1">
+            <label htmlFor="pixel-shell-input" className="text-[#ff4800] shrink-0">
+              {prompt}
+            </label>
+            <input
+              id="pixel-shell-input"
+              ref={inputRef}
+              value={input}
+              onChange={(event) => setInput(event.target.value)}
+              onKeyDown={onKeyDown}
+              autoComplete="off"
+              autoCorrect="off"
+              spellCheck={false}
+              aria-label="Shell command"
+              className="flex-1 bg-transparent border-0 outline-none text-[#00ffff] caret-[#ff4800] min-w-0"
+            />
+          </div>
         </div>
       </div>
     </section>
