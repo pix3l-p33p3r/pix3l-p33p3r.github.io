@@ -60,7 +60,7 @@ Cloud API calls go to `https://api.umami.is/v1`. Self-host calls go to `{NEXT_PU
 ## Free Umami Cloud
 
 1. Sign up at [https://cloud.umami.is/signup](https://cloud.umami.is/signup) (Hobby / free starter; self-host remains fully free).
-2. Add a website for `www.pixel-peeper.tech`.
+2. Add a website for `pixel-peeper.tech`.
 3. Copy the **Website ID** and set `NEXT_PUBLIC_UMAMI_URL=https://cloud.umami.is` plus `NEXT_PUBLIC_UMAMI_WEBSITE_ID`.
 4. Create an API key (**Settings → API keys**) and set `UMAMI_API_TOKEN` on Vercel (Production + Preview). Do not put the key in GitHub or the PR.
 5. Redeploy so Next.js rebuilds CSP with the Cloud hosts (`cloud.umami.is`, `api.umami.is`) **and** keeps the existing Vercel script hosts.
@@ -79,7 +79,7 @@ The Next.js CSP allow-list includes `https://va.vercel-scripts.com`, `https://vi
 2. On Vercel project `portfolio`, set `ADMIN_DASHBOARD_PASSWORD` (Production + Preview). Pick a long random password; do not put it in GitHub, the PR, or chat logs.
 3. Keep existing Vercel Analytics / Speed Insights. Optionally set `VERCEL_API_TOKEN`, `VERCEL_PROJECT_ID`, and `VERCEL_TEAM_ID` so the dashboard can pull live visit KPIs.
 4. Set `NEXT_PUBLIC_UMAMI_URL` and `NEXT_PUBLIC_UMAMI_WEBSITE_ID`. Optionally set `UMAMI_API_TOKEN` so the dashboard can pull live Umami event breakdowns.
-5. Redeploy production (a merge to `main` is enough if the env vars were already present; otherwise trigger a redeploy) and open `https://www.pixel-peeper.tech/admin/analytics`.
+5. Redeploy production (a merge to `main` is enough if the env vars were already present; otherwise trigger a redeploy) and open `https://pixel-peeper.tech/admin/analytics`.
 6. Confirm a logged-out browser sees the login gate, not KPI numbers.
 
 Local check:

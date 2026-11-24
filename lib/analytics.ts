@@ -23,7 +23,7 @@ const queue: QueuedEvent[] = []
 
 export function isPrivateAdminUrl(url: string): boolean {
   try {
-    return isAdminPath(new URL(url, "https://www.pixel-peeper.tech").pathname)
+    return isAdminPath(new URL(url, "https://pixel-peeper.tech").pathname)
   } catch {
     return false
   }
