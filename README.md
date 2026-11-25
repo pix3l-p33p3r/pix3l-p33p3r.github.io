@@ -85,7 +85,7 @@ Or Actions → **Enable branch protection** after adding secret `BRANCH_PROTECTI
 ## Docs
 
 - [docs/BRANCHING.md](./docs/BRANCHING.md) — branch architecture for the team
-- [docs/ADMIN_ANALYTICS.md](./docs/ADMIN_ANALYTICS.md) — private `/admin/analytics` gate + Vercel env vars
+- [docs/ADMIN_ANALYTICS.md](./docs/ADMIN_ANALYTICS.md) — private `/admin/analytics` gate + Vercel Analytics and Umami env vars
 - [CONTRIBUTING.md](./CONTRIBUTING.md) — day-to-day workflow
 - [AGENTS.md](./AGENTS.md) — notes for Cursor / cloud agents
 - [docs/TECH_DEBT.md](./docs/TECH_DEBT.md) — health rating and backlog

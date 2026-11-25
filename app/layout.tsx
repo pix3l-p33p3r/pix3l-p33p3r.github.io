@@ -9,6 +9,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 import Telemetry from "@/components/telemetry"
 import { VercelObservability } from "@/components/vercel-observability"
 import { SITE_NAME, SITE_URL } from "@/lib/site"
+import { readUmamiPublicConfig, umamiScriptSrc } from "@/lib/umami-config"
 
 const shareTechMono = Share_Tech_Mono({
   weight: "400",
@@ -58,6 +59,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const umami = readUmamiPublicConfig()
+
   return (
     <html lang="en">
       <body className={`${shareTechMono.className} bg-black text-white overflow-x-hidden relative leading-relaxed`}>
@@ -73,7 +76,19 @@ export default function RootLayout({
           aria-hidden="true"
         ></div>
         {children}
-        <VercelObservability Analytics={Analytics} SpeedInsights={SpeedInsights} />
+        <script src="/umami-before-send.js" defer />
+        {umami ? (
+          <script
+            defer
+            src={umamiScriptSrc(umami.url)}
+            data-website-id={umami.websiteId}
+            data-exclude-search="true"
+            data-exclude-hash="true"
+            data-before-send="pixelUmamiBeforeSend"
+            data-pixel-umami="1"
+          />
+        ) : null}
+        <VercelObservability Analytics={Analytics} SpeedInsights={SpeedInsights} umami={umami} />
         <Suspense fallback={null}>
           <Telemetry />
         </Suspense>

@@ -1,12 +1,4 @@
-import {
-  CUSTOM_EVENT_NAMES,
-  emptyEventTotals,
-  emptySnapshot,
-  isCustomEventName,
-  type AnalyticsSnapshot,
-  type EventTotals,
-  type NamedCount,
-} from "@/lib/analytics-kpis"
+import { emptyEventTotals, emptySnapshot, type AnalyticsSnapshot, type NamedCount } from "@/lib/analytics-kpis"
 import {
   analyticsWindow,
   asFiniteNumber,
@@ -48,13 +40,6 @@ async function queryVisitsAggregate(
   return vercelGetJson(config, "/v1/query/web-analytics/visits/aggregate", params)
 }
 
-async function queryEventsAggregate(
-  config: VercelQueryConfig,
-  params: Record<string, string | number | undefined>,
-) {
-  return vercelGetJson(config, "/v1/query/web-analytics/events/aggregate", params)
-}
-
 function firstApiError(
   results: Array<{ ok: false; error: string } | { ok: true }>,
 ): string | null {
@@ -75,79 +60,22 @@ export async function loadAnalyticsSnapshot(): Promise<AnalyticsSnapshot> {
       since,
       until,
       message:
-        "Vercel API credentials are not set. KPI cards stay empty until a server-only token and project id are present. No visit or click counts are invented.",
+        "Vercel visit KPIs stay empty until a server-only token and project id are present. Counts are never invented.",
       missingEnv,
     })
   }
 
   const range = { since, until, limit: 50 }
 
-  const [
-    lifetimeVisits,
-    windowVisits,
-    byDay,
-    topPaths,
-    topReferrers,
-    eventTotals,
-    outboundHosts,
-    contactPlatforms,
-    navigationSections,
-    projects,
-    blogPosts,
-    notFoundPaths,
-  ] = await Promise.all([
+  const [lifetimeVisits, windowVisits, byDay, topPaths, topReferrers] = await Promise.all([
     queryVisitsCount(config),
     queryVisitsCount(config, { since, until }),
     queryVisitsAggregate(config, { ...range, by: "day" }),
     queryVisitsAggregate(config, { ...range, by: "requestPath" }),
     queryVisitsAggregate(config, { ...range, by: "referrerHostname" }),
-    queryEventsAggregate(config, { ...range, by: "eventName" }),
-    queryEventsAggregate(config, {
-      ...range,
-      by: "eventData/host",
-      filter: "eventName eq 'outbound_click'",
-    }),
-    queryEventsAggregate(config, {
-      ...range,
-      by: "eventData/platform",
-      filter: "eventName eq 'contact_click'",
-    }),
-    queryEventsAggregate(config, {
-      ...range,
-      by: "eventData/section",
-      filter: "eventName eq 'navigation'",
-    }),
-    queryEventsAggregate(config, {
-      ...range,
-      by: "eventData/project",
-      filter: "eventName eq 'project_view'",
-    }),
-    queryEventsAggregate(config, {
-      ...range,
-      by: "eventData/slug",
-      filter: "eventName eq 'blog_post_view'",
-    }),
-    queryEventsAggregate(config, {
-      ...range,
-      by: "eventData/path",
-      filter: "eventName eq 'page_not_found'",
-    }),
   ])
 
-  const queryResults = [
-    lifetimeVisits,
-    windowVisits,
-    byDay,
-    topPaths,
-    topReferrers,
-    eventTotals,
-    outboundHosts,
-    contactPlatforms,
-    navigationSections,
-    projects,
-    blogPosts,
-    notFoundPaths,
-  ]
+  const queryResults = [lifetimeVisits, windowVisits, byDay, topPaths, topReferrers]
   const anySuccess = queryResults.some((result) => result.ok)
   const apiError = firstApiError(queryResults)
 
@@ -157,14 +85,9 @@ export async function loadAnalyticsSnapshot(): Promise<AnalyticsSnapshot> {
       windowDays: WINDOW_DAYS,
       since,
       until,
-      message: `Vercel Web Analytics did not return data (${apiError ?? "unknown error"}). Cards stay empty — counts are never guessed.`,
+      message: `Vercel Web Analytics did not return visit data (${apiError ?? "unknown error"}). Cards stay empty — counts are never guessed.`,
       missingEnv,
     })
-  }
-
-  const totals = emptyEventTotals()
-  if (eventTotals.ok) {
-    applyEventTotals(totals, readRows(eventTotals.data))
   }
 
   const lifetime = lifetimeVisits.ok ? readCountPair(lifetimeVisits.data) : null
@@ -172,11 +95,13 @@ export async function loadAnalyticsSnapshot(): Promise<AnalyticsSnapshot> {
 
   return {
     source: "vercel",
+    trafficSource: "vercel",
+    eventsSource: "unconfigured",
     windowDays: WINDOW_DAYS,
     since,
     until,
     message: apiError
-      ? `Some Vercel queries failed (${apiError}). Successful slices are shown; the rest stay empty.`
+      ? `Some Vercel visit queries failed (${apiError}). Successful slices are shown; the rest stay empty.`
       : null,
     missingEnv,
     traffic: {
@@ -197,21 +122,13 @@ export async function loadAnalyticsSnapshot(): Promise<AnalyticsSnapshot> {
         : [],
     },
     events: {
-      totals,
-      outboundHosts: outboundHosts.ok
-        ? namedCounts(readRows(outboundHosts.data), ["eventData", "host"])
-        : [],
-      contactPlatforms: contactPlatforms.ok
-        ? namedCounts(readRows(contactPlatforms.data), ["eventData", "platform"])
-        : [],
-      navigationSections: navigationSections.ok
-        ? namedCounts(readRows(navigationSections.data), ["eventData", "section"])
-        : [],
-      projects: projects.ok ? namedCounts(readRows(projects.data), ["eventData", "project"]) : [],
-      blogPosts: blogPosts.ok ? namedCounts(readRows(blogPosts.data), ["eventData", "slug"]) : [],
-      notFoundPaths: notFoundPaths.ok
-        ? namedCounts(readRows(notFoundPaths.data), ["eventData", "path"])
-        : [],
+      totals: emptyEventTotals(),
+      outboundHosts: [],
+      contactPlatforms: [],
+      navigationSections: [],
+      projects: [],
+      blogPosts: [],
+      notFoundPaths: [],
     },
     vitals: {
       source: "unconfigured",
@@ -223,20 +140,5 @@ export async function loadAnalyticsSnapshot(): Promise<AnalyticsSnapshot> {
       ttfbMs: null,
       samples: null,
     },
-  }
-}
-
-function applyEventTotals(totals: EventTotals, rows: Record<string, unknown>[]): void {
-  for (const row of rows) {
-    const name = rowLabel(row, ["eventName", "event"])
-    if (!isCustomEventName(name)) continue
-    const counts = rowCounts(row)
-    totals[name] = { count: counts.count, visitors: counts.visitors }
-  }
-
-  for (const name of CUSTOM_EVENT_NAMES) {
-    if (totals[name].count === null) {
-      totals[name] = { count: 0, visitors: 0 }
-    }
   }
 }

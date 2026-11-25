@@ -38,6 +38,10 @@ function vitalTone(kind: "lcp" | "inp" | "cls" | "fcp" | "ttfb", value: number |
 
 function sourceLabel(source: AnalyticsSnapshot["source"]): string {
   switch (source) {
+    case "dual":
+      return "VERCEL_LIVE + UMAMI_LIVE"
+    case "umami":
+      return "UMAMI_LIVE"
     case "vercel":
       return "VERCEL_LIVE"
     case "unconfigured":
@@ -122,7 +126,8 @@ export default function AdminAnalyticsDashboard({ snapshot }: { snapshot: Analyt
           <p className="font-mono text-xs tracking-widest text-[#00ffff]/70">KPI_CONSOLE</p>
           <h1 className="text-3xl text-[#ff4800] tracking-wider mt-1">Site analytics</h1>
           <p className="text-white/60 text-sm mt-2">
-            Last {snapshot.windowDays} days · {sourceLabel(snapshot.source)} · first-party Vercel only
+            Last {snapshot.windowDays} days · Vercel {sourceLabel(snapshot.trafficSource)} · Umami{" "}
+            {sourceLabel(snapshot.eventsSource)} · visits from Vercel, custom events from Umami
           </p>
         </div>
         <form action="/admin/logout" method="post">
@@ -150,9 +155,9 @@ export default function AdminAnalyticsDashboard({ snapshot }: { snapshot: Analyt
       ) : null}
 
       <section className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        <KpiCard label="VISITORS_30D" value={formatCount(snapshot.traffic.visitors)} hint="Web Analytics visitors" />
-        <KpiCard label="PAGEVIEWS_30D" value={formatCount(snapshot.traffic.pageviews)} hint="Web Analytics page views" />
-        <KpiCard label="RESUME_DL" value={formatCount(resume.count)} hint="resume_download events" />
+        <KpiCard label="VISITORS_30D" value={formatCount(snapshot.traffic.visitors)} hint="Vercel Web Analytics" />
+        <KpiCard label="PAGEVIEWS_30D" value={formatCount(snapshot.traffic.pageviews)} hint="Vercel page views" />
+        <KpiCard label="RESUME_DL" value={formatCount(resume.count)} hint="Umami resume_download" />
         <KpiCard
           label="OUTBOUND"
           value={formatCount(outbound.count)}
@@ -164,19 +169,19 @@ export default function AdminAnalyticsDashboard({ snapshot }: { snapshot: Analyt
         <KpiCard
           label="VISITORS_LIFE"
           value={formatCount(snapshot.traffic.lifetimeVisitors)}
-          hint="Since Analytics was enabled"
+          hint="Since Vercel Analytics was enabled"
         />
         <KpiCard
           label="PAGEVIEWS_LIFE"
           value={formatCount(snapshot.traffic.lifetimePageviews)}
-          hint="Production count endpoint"
+          hint="Vercel production count"
         />
         <KpiCard label="CUSTOM_PAGE_VIEW" value={formatCount(snapshot.events.totals.page_view.count)} />
         <KpiCard label="404S" value={formatCount(snapshot.events.totals.page_not_found.count)} />
       </section>
 
       <section>
-        <h2 className="text-[#ff4800] tracking-wider text-xl mb-3">Custom events</h2>
+        <h2 className="text-[#ff4800] tracking-wider text-xl mb-3">Custom events (Umami)</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3">
           {CUSTOM_EVENT_DEFS.map((def) => {
             const totals = snapshot.events.totals[def.name]
@@ -203,37 +208,37 @@ export default function AdminAnalyticsDashboard({ snapshot }: { snapshot: Analyt
 
       <section className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <RankedList
-          title="Top paths"
+          title="Top paths (Vercel)"
           rows={snapshot.traffic.topPaths}
-          empty="No path breakdown yet (empty or API not configured)."
+          empty="No Vercel path breakdown yet (empty or VERCEL_API_TOKEN not set)."
         />
         <RankedList
-          title="Top referrers"
+          title="Top referrers (Vercel)"
           rows={snapshot.traffic.topReferrers}
-          empty="No referrer breakdown yet (empty or API not configured)."
+          empty="No Vercel referrer breakdown yet (empty or VERCEL_API_TOKEN not set)."
         />
         <RankedList
-          title="Outbound hosts"
+          title="Outbound hosts (Umami)"
           rows={snapshot.events.outboundHosts}
-          empty="No outbound_click hosts yet."
+          empty="No Umami outbound_click hosts yet."
         />
         <RankedList
-          title="Contact platforms"
+          title="Contact platforms (Umami)"
           rows={snapshot.events.contactPlatforms}
-          empty="No contact_click platforms yet."
+          empty="No Umami contact_click platforms yet."
         />
         <RankedList
-          title="Projects viewed"
+          title="Projects viewed (Umami)"
           rows={snapshot.events.projects}
-          empty="No project_view breakdown yet."
+          empty="No Umami project_view breakdown yet."
         />
-        <RankedList title="Blog posts" rows={snapshot.events.blogPosts} empty="No blog_post_view breakdown yet." />
+        <RankedList title="Blog posts (Umami)" rows={snapshot.events.blogPosts} empty="No Umami blog_post_view breakdown yet." />
         <RankedList
-          title="Navigation"
+          title="Navigation (Umami)"
           rows={snapshot.events.navigationSections}
-          empty="No navigation sections yet."
+          empty="No Umami navigation sections yet."
         />
-        <RankedList title="404 paths" rows={snapshot.events.notFoundPaths} empty="No page_not_found paths yet." />
+        <RankedList title="404 paths (Umami)" rows={snapshot.events.notFoundPaths} empty="No Umami page_not_found paths yet." />
       </section>
     </div>
   )
